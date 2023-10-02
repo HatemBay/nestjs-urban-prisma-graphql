@@ -23,13 +23,15 @@ export class UpdateUserInput {
 }
 
 export class User {
-    id?: Nullable<string>;
+    id: number;
     username: string;
     email: string;
     password: string;
     name?: Nullable<string>;
     role: Role;
     is_u_18?: Nullable<boolean>;
+    created_at: DateTime;
+    updated_at: DateTime;
 }
 
 export abstract class IQuery {
@@ -46,4 +48,5 @@ export abstract class IMutation {
     abstract removeUser(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
+export type DateTime = any;
 type Nullable<T> = T | null;

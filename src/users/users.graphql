@@ -1,16 +1,16 @@
-# scalar DateTime
+scalar DateTime
 
 type User {
   # Example field (placeholder)
-  id: ID
+  id: Int!
   username: String!
   email: String!
   password: String!
   name: String
   role: Role!
   is_u_18: Boolean
-  # created_at: DateTime
-  # updated_at: DateTime
+  created_at: DateTime!
+  updated_at: DateTime!
 }
 
 input CreateUserInput {

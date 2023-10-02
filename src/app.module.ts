@@ -5,13 +5,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UsersModule } from './users/users.module';
+import { GraphQLDateTime } from 'graphql-iso-date';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       typePaths: ['./**/*.graphql'],
       driver: ApolloDriver,
-      // resolvers: { DateTime: Date },
+      resolvers: { DateTime: GraphQLDateTime },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
