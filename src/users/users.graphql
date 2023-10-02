@@ -1,7 +1,6 @@
 scalar DateTime
 
 type User {
-  # Example field (placeholder)
   id: Int!
   username: String!
   email: String!
@@ -25,6 +24,7 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
+  id: Int!
   username: String!
   email: String!
   password: String!

@@ -26,6 +26,7 @@ export class CreateUserInput {
 }
 
 export class UpdateUserInput {
+    id: number;
     username: string;
     email: string;
     password: string;

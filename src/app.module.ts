@@ -11,10 +11,10 @@ import { PrismaModule } from './prisma/prisma.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
+      playground: false,
       typePaths: ['./**/*.graphql'],
       driver: ApolloDriver,
       resolvers: { DateTime: GraphQLDateTime },
-      playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     UsersModule,

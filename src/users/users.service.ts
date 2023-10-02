@@ -1,26 +1,81 @@
-import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createUserDto: Prisma.UserUncheckedCreateInput): Promise<User> {
+    try {
+      return await this.prisma.user.create({ data: createUserDto });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // The .code property can be accessed in a type-safe manner
+        if (error.code === 'P2002') {
+          console.log(
+            'There is a unique constraint violation, a new user cannot be created with this email',
+          );
+        }
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Please provide correct information');
+        }
+      }
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(): Promise<User[]> {
+    return await this.prisma.user.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(where: Prisma.UserWhereUniqueInput) {
+    try {
+      return await this.prisma.user.findUniqueOrThrow({
+        where,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('User Not found');
+        }
+      }
+      throw error;
+    }
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(params: {
+    data: Prisma.UserUncheckedUpdateInput;
+    where: Prisma.UserWhereUniqueInput;
+  }) {
+    const { data, where } = params;
+    try {
+      return await this.prisma.user.update({
+        data,
+        where,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Please provide correct information');
+        }
+      }
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(where: Prisma.UserWhereUniqueInput) {
+    try {
+      return await this.prisma.user.delete({
+        where,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('User Not found');
+        }
+      }
+      throw error;
+    }
   }
 }
