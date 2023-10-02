@@ -9,3 +9,82 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Tag {
+  SAFE
+  UNSAFE
+}
+
+enum Reason {
+  OFFENSIVE
+  TABOO
+  OTHER
+}
+
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
+
+model Country {
+  id      Int      @id @default(autoincrement())
+  name    String   @unique
+  regions Region[]
+}
+
+model Region {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  address     String?
+  postal_code Int?
+  users       User[]
+  Country     Country? @relation(fields: [countryId], references: [id])
+  countryId   Int?
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  username   String   @unique
+  email      String   @unique
+  password   String
+  name       String?
+  role       Role
+  is_u_18    Boolean  @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  posts      Post[]
+  Region     Region?  @relation(fields: [regionId], references: [id])
+  regionId   Int?
+}
+
+model Post {
+  id             Int       @id @default(autoincrement())
+  title          String
+  content        String?
+  published      Boolean?  @default(false)
+  likes_count    Int       @default(1)
+  dislikes_count Int       @default(0)
+  author         User      @relation(fields: [authorId], references: [id])
+  authorId       Int
+  tags           Tag[]
+  is_u_18        Boolean   @default(true)
+  created_at     DateTime
+  updated_at     DateTime
+  examples       Example[]
+  flags          Flag[]
+}
+
+model Example {
+  id      Int    @id @default(autoincrement())
+  content String
+  Post    Post   @relation(fields: [postId], references: [id])
+  postId  Int
+}
+
+model Flag {
+  id     Int    @id @default(autoincrement())
+  reason Reason
+  Post   Post?  @relation(fields: [postId], references: [id])
+  postId Int?
+}

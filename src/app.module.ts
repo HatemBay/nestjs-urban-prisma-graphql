@@ -1,18 +1,18 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLISODateTime, GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { UsersModule } from './users/users.module';
-import { GraphQLDateTime } from 'graphql-iso-date';
+// import { GraphQLDateTime } from 'graphql-iso-date';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       typePaths: ['./**/*.graphql'],
       driver: ApolloDriver,
-      resolvers: { DateTime: GraphQLDateTime },
+      resolvers: { DateTime: GraphQLISODateTime },
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),

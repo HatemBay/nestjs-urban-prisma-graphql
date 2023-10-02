@@ -15,11 +15,24 @@ export enum Role {
 }
 
 export class CreateUserInput {
-    exampleField?: Nullable<number>;
+    username: string;
+    email: string;
+    password: string;
+    name?: Nullable<string>;
+    role: Role;
+    is_u_18?: Nullable<boolean>;
+    created_at: DateTime;
+    updated_at: DateTime;
 }
 
 export class UpdateUserInput {
-    id: number;
+    username: string;
+    email: string;
+    password: string;
+    name?: Nullable<string>;
+    role: Role;
+    is_u_18?: Nullable<boolean>;
+    updated_at: DateTime;
 }
 
 export class User {
