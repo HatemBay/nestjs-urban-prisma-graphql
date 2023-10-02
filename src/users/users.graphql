@@ -1,0 +1,40 @@
+# scalar DateTime
+
+type User {
+  # Example field (placeholder)
+  id: ID
+  username: String!
+  email: String!
+  password: String!
+  name: String
+  role: Role!
+  is_u_18: Boolean
+  # created_at: DateTime
+  # updated_at: DateTime
+}
+
+input CreateUserInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateUserInput {
+  id: Int!
+}
+
+type Query {
+  users: [User]!
+  user(id: Int!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User
+}
+
+enum Role {
+  ADMIN
+  USER
+  GUEST
+}
