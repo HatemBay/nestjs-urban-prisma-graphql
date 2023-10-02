@@ -20,7 +20,7 @@ export class CreateUserInput {
     password: string;
     name?: Nullable<string>;
     role: Role;
-    is_u_18?: Nullable<boolean>;
+    is_u_18: boolean;
     created_at: DateTime;
     updated_at: DateTime;
 }
@@ -31,7 +31,7 @@ export class UpdateUserInput {
     password: string;
     name?: Nullable<string>;
     role: Role;
-    is_u_18?: Nullable<boolean>;
+    is_u_18: boolean;
     updated_at: DateTime;
 }
 
