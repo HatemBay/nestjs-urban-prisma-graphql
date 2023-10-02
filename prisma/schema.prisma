@@ -51,8 +51,8 @@ model User {
   name       String?
   role       Role
   is_u_18    Boolean  @default(true)
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
   posts      Post[]
   Region     Region?  @relation(fields: [regionId], references: [id])
   regionId   Int?
@@ -69,22 +69,25 @@ model Post {
   authorId       Int
   tags           Tag[]
   is_u_18        Boolean   @default(true)
-  created_at     DateTime
-  updated_at     DateTime
+  created_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
   examples       Example[]
   flags          Flag[]
 }
 
 model Example {
-  id      Int    @id @default(autoincrement())
-  content String
-  Post    Post   @relation(fields: [postId], references: [id])
-  postId  Int
+  id         Int      @id @default(autoincrement())
+  content    String
+  Post       Post     @relation(fields: [postId], references: [id])
+  postId     Int
+  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
 }
 
 model Flag {
-  id     Int    @id @default(autoincrement())
-  reason Reason
-  Post   Post?  @relation(fields: [postId], references: [id])
-  postId Int?
+  id         Int      @id @default(autoincrement())
+  reason     Reason
+  Post       Post?    @relation(fields: [postId], references: [id])
+  postId     Int?
+  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
 }
