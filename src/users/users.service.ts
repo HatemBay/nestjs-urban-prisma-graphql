@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma, User } from '@prisma/client';
-
+import { Prisma } from '@prisma/client';
+import { User } from '../@generated/user/user.model';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createUserDto: Prisma.UserUncheckedCreateInput): Promise<User> {
+  async create(data: Prisma.UserUncheckedCreateInput): Promise<User> {
     try {
-      return await this.prisma.user.create({ data: createUserDto });
+      return await this.prisma.user.create({ data });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // The .code property can be accessed in a type-safe manner
@@ -31,9 +31,7 @@ export class UsersService {
 
   async findOne(where: Prisma.UserWhereUniqueInput) {
     try {
-      return await this.prisma.user.findUniqueOrThrow({
-        where,
-      });
+      return await this.prisma.user.findUniqueOrThrow({ where });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {

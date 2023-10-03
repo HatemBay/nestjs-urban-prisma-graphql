@@ -18,31 +18,39 @@ input CreateUserInput {
   password: String!
   name: String
   role: Role!
-  is_u_18: Boolean!
-  created_at: DateTime!
-  updated_at: DateTime!
+  is_u_18: Boolean
+  created_at: DateTime
+  updated_at: DateTime
 }
 
 input UpdateUserInput {
-  id: Int!
-  username: String!
-  email: String!
-  password: String!
+  username: String
+  email: String
+  password: String
   name: String
-  role: Role!
-  is_u_18: Boolean!
-  updated_at: DateTime!
+  role: Role
+  is_u_18: Boolean
+  updated_at: DateTime
+}
+
+input FindUserInput {
+  id: Int
+  username: String
+  email: String
 }
 
 type Query {
   users: [User]!
-  user(id: Int!): User
+  user(findUserInput: FindUserInput!): User
 }
 
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User
+  updateUser(
+    findUserInput: FindUserInput!
+    updateUserInput: UpdateUserInput!
+  ): User!
+  removeUser(findUserInput: FindUserInput!): User
 }
 
 enum Role {

@@ -1,14 +1,17 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { Prisma, User } from '@prisma/client';
-
+import { Prisma } from '@prisma/client';
+import { UserCreateInput } from '../@generated/user/user-create.input';
+import { User } from '../@generated/user/user.model';
+import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
+import { UserUncheckedUpdateInput } from '../@generated/user/user-unchecked-update.input';
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation('createUser')
   async create(
-    @Args('createUserInput') createUserInput: Prisma.UserCreateInput,
+    @Args('createUserInput') createUserInput: UserCreateInput,
   ): Promise<User> {
     return await this.usersService.create(createUserInput);
   }
@@ -18,33 +21,43 @@ export class UsersResolver {
     return await this.usersService.findAll();
   }
 
-  /**
-   * 'where' is the variety of unique attributes that the user has the choice to implement
-   * this makes searching more flexible as you're not only bound to one attribute like id
-   */
-
   @Query('user')
   async findOne(
-    @Args('where', { type: () => Int || String })
-    where: Prisma.UserWhereUniqueInput,
+    @Args(
+      'findUserInput',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('user'),
+    )
+    findUserInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
-    return await this.usersService.findOne(where);
+    return await this.usersService.findOne(findUserInput);
   }
 
   @Mutation('updateUser')
   async update(
-    @Args('updateUserInput') updateUserInput: Prisma.UserUncheckedUpdateInput,
-    @Args('where', { type: () => Int || String })
-    where: Prisma.UserWhereUniqueInput,
+    @Args('updateUserInput') updateUserInput: UserUncheckedUpdateInput,
+    @Args(
+      'findUserInput',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('user'),
+    )
+    findUserInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
-    return await this.usersService.update({ data: updateUserInput, where });
+    return await this.usersService.update({
+      data: updateUserInput,
+      where: findUserInput,
+    });
   }
 
   @Mutation('removeUser')
   async remove(
-    @Args('where', { type: () => Int || String })
-    where: Prisma.UserWhereUniqueInput,
+    @Args(
+      'where',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('user'),
+    )
+    findUserInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
-    return await this.usersService.remove(where);
+    return await this.usersService.remove(findUserInput);
   }
 }
