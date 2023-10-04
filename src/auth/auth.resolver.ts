@@ -6,12 +6,14 @@ import { GqlAuthGuard } from './gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from '../@generated/user/user.model';
 import { Prisma } from '@prisma/client';
+import { skipAuth } from '../common/decorators/skip-auth.decorator';
 
 @Resolver()
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @Mutation(() => LoginResponse)
+  @skipAuth()
+  @Mutation(() => LoginResponse, { name: 'login' })
   @UseGuards(GqlAuthGuard)
   async login(
     @Args('loginUserInput') loginUserInput: LoginUserInput,
@@ -21,6 +23,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => User)
+  @skipAuth()
   async signup(
     @Args('createUserInput') signupUserInput: Prisma.UserCreateInput,
   ) {

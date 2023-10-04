@@ -14,6 +14,7 @@ export class AuthService {
 
   async validateUser(email: string, password: string): Promise<any> {
     const user = await this.usersService.findOne({ email });
+
     const valid = await bcrypt.compare(password, user?.password);
 
     if (user && valid) {
@@ -38,6 +39,6 @@ export class AuthService {
   }
 
   async signup(signupUserInput: Prisma.UserCreateInput): Promise<User> {
-    return await this.usersService.create(signupUserInput);
+    return await this.usersService.create(signupUserInput, null, true);
   }
 }
