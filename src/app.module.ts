@@ -8,6 +8,10 @@ import { UsersModule } from './users/users.module';
 import { GraphQLDateTime } from 'graphql-iso-date';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { AbilityGuard } from './ability/ability.guard';
+import { AbilityModule } from './ability/ability.module';
 
 @Module({
   imports: [
@@ -21,8 +25,19 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     PrismaModule,
     AuthModule,
+    AbilityModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AbilityGuard,
+    },
+  ],
 })
 export class AppModule {}
