@@ -12,6 +12,23 @@ type User {
   updated_at: DateTime!
 }
 
+type LoginResponse {
+  access_token: String!
+  user: UserLoginResponse!
+}
+
+type UserLoginResponse {
+  id: Int!
+  username: String!
+  email: String!
+  password: String
+  name: String
+  role: Role!
+  is_u_18: Boolean
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
 input CreateUserInput {
   username: String!
   email: String!
@@ -21,6 +38,11 @@ input CreateUserInput {
   is_u_18: Boolean
   created_at: DateTime
   updated_at: DateTime
+}
+
+input LoginUserInput {
+  username: String!
+  password: String!
 }
 
 input UpdateUserInput {
@@ -45,6 +67,8 @@ type Query {
 }
 
 type Mutation {
+  login(LoginUserInput: LoginUserInput!): LoginResponse!
+  signup(createUserInput: CreateUserInput!): User!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(
     findUserInput: FindUserInput!

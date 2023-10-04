@@ -82,8 +82,8 @@ model User {
 //   is_u_18        Boolean   @default(true)
 //   created_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
 //   updated_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
-//   examples       Example[]
-//   flags          Flag[]
+// examples       Example[]
+// flags          Flag[]
 // }
 
 // model Example {

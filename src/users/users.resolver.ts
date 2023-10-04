@@ -5,7 +5,10 @@ import { UserCreateInput } from '../@generated/user/user-create.input';
 import { User } from '../@generated/user/user.model';
 import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
 import { UserUncheckedUpdateInput } from '../@generated/user/user-unchecked-update.input';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UseGuards } from '@nestjs/common';
 @Resolver('User')
+@UseGuards(JwtAuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
@@ -52,7 +55,7 @@ export class UsersResolver {
   @Mutation('removeUser')
   async remove(
     @Args(
-      'where',
+      'findUserInput',
       { type: () => Int || String },
       new ValidateOneKeyPipe('user'),
     )

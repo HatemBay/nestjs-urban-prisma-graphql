@@ -25,6 +25,11 @@ export class CreateUserInput {
     updated_at?: Nullable<DateTime>;
 }
 
+export class LoginUserInput {
+    username: string;
+    password: string;
+}
+
 export class UpdateUserInput {
     username?: Nullable<string>;
     email?: Nullable<string>;
@@ -53,6 +58,23 @@ export class User {
     updated_at: DateTime;
 }
 
+export class LoginResponse {
+    access_token: string;
+    user: UserLoginResponse;
+}
+
+export class UserLoginResponse {
+    id: number;
+    username: string;
+    email: string;
+    password?: Nullable<string>;
+    name?: Nullable<string>;
+    role: Role;
+    is_u_18?: Nullable<boolean>;
+    created_at: DateTime;
+    updated_at: DateTime;
+}
+
 export abstract class IQuery {
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
@@ -60,6 +82,10 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
+    abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+
+    abstract signup(createUserInput: CreateUserInput): User | Promise<User>;
+
     abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
 
     abstract updateUser(findUserInput: FindUserInput, updateUserInput: UpdateUserInput): User | Promise<User>;
