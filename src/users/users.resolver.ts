@@ -1,29 +1,34 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { UserCreateInput } from '../@generated/user/user-create.input';
 import { User } from '../@generated/user/user.model';
 import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
 import { UserUncheckedUpdateInput } from '../@generated/user/user-unchecked-update.input';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { UseGuards } from '@nestjs/common';
+import { CheckAbilities } from '../common/decorators/ability.decorator';
+import { Action } from '../ability/ability.factory/ability.factory';
 @Resolver('User')
-@UseGuards(JwtAuthGuard)
+@CheckAbilities({ action: Action.Create, subject: User })
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation('createUser')
   async create(
     @Args('createUserInput') createUserInput: UserCreateInput,
+    @Context() context,
   ): Promise<User> {
-    return await this.usersService.create(createUserInput);
+    const user = context.user;
+
+    return await this.usersService.create(createUserInput, user, false);
   }
 
+  @CheckAbilities({ action: Action.Read, subject: User })
   @Query('users')
   async findAll(): Promise<User[]> {
     return await this.usersService.findAll();
   }
 
+  @CheckAbilities({ action: Action.Read, subject: User })
   @Query('user')
   async findOne(
     @Args(
@@ -36,6 +41,7 @@ export class UsersResolver {
     return await this.usersService.findOne(findUserInput);
   }
 
+  @CheckAbilities({ action: Action.Update, subject: User })
   @Mutation('updateUser')
   async update(
     @Args('updateUserInput') updateUserInput: UserUncheckedUpdateInput,

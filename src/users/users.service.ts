@@ -1,24 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
-import { User } from '../@generated/user/user.model';
 import * as bcrypt from 'bcrypt';
+import {
+  AbilityFactory,
+  Action,
+} from '../ability/ability.factory/ability.factory';
+import { ForbiddenError } from '@casl/ability';
+import { User } from '../@generated/user/user.model';
 @Injectable()
 export class UsersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private abilityFactory: AbilityFactory,
+  ) {}
 
   async create(
     createUserInput: Prisma.UserUncheckedCreateInput,
+    currentUser: User,
+    isSignup: boolean,
   ): Promise<User> {
     try {
       const password = await bcrypt.hash(createUserInput.password, 10);
-
-      return await this.prisma.user.create({
+      const user = {
         data: {
           ...createUserInput,
           password,
         },
-      });
+      };
+
+      if (isSignup) {
+        const mockUser = new User();
+        const ability = this.abilityFactory.defineAbility(currentUser);
+        ForbiddenError.from(ability).throwUnlessCan(Action.Create, mockUser);
+      }
+
+      return await this.prisma.user.create(user);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         // The .code property can be accessed in a type-safe manner
