@@ -11,41 +11,42 @@ import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
 export class UserWhereUniqueInput {
-  @Field(() => Int, { nullable: true })
-  id?: number;
 
-  @Field(() => String, { nullable: true })
-  @Validator.MinLength(3)
-  username?: string;
+    @Field(() => Int, {nullable:true})
+    id?: number;
 
-  @Field(() => String, { nullable: true })
-  @Validator.IsEmail()
-  email?: string;
+    @Field(() => String, {nullable:true})
+    @Validator.MinLength(3)
+    username?: string;
 
-  @Field(() => [UserWhereInput], { nullable: true })
-  AND?: Array<UserWhereInput>;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
 
-  @Field(() => [UserWhereInput], { nullable: true })
-  OR?: Array<UserWhereInput>;
+    @Field(() => [UserWhereInput], {nullable:true})
+    AND?: Array<UserWhereInput>;
 
-  @Field(() => [UserWhereInput], { nullable: true })
-  NOT?: Array<UserWhereInput>;
+    @Field(() => [UserWhereInput], {nullable:true})
+    OR?: Array<UserWhereInput>;
 
-  @Field(() => StringFilter, { nullable: true })
-  password?: StringFilter;
+    @Field(() => [UserWhereInput], {nullable:true})
+    NOT?: Array<UserWhereInput>;
 
-  @Field(() => StringNullableFilter, { nullable: true })
-  name?: StringNullableFilter;
+    @Field(() => StringFilter, {nullable:true})
+    password?: StringFilter;
 
-  @Field(() => EnumRoleFilter, { nullable: true })
-  role?: EnumRoleFilter;
+    @Field(() => StringNullableFilter, {nullable:true})
+    name?: StringNullableFilter;
 
-  @Field(() => BoolFilter, { nullable: true })
-  is_u_18?: BoolFilter;
+    @Field(() => EnumRoleFilter, {nullable:true})
+    role?: EnumRoleFilter;
 
-  @Field(() => DateTimeFilter, { nullable: true })
-  created_at?: DateTimeFilter;
+    @Field(() => BoolFilter, {nullable:true})
+    is_u_18?: BoolFilter;
 
-  @Field(() => DateTimeFilter, { nullable: true })
-  updated_at?: DateTimeFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    created_at?: DateTimeFilter;
+
+    @Field(() => DateTimeFilter, {nullable:true})
+    updated_at?: DateTimeFilter;
 }

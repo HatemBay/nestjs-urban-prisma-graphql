@@ -9,39 +9,40 @@ import { DateTimeFilter } from '../prisma/date-time-filter.input';
 
 @InputType()
 export class UserWhereInput {
-  @Field(() => [UserWhereInput], { nullable: true })
-  AND?: Array<UserWhereInput>;
 
-  @Field(() => [UserWhereInput], { nullable: true })
-  OR?: Array<UserWhereInput>;
+    @Field(() => [UserWhereInput], {nullable:true})
+    AND?: Array<UserWhereInput>;
 
-  @Field(() => [UserWhereInput], { nullable: true })
-  NOT?: Array<UserWhereInput>;
+    @Field(() => [UserWhereInput], {nullable:true})
+    OR?: Array<UserWhereInput>;
 
-  @Field(() => IntFilter, { nullable: true })
-  id?: IntFilter;
+    @Field(() => [UserWhereInput], {nullable:true})
+    NOT?: Array<UserWhereInput>;
 
-  @Field(() => StringFilter, { nullable: true })
-  username?: StringFilter;
+    @Field(() => IntFilter, {nullable:true})
+    id?: IntFilter;
 
-  @Field(() => StringFilter, { nullable: true })
-  email?: StringFilter;
+    @Field(() => StringFilter, {nullable:true})
+    username?: StringFilter;
 
-  @Field(() => StringFilter, { nullable: true })
-  password?: StringFilter;
+    @Field(() => StringFilter, {nullable:true})
+    email?: StringFilter;
 
-  @Field(() => StringNullableFilter, { nullable: true })
-  name?: StringNullableFilter;
+    @Field(() => StringFilter, {nullable:true})
+    password?: StringFilter;
 
-  @Field(() => EnumRoleFilter, { nullable: true })
-  role?: EnumRoleFilter;
+    @Field(() => StringNullableFilter, {nullable:true})
+    name?: StringNullableFilter;
 
-  @Field(() => BoolFilter, { nullable: true })
-  is_u_18?: BoolFilter;
+    @Field(() => EnumRoleFilter, {nullable:true})
+    role?: EnumRoleFilter;
 
-  @Field(() => DateTimeFilter, { nullable: true })
-  created_at?: DateTimeFilter;
+    @Field(() => BoolFilter, {nullable:true})
+    is_u_18?: BoolFilter;
 
-  @Field(() => DateTimeFilter, { nullable: true })
-  updated_at?: DateTimeFilter;
+    @Field(() => DateTimeFilter, {nullable:true})
+    created_at?: DateTimeFilter;
+
+    @Field(() => DateTimeFilter, {nullable:true})
+    updated_at?: DateTimeFilter;
 }
