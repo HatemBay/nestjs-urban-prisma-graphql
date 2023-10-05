@@ -20,18 +20,6 @@ export class AbilityGuard implements CanActivate {
     private caslAbilityFactory: AbilityFactory,
   ) {}
 
-  getRequest(context: ExecutionContext) {
-    console.log('****');
-
-    const ctx = GqlExecutionContext.create(context);
-    const request = ctx.getContext();
-    request.body = ctx.getArgs().LoginUserInput;
-    console.log('request.body');
-    console.log(request.body);
-
-    return request;
-  }
-
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
 
