@@ -1,3 +1,3 @@
 import { SetMetadata } from '@nestjs/common';
 
-export const skipAuth = () => SetMetadata('skipAuth', true);
+export const SkipAuth = () => SetMetadata('skipAuth', true);
