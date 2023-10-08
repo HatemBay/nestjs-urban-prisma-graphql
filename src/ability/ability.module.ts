@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AbilityFactory } from './ability.factory/ability.factory';
 import { JwtStrategy } from '../auth/jwt.strategy';
+import { AbilityFactory } from './ability.factory/ability.factory';
 
 @Module({
   providers: [AbilityFactory, JwtStrategy],

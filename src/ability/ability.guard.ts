@@ -5,13 +5,13 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AbilityFactory } from './ability.factory/ability.factory';
 import { ForbiddenError } from '@casl/ability';
 import {
   CHECK_ABILITY,
   RequiredRule,
 } from '../common/decorators/ability.decorator';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { AbilityFactory } from './ability.factory/ability.factory';
 
 @Injectable()
 export class AbilityGuard implements CanActivate {
@@ -31,6 +31,11 @@ export class AbilityGuard implements CanActivate {
       this.reflector.get<boolean>('skipAuth', context.getHandler()) || false;
     if (skipAuth) return true;
 
+    const skipAbility =
+      this.reflector.get<boolean>('skipAbility', context.getHandler()) || false;
+
+    if (skipAuth || skipAbility) return true;
+
     const { user } = ctx.getContext().req;
 
     // * In case i somehow decided to put global ability guard first
@@ -39,6 +44,7 @@ export class AbilityGuard implements CanActivate {
     // }
 
     const ability = this.caslAbilityFactory.defineAbility(user);
+
     try {
       rules.forEach((rule) =>
         ForbiddenError.from(ability).throwUnlessCan(rule.action, rule.subject),

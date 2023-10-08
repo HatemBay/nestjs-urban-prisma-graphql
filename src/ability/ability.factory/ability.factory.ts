@@ -6,8 +6,8 @@ import {
   createMongoAbility,
 } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { User } from '../../@generated/user/user.model';
 import { Role } from '@prisma/client';
+import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 
 export enum Action {
   Manage = 'manage',
@@ -40,6 +40,10 @@ export class AbilityFactory {
     } else {
       can(Action.Read, User);
       cannot(Action.Create, User).because('only admin can');
+      can(Action.Update, User);
+      cannot(Action.Update, User, { id: { $ne: user.id } }).because(
+        'can only  edit self',
+      );
       // cannot(Action.Read, User).because('only admin can');
     }
     return build({
