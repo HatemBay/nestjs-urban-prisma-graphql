@@ -2,12 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
-import {
-  AbilityFactory,
-  Action,
-} from '../ability/ability.factory/ability.factory';
 import { ForbiddenError } from '@casl/ability';
-import { User } from '../@generated/user/user.model';
+import {
+  Action,
+  AbilityFactory,
+} from '../ability/ability.factory/ability.factory';
+import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 @Injectable()
 export class UsersService {
   constructor(
@@ -17,8 +17,6 @@ export class UsersService {
 
   async create(
     createUserInput: Prisma.UserUncheckedCreateInput,
-    currentUser: User,
-    isSignup: boolean,
   ): Promise<User> {
     try {
       const password = await bcrypt.hash(createUserInput.password, 10);
@@ -28,12 +26,6 @@ export class UsersService {
           password,
         },
       };
-
-      if (isSignup) {
-        const mockUser = new User();
-        const ability = this.abilityFactory.defineAbility(currentUser);
-        ForbiddenError.from(ability).throwUnlessCan(Action.Create, mockUser);
-      }
 
       return await this.prisma.user.create(user);
     } catch (error) {
@@ -56,7 +48,7 @@ export class UsersService {
     return await this.prisma.user.findMany();
   }
 
-  async findOne(where: Prisma.UserWhereUniqueInput) {
+  async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
     try {
       return await this.prisma.user.findUniqueOrThrow({ where });
     } catch (error) {
@@ -69,16 +61,40 @@ export class UsersService {
     }
   }
 
-  async update(params: {
-    data: Prisma.UserUncheckedUpdateInput;
-    where: Prisma.UserWhereUniqueInput;
-  }) {
-    const { data, where } = params;
+  async update(
+    currentUser: User,
+    params: {
+      data: Prisma.UserUncheckedUpdateInput;
+      where: Prisma.UserWhereUniqueInput;
+    },
+  ) {
     try {
-      return await this.prisma.user.update({
-        data,
-        where,
-      });
+      // type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
+      console.log('currentUser');
+      console.log(currentUser);
+
+      const { data, where } = params;
+      const ability = this.abilityFactory.defineAbility(currentUser);
+      const getUser = await this.findOne(where);
+      const userToUpdate = new User();
+      Object.assign(userToUpdate, getUser);
+
+      // * if we don't specify cannot() and because('') in the factory we instead use .SetMessage('') after .from()
+      if (userToUpdate) {
+        ForbiddenError.from(ability).throwUnlessCan(
+          Action.Update,
+          userToUpdate,
+        );
+
+        if (data.password) {
+          data.password = await bcrypt.hash(data.password as string, 10);
+        }
+
+        return await this.prisma.user.update({
+          data,
+          where,
+        });
+      }
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
