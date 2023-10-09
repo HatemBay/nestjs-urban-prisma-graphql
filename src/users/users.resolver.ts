@@ -56,10 +56,13 @@ export class UsersResolver {
   ): Promise<User> {
     const user = context.req.user;
     try {
-      return await this.usersService.update(user, {
-        data: updateUserInput,
-        where: findUserInput,
-      });
+      return await this.usersService.update(
+        {
+          data: updateUserInput,
+          where: findUserInput,
+        },
+        user,
+      );
     } catch (error) {
       if (error instanceof ForbiddenError) {
         throw new ForbiddenException(error.message);

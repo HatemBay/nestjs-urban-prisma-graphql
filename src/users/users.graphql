@@ -1,15 +1,18 @@
 scalar DateTime
+scalar JSON
 
 type User {
   id: Int!
   username: String!
   email: String!
-  password: String!
+  password: String
   name: String
   role: Role!
   is_u_18: Boolean
   created_at: DateTime!
   updated_at: DateTime!
+  google_id: String
+  google_profile: JSON
 }
 
 type LoginResponse {
@@ -23,21 +26,25 @@ type UserLoginResponse {
   email: String!
   password: String
   name: String
-  role: Role!
+  role: Role
   is_u_18: Boolean
   created_at: DateTime!
   updated_at: DateTime!
+  google_id: String
+  google_profile: JSON
 }
 
 input CreateUserInput {
   username: String!
   email: String!
-  password: String!
+  password: String
   name: String
   role: Role!
   is_u_18: Boolean
   created_at: DateTime
   updated_at: DateTime
+  google_id: String
+  google_profile: JSON
 }
 
 input LoginUserInput {
@@ -53,11 +60,18 @@ input UpdateUserInput {
   role: Role
   is_u_18: Boolean
   updated_at: DateTime
+  google_id: String
+  google_profile: JSON
 }
 
 input FindUserInput {
   id: Int
   username: String
+  email: String
+  google_id: String
+}
+
+input GoogleAuthInput {
   email: String
 }
 
@@ -75,6 +89,7 @@ type Mutation {
     updateUserInput: UpdateUserInput!
   ): User!
   removeUser(findUserInput: FindUserInput!): User
+  googleAuth(googleAuthInput: GoogleAuthInput!): LoginResponse!
 }
 
 enum Role {
