@@ -14,7 +14,7 @@ import { AbilityGuard } from './ability/ability.guard';
 import { AbilityModule } from './ability/ability.module';
 import { ConfigModule } from '@nestjs/config';
 import GraphQLJSON from 'graphql-type-json';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -58,6 +58,10 @@ import { ThrottlerModule } from '@nestjs/throttler';
     {
       provide: APP_GUARD,
       useClass: AbilityGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
