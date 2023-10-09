@@ -14,5 +14,5 @@ export class UpdateOneUserArgs {
 
     @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email'>;
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'google_id'>;
 }

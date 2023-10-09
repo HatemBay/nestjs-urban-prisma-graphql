@@ -12,7 +12,7 @@ generator nestgraphql {
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/@generated/client"
+  // output   = "../src/@generated/client"
 }
 
 datasource db {
@@ -54,17 +54,19 @@ enum Role {
 // }
 
 model User {
-  id         Int      @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   /// @Validator.MinLength(3)
-  username   String   @unique
+  username       String   @unique
   /// @Validator.IsEmail()
-  email      String   @unique
-  password   String
-  name       String?
-  role       Role
-  is_u_18    Boolean  @default(true)
-  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  email          String   @unique
+  password       String?
+  name           String?
+  role           Role
+  is_u_18        Boolean  @default(true)
+  created_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  google_id      String?  @unique
+  google_profile Json?
   // posts      Post[]
   // Region     Region?  @relation(fields: [regionId], references: [id])
   // regionId   Int?

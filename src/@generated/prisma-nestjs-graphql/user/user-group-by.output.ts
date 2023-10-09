@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { Role } from '../prisma/role.enum';
+import { GraphQLJSON } from 'graphql-type-json';
 import { UserCountAggregate } from './user-count-aggregate.output';
 import { UserAvgAggregate } from './user-avg-aggregate.output';
 import { UserSumAggregate } from './user-sum-aggregate.output';
@@ -20,8 +21,8 @@ export class UserGroupBy {
     @Field(() => String, {nullable:false})
     email!: string;
 
-    @Field(() => String, {nullable:false})
-    password!: string;
+    @Field(() => String, {nullable:true})
+    password?: string;
 
     @Field(() => String, {nullable:true})
     name?: string;
@@ -37,6 +38,12 @@ export class UserGroupBy {
 
     @Field(() => Date, {nullable:false})
     updated_at!: Date | string;
+
+    @Field(() => String, {nullable:true})
+    google_id?: string;
+
+    @Field(() => GraphQLJSON, {nullable:true})
+    google_profile?: any;
 
     @Field(() => UserCountAggregate, {nullable:true})
     _count?: UserCountAggregate;

@@ -1,4 +1,5 @@
 import { PrismaClient, Role } from '@prisma/client';
+import { Logger } from '@nestjs/common';
 
 const prisma = new PrismaClient();
 
@@ -15,7 +16,7 @@ async function main() {
     },
   });
 
-  console.log({ user1 });
+  Logger.log(`${user1.username} created`);
 }
 
 main()

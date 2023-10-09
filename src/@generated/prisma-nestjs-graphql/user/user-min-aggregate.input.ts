@@ -30,4 +30,7 @@ export class UserMinAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     updated_at?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    google_id?: true;
 }

@@ -6,6 +6,7 @@ import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { EnumRoleFilter } from '../prisma/enum-role-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
+import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 
 @InputType()
 export class UserWhereInput {
@@ -28,8 +29,8 @@ export class UserWhereInput {
     @Field(() => StringFilter, {nullable:true})
     email?: StringFilter;
 
-    @Field(() => StringFilter, {nullable:true})
-    password?: StringFilter;
+    @Field(() => StringNullableFilter, {nullable:true})
+    password?: StringNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     name?: StringNullableFilter;
@@ -45,4 +46,10 @@ export class UserWhereInput {
 
     @Field(() => DateTimeFilter, {nullable:true})
     updated_at?: DateTimeFilter;
+
+    @Field(() => StringNullableFilter, {nullable:true})
+    google_id?: StringNullableFilter;
+
+    @Field(() => JsonNullableFilter, {nullable:true})
+    google_profile?: JsonNullableFilter;
 }

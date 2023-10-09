@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
+import { GraphQLJSON } from 'graphql-type-json';
 
 @InputType()
 export class UserCreateManyInput {
@@ -18,8 +19,8 @@ export class UserCreateManyInput {
     @Validator.IsEmail()
     email!: string;
 
-    @Field(() => String, {nullable:false})
-    password!: string;
+    @Field(() => String, {nullable:true})
+    password?: string;
 
     @Field(() => String, {nullable:true})
     name?: string;
@@ -35,4 +36,10 @@ export class UserCreateManyInput {
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    google_id?: string;
+
+    @Field(() => GraphQLJSON, {nullable:true})
+    google_profile?: any;
 }

@@ -31,4 +31,7 @@ export class UserMaxOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     updated_at?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    google_id?: keyof typeof SortOrder;
 }

@@ -32,4 +32,7 @@ export class UserMinAggregate {
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
+
+    @Field(() => String, {nullable:true})
+    google_id?: string;
 }

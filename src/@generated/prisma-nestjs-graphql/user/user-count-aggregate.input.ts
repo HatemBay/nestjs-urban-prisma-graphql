@@ -32,5 +32,11 @@ export class UserCountAggregateInput {
     updated_at?: true;
 
     @Field(() => Boolean, {nullable:true})
+    google_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    google_profile?: true;
+
+    @Field(() => Boolean, {nullable:true})
     _all?: true;
 }

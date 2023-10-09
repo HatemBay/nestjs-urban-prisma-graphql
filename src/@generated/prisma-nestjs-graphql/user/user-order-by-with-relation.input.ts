@@ -15,8 +15,8 @@ export class UserOrderByWithRelationInput {
     @Field(() => SortOrder, {nullable:true})
     email?: keyof typeof SortOrder;
 
-    @Field(() => SortOrder, {nullable:true})
-    password?: keyof typeof SortOrder;
+    @Field(() => SortOrderInput, {nullable:true})
+    password?: SortOrderInput;
 
     @Field(() => SortOrderInput, {nullable:true})
     name?: SortOrderInput;
@@ -32,4 +32,10 @@ export class UserOrderByWithRelationInput {
 
     @Field(() => SortOrder, {nullable:true})
     updated_at?: keyof typeof SortOrder;
+
+    @Field(() => SortOrderInput, {nullable:true})
+    google_id?: SortOrderInput;
+
+    @Field(() => SortOrderInput, {nullable:true})
+    google_profile?: SortOrderInput;
 }

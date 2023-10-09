@@ -3,11 +3,11 @@ import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { UserWhereInput } from './user-where.input';
-import { StringFilter } from '../prisma/string-filter.input';
 import { StringNullableFilter } from '../prisma/string-nullable-filter.input';
 import { EnumRoleFilter } from '../prisma/enum-role-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
+import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -23,6 +23,9 @@ export class UserWhereUniqueInput {
     @Validator.IsEmail()
     email?: string;
 
+    @Field(() => String, {nullable:true})
+    google_id?: string;
+
     @Field(() => [UserWhereInput], {nullable:true})
     AND?: Array<UserWhereInput>;
 
@@ -32,8 +35,8 @@ export class UserWhereUniqueInput {
     @Field(() => [UserWhereInput], {nullable:true})
     NOT?: Array<UserWhereInput>;
 
-    @Field(() => StringFilter, {nullable:true})
-    password?: StringFilter;
+    @Field(() => StringNullableFilter, {nullable:true})
+    password?: StringNullableFilter;
 
     @Field(() => StringNullableFilter, {nullable:true})
     name?: StringNullableFilter;
@@ -49,4 +52,7 @@ export class UserWhereUniqueInput {
 
     @Field(() => DateTimeFilter, {nullable:true})
     updated_at?: DateTimeFilter;
+
+    @Field(() => JsonNullableFilter, {nullable:true})
+    google_profile?: JsonNullableFilter;
 }

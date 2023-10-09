@@ -33,5 +33,11 @@ export class UserCountAggregate {
     updated_at!: number;
 
     @Field(() => Int, {nullable:false})
+    google_id!: number;
+
+    @Field(() => Int, {nullable:false})
+    google_profile!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }
