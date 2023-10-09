@@ -12,6 +12,8 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AbilityGuard } from './ability/ability.guard';
 import { AbilityModule } from './ability/ability.module';
+import { ConfigModule } from '@nestjs/config';
+import GraphQLJSON from 'graphql-type-json';
 
 @Module({
   imports: [
@@ -19,9 +21,10 @@ import { AbilityModule } from './ability/ability.module';
       playground: false,
       typePaths: ['./**/*.graphql'],
       driver: ApolloDriver,
-      resolvers: { DateTime: GraphQLDateTime },
+      resolvers: { DateTime: GraphQLDateTime, JSON: GraphQLJSON },
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
+    ConfigModule.forRoot(),
     UsersModule,
     PrismaModule,
     AuthModule,
