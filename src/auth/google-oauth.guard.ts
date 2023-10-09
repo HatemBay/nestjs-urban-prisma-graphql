@@ -9,12 +9,4 @@ export class GoogleOAuthGuard extends AuthGuard('google') {
       accessType: 'offline',
     });
   }
-
-  //   getRequest(context: ExecutionContext) {
-  //     const ctx = GqlExecutionContext.create(context);
-  //     const request = ctx.getContext();
-  //     request.body = ctx.getArgs().LoginUserInput;
-
-  //     return request;
-  //   }
 }

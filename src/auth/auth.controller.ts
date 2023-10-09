@@ -1,7 +1,8 @@
 import { AuthService } from './auth.service';
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { GoogleOAuthGuard } from './google-oauth.guard';
+import { EmailTakenExceptionFilter } from '../common/filters/email-taken-exception.filter';
 
 @Controller('auth')
 export class AuthController {
@@ -9,6 +10,7 @@ export class AuthController {
 
   @Get()
   @UseGuards(GoogleOAuthGuard)
+  @UseFilters(EmailTakenExceptionFilter)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async googleAuth(@Req() req) {
     // Guard will redirect

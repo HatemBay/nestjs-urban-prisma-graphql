@@ -6,6 +6,7 @@ import { UsersService } from '../users/users.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
 import { LoginResponse } from './dto/login-response';
+import { EmailTakenException } from '../common/filters/email-taken-exception.filter';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
@@ -37,9 +38,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         },
       });
       if (exisistingUserWithGoogleEmail) {
-        console.log('jep');
-        
-        // TODO: log him in with that email
+        throw new EmailTakenException();
       }
       const usernameFromGoogle = name.givenName + name.familyName;
       const nameFromGoogle = name.givenName + ' ' + name.familyName;
