@@ -14,6 +14,7 @@ import { AbilityGuard } from './ability/ability.guard';
 import { AbilityModule } from './ability/ability.module';
 import { ConfigModule } from '@nestjs/config';
 import GraphQLJSON from 'graphql-type-json';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -25,6 +26,12 @@ import GraphQLJSON from 'graphql-type-json';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
     ConfigModule.forRoot(),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     UsersModule,
     PrismaModule,
     AuthModule,
