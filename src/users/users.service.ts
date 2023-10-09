@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { ForbiddenError } from '@casl/ability';
 import {
@@ -8,6 +7,8 @@ import {
   AbilityFactory,
 } from '../ability/ability.factory/ability.factory';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
+import { Prisma } from '@prisma/client';
+import { UserUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-create.input';
 @Injectable()
 export class UsersService {
   constructor(
@@ -15,17 +16,24 @@ export class UsersService {
     private abilityFactory: AbilityFactory,
   ) {}
 
-  async create(
-    createUserInput: Prisma.UserUncheckedCreateInput,
-  ): Promise<User> {
+  async create(createUserInput: UserUncheckedCreateInput): Promise<User> {
     try {
-      const password = await bcrypt.hash(createUserInput.password, 10);
-      const user = {
-        data: {
-          ...createUserInput,
-          password,
-        },
-      };
+      let user;
+      if (createUserInput.password) {
+        const password = await bcrypt.hash(createUserInput.password, 10);
+        user = {
+          data: {
+            ...createUserInput,
+            password,
+          },
+        };
+      } else {
+        user = {
+          data: {
+            ...createUserInput,
+          },
+        };
+      }
 
       return await this.prisma.user.create(user);
     } catch (error) {
@@ -62,17 +70,13 @@ export class UsersService {
   }
 
   async update(
-    currentUser: User,
     params: {
       data: Prisma.UserUncheckedUpdateInput;
       where: Prisma.UserWhereUniqueInput;
     },
-  ) {
+    currentUser?: User,
+  ): Promise<User> {
     try {
-      // type UserWhereInput = PrismaQuery<Model<User, 'User'>>;
-      console.log('currentUser');
-      console.log(currentUser);
-
       const { data, where } = params;
       const ability = this.abilityFactory.defineAbility(currentUser);
       const getUser = await this.findOne(where);
