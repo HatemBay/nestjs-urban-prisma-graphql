@@ -7,6 +7,7 @@ import { UseGuards } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
+import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 
 @Resolver()
 export class AuthResolver {
@@ -24,9 +25,7 @@ export class AuthResolver {
 
   @Mutation(() => User)
   @SkipAuth()
-  async signup(
-    @Args('createUserInput') signupUserInput: Prisma.UserCreateInput,
-  ) {
+  async signup(@Args('createUserInput') signupUserInput: UserCreateInput) {
     return await this.authService.signup(signupUserInput);
   }
 }

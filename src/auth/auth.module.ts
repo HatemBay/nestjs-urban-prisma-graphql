@@ -7,6 +7,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { PrismaModule } from '../prisma/prisma.module';
+import { GoogleStrategy } from './google.strategy';
+import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
@@ -15,9 +17,16 @@ import { PrismaModule } from '../prisma/prisma.module';
     UsersModule,
     JwtModule.register({
       signOptions: { expiresIn: '6000s' },
-      secret: 'secret-to-be-hidden-as-env-variable', //TODO: hide
+      secret: process.env.SECRET, //TODO: hide
     }),
   ],
-  providers: [AuthResolver, AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthResolver,
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+  ],
+  controllers: [AuthController],
 })
 export class AuthModule {}

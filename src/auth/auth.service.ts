@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Prisma } from '@prisma/client';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
+import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +38,20 @@ export class AuthService {
     };
   }
 
-  async signup(signupUserInput: Prisma.UserCreateInput): Promise<User> {
+  async signup(signupUserInput: UserCreateInput): Promise<User> {
     return await this.usersService.create(signupUserInput);
+  }
+
+  googleLogin(req) {
+    if (!req.user) {
+      return 'No user from google';
+    }
+
+    console.log(req.user);
+
+    return {
+      message: 'User information from google',
+      user: req.user,
+    };
   }
 }
