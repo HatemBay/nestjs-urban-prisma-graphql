@@ -69,6 +69,7 @@ export class UsersService {
     }
   }
 
+  //TODO: email shouldn't be updated and should be verified
   async update(
     params: {
       data: Prisma.UserUncheckedUpdateInput;

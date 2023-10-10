@@ -42,7 +42,12 @@ import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
   controllers: [AppController],
   providers: [
     AppService,
-
+    // {
+    //   provide: APP_GUARD,
+    //   useExisting: JwtAuthGuard,
+    //   // TODO: confirm
+    // },
+    // JwtAuthGuard,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
