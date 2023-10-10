@@ -4,7 +4,6 @@ import { LoginResponse } from './dto/login-response';
 import { LoginUserInput } from './dto/login-user.input';
 import { GqlAuthGuard } from './gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';

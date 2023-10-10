@@ -14,7 +14,8 @@ import { AbilityGuard } from './ability/ability.guard';
 import { AbilityModule } from './ability/ability.module';
 import { ConfigModule } from '@nestjs/config';
 import GraphQLJSON from 'graphql-type-json';
-import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
 
 @Module({
   imports: [
@@ -24,23 +25,13 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       driver: ApolloDriver,
       resolvers: { DateTime: GraphQLDateTime, JSON: GraphQLJSON },
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      context: ({ req, res }) => ({ req, res }),
     }),
     ConfigModule.forRoot(),
     ThrottlerModule.forRoot([
       {
-        name: 'short',
-        ttl: 1000,
-        limit: 3,
-      },
-      {
-        name: 'medium',
-        ttl: 10000,
-        limit: 20,
-      },
-      {
-        name: 'long',
         ttl: 60000,
-        limit: 100,
+        limit: 10,
       },
     ]),
     UsersModule,
@@ -51,6 +42,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
   controllers: [AppController],
   providers: [
     AppService,
+
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
@@ -61,7 +53,7 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: GqlThrottlerGuard,
     },
   ],
 })
