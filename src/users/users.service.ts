@@ -1,11 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { ForbiddenError } from '@casl/ability';
-import {
-  Action,
-  AbilityFactory,
-} from '../ability/ability.factory/ability.factory';
+import { AbilityFactory } from '../ability/ability.factory/ability.factory';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { Prisma } from '@prisma/client';
 import { UserUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-create.input';
@@ -79,17 +75,17 @@ export class UsersService {
   ): Promise<User> {
     try {
       const { data, where } = params;
-      const ability = this.abilityFactory.defineAbility(currentUser);
+      // const ability = this.abilityFactory.defineAbility(currentUser);
       const getUser = await this.findOne(where);
       const userToUpdate = new User();
       Object.assign(userToUpdate, getUser);
 
       // * if we don't specify cannot() and because('') in the factory we instead use .SetMessage('') after .from()
       if (userToUpdate) {
-        ForbiddenError.from(ability).throwUnlessCan(
-          Action.Update,
-          userToUpdate,
-        );
+        // ForbiddenError.from(ability).throwUnlessCan(
+        //   Action.Update,
+        //   userToUpdate,
+        // );
 
         if (data.password) {
           data.password = await bcrypt.hash(data.password as string, 10);
