@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
@@ -9,7 +9,7 @@ import { ForbiddenException } from '@nestjs/common';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
-import { SkipAbility } from '../common/decorators/skip-ability.decorator';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
@@ -41,8 +41,8 @@ export class UsersResolver {
     return await this.usersService.findOne(findUserInput);
   }
 
-  // @CheckAbilities({ action: Action.Update, subject: User })
-  @SkipAbility()
+  @CheckAbilities({ action: Action.Update, subject: User })
+  // @SkipAbility()
   @Mutation(() => User, { name: 'updateUser' })
   async update(
     @Args('updateUserInput') updateUserInput: UserUncheckedUpdateInput,
@@ -52,9 +52,11 @@ export class UsersResolver {
       new ValidateOneKeyPipe('user'),
     )
     findUserInput: Prisma.UserWhereUniqueInput,
-    @Context() context: any,
+    @CurrentUser() user: any,
   ): Promise<User> {
-    const user = context.req.user;
+    // const user = context.req.user;
+    // console.log(user);
+
     try {
       return await this.usersService.update(
         {
