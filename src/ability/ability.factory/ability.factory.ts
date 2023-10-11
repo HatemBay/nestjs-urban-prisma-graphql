@@ -40,10 +40,23 @@ export class AbilityFactory {
     } else {
       can(Action.Read, User);
       cannot(Action.Create, User).because('only admin can');
-      can(Action.Update, User);
-      cannot(Action.Update, User, { id: { $ne: user.id } }).because(
-        'can only  edit self',
-      );
+      cannot(Action.Update, User).because('can only  edit self');
+      can(Action.Update, User, { id: { $eq: user.id } });
+      can(Action.Update, User, { email: { $eq: user.email } });
+      can(Action.Update, User, { username: { $eq: user.username } });
+      can(Action.Update, User, { google_id: { $eq: user.google_id } });
+      // cannot(Action.Update, User, {$or: [{ id: { $ne: user.id }]} }).because(
+      //   'can only  edit self',
+      // );
+      // cannot(Action.Update, User, { email: { $ne: user.email } }).because(
+      //   'can only  edit self',
+      // );
+      // cannot(Action.Update, User, { username: { $ne: user.username } }).because(
+      //   'can only  edit self',
+      // );
+      // cannot(Action.Update, User, {
+      //   google_id: { $ne: user.google_id },
+      // }).because('can only  edit self');
       // cannot(Action.Read, User).because('only admin can');
     }
     return build({
