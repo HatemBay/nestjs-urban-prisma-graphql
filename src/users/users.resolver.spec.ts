@@ -1,13 +1,15 @@
 import { UsersResolver } from './users.resolver';
 import { UsersService } from './users.service';
-import { TestBed } from '@automock/jest';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { Role } from '../@generated/prisma-nestjs-graphql/prisma/role.enum';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('UsersResolver', () => {
   let resolver: UsersResolver;
+  let usersService: UsersService;
   let mockDate;
+
   const dto = {
     username: 'testUser',
     email: 'testUser@gmail.com',
@@ -74,28 +76,31 @@ describe('UsersResolver', () => {
 
   const mockUsersService = {
     // findAll: jest.fn().mockImplementation(() => users),
-    create: jest.fn(),
-    findAll: jest.fn(),
-    findOne: jest.fn(),
-    update: jest.fn(),
-    remove: jest.fn(),
+    create: jest.fn().mockResolvedValueOnce(returnUser),
+    findAll: jest.fn().mockResolvedValueOnce(users),
+    findOne: jest.fn().mockResolvedValueOnce(returnUser),
+    update: jest.fn().mockResolvedValueOnce(returnUser),
+    remove: jest.fn().mockResolvedValueOnce(returnUser),
   };
 
-  let usersService: jest.Mocked<UsersService>;
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersResolver,
+        {
+          provide: UsersService,
+          useValue: mockUsersService,
+        },
+      ],
+    }).compile();
 
-  beforeAll(() => {
     mockDate = jest
       .spyOn(Date.prototype, 'toLocaleTimeString')
       .mockReturnValue(new Date(Date.now()).toString());
 
-    const { unit, unitRef } = TestBed.create(UsersResolver)
-      .mock(UsersService)
-      .using(mockUsersService)
-      .compile();
+    resolver = module.get<UsersResolver>(UsersResolver);
 
-    resolver = unit;
-
-    usersService = unitRef.get(UsersService);
+    usersService = module.get<UsersService>(UsersService);
   });
 
   it('should be defined', () => {
@@ -103,47 +108,45 @@ describe('UsersResolver', () => {
   });
 
   it('should create a user', async () => {
-    usersService.create.mockResolvedValueOnce(returnUser);
-    await resolver.create(dto);
-  });
+    const user = await resolver.create(dto);
 
-  it('should get a user by a unique value', async () => {
-    usersService.findAll.mockResolvedValueOnce(users);
-    await resolver.findAll();
-
-    expect(usersService.findAll).toHaveBeenCalled();
+    expect(user).toEqual(returnUser);
+    expect(usersService.create).toHaveBeenCalled();
   });
 
   it('should get all the users', async () => {
-    usersService.findOne.mockResolvedValueOnce(returnUser);
-    await resolver.findOne(whereUniqueDto);
+    expect(await resolver.findAll()).toEqual(users);
+    expect(usersService.findAll).toHaveBeenCalled();
+  });
 
+  it('should get a user by a unique value', async () => {
+    expect(await resolver.findOne(whereUniqueDto)).toEqual(returnUser);
     expect(usersService.findOne).toHaveBeenCalled();
   });
 
   it('should update a user', async () => {
-    usersService.update.mockResolvedValueOnce(returnUser);
-    await resolver.update(
-      {
-        ...dto,
-        is_u_18: expect.any(Boolean),
-        role: 'USER',
-      } as UserUncheckedUpdateInput,
-      whereUniqueDto,
-      { req: { user: users[0] } },
-    );
-
+    expect(
+      await resolver.update(
+        {
+          ...dto,
+          is_u_18: expect.any(Boolean),
+          role: 'USER',
+        } as UserUncheckedUpdateInput,
+        whereUniqueDto,
+        { req: { user: users[0] } },
+      ),
+    ).toEqual(returnUser);
     expect(usersService.update).toHaveBeenCalled();
   });
 
   it('should delete a user', async () => {
-    usersService.remove.mockResolvedValueOnce(returnUser);
-    await resolver.remove(
-      { id: 1 } || { username: 'testUser' } || {
-          email: 'testUser@gmail.com',
-        } || { google_id: '1' },
-    );
-
+    expect(
+      await resolver.remove(
+        { id: 1 } || { username: 'testUser' } || {
+            email: 'testUser@gmail.com',
+          } || { google_id: '1' },
+      ),
+    ).toEqual(returnUser);
     expect(usersService.remove).toHaveBeenCalled();
   });
 });
