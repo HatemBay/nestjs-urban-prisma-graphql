@@ -137,13 +137,7 @@ describe('UsersResolver', () => {
   });
 
   it('should delete a user', async () => {
-    expect(
-      await resolver.remove(
-        { id: 1 } || { username: 'testUser' } || {
-            email: 'testUser@gmail.com',
-          } || { google_id: '1' },
-      ),
-    ).toEqual(returnUser);
+    expect(await resolver.remove(whereUniqueDto)).toEqual(returnUser);
     expect(usersService.remove).toHaveBeenCalled();
   });
 });
