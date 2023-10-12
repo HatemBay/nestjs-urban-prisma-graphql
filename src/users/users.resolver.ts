@@ -9,7 +9,6 @@ import { ForbiddenException } from '@nestjs/common';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
@@ -42,7 +41,6 @@ export class UsersResolver {
   }
 
   @CheckAbilities({ action: Action.Update, subject: User })
-  // @SkipAbility()
   @Mutation(() => User, { name: 'updateUser' })
   async update(
     @Args('updateUserInput') updateUserInput: UserUncheckedUpdateInput,
@@ -52,19 +50,12 @@ export class UsersResolver {
       new ValidateOneKeyPipe('user'),
     )
     findUserInput: Prisma.UserWhereUniqueInput,
-    @CurrentUser() user: any,
   ): Promise<User> {
-    // const user = context.req.user;
-    // console.log(user);
-
     try {
-      return await this.usersService.update(
-        {
-          data: updateUserInput,
-          where: findUserInput,
-        },
-        user,
-      );
+      return await this.usersService.update({
+        data: updateUserInput,
+        where: findUserInput,
+      });
     } catch (error) {
       if (error instanceof ForbiddenError) {
         throw new ForbiddenException(error.message);

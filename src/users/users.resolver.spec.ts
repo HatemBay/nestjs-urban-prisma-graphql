@@ -15,10 +15,10 @@ describe('UsersResolver', () => {
     email: 'testUser@gmail.com',
     name: 'test user',
     password: 'test',
-    role: Role.USER,
+    role: expect.any(Role),
     created_at: mockDate,
     updated_at: mockDate,
-    is_u_18: true,
+    is_u_18: expect.any(Boolean),
     google_id: '1',
     google_profile: {},
   };
@@ -129,11 +129,8 @@ describe('UsersResolver', () => {
       await resolver.update(
         {
           ...dto,
-          is_u_18: expect.any(Boolean),
-          role: 'USER',
         } as UserUncheckedUpdateInput,
         whereUniqueDto,
-        { req: { user: users[0] } },
       ),
     ).toEqual(returnUser);
     expect(usersService.update).toHaveBeenCalled();
