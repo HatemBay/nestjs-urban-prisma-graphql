@@ -45,12 +45,21 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return await this.prisma.user.findMany();
+    return await this.prisma.user.findMany({
+      include: {
+        posts: true,
+      },
+    });
   }
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
     try {
-      return await this.prisma.user.findUniqueOrThrow({ where });
+      return await this.prisma.user.findUniqueOrThrow({
+        where,
+        include: {
+          posts: true,
+        },
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
@@ -84,6 +93,9 @@ export class UsersService {
           data.password = await bcrypt.hash(data.password as string, 10);
         }
 
+        const dateTime = new Date();
+        dateTime.setHours(dateTime.getHours() + 1);
+        where.updated_at = dateTime;
         return await this.prisma.user.update({
           data,
           where,
@@ -99,7 +111,7 @@ export class UsersService {
     }
   }
 
-  async remove(where: Prisma.UserWhereUniqueInput) {
+  async remove(where: Prisma.UserWhereUniqueInput): Promise<User> {
     try {
       return await this.prisma.user.delete({
         where,
