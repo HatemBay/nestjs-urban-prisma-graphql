@@ -41,7 +41,7 @@ export class AbilityGuard implements CanActivate {
 
     const { user } = ctx.getContext().req;
     let userToUpdate;
-    if (rules[0].action === Action.Update) {
+    if (rules && rules[0].action === Action.Update) {
       // const fullUser = await this.usersService.findOne({ id: user.id });
       const args = ctx.getArgs();
       // console.log(args.findUserInput);
