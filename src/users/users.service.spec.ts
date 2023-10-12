@@ -1,6 +1,5 @@
 import { UsersService } from './users.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { AbilityFactory } from '../ability/ability.factory/ability.factory';
 import { Role } from '../@generated/prisma-nestjs-graphql/prisma/role.enum';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -9,17 +8,16 @@ describe('UsersService', () => {
   let service: UsersService;
   let mockDate;
   let prisma: PrismaService;
-  let abilityFactory: AbilityFactory;
 
   const dto = {
     username: 'testUser',
     email: 'testUser@gmail.com',
     name: 'test user',
     password: 'test',
-    role: Role.USER,
+    role: expect.any(Role),
     created_at: mockDate,
     updated_at: mockDate,
-    is_u_18: true,
+    is_u_18: expect.any(Boolean),
     google_id: '1',
     google_profile: {},
   };
@@ -82,11 +80,6 @@ describe('UsersService', () => {
       delete: jest.fn().mockResolvedValue(returnUser),
     },
   };
-  // TODO: check on
-  const mockAbilityFactory = {
-    // defineAbility: jest.spyOn(abilityFactory, 'defineAbility'),
-    defineAbility: jest.fn().mockReturnValue(null),
-  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -95,10 +88,6 @@ describe('UsersService', () => {
         {
           provide: PrismaService,
           useValue: db,
-        },
-        {
-          provide: AbilityFactory,
-          useValue: mockAbilityFactory,
         },
       ],
     }).compile();
@@ -109,19 +98,11 @@ describe('UsersService', () => {
 
     service = module.get<UsersService>(UsersService);
     prisma = module.get<PrismaService>(PrismaService);
-    abilityFactory = module.get<AbilityFactory>(AbilityFactory);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-
-  // it('should get a user by a unique value', async () => {
-  //   prisma.user.findUniqueOrThrow.mockResolvedValueOnce(users);
-  //   await service.findOne();
-
-  //   expect(prisma.user.findUniqueOrThrow).toHaveBeenCalled();
-  // });
 
   describe('create', () => {
     it('should create a user', async () => {
@@ -147,26 +128,19 @@ describe('UsersService', () => {
     });
   });
 
-  // TODO: check on
-  // describe('update', () => {
-  //   it('should update and return the user', async () => {
-  //     const updateUser = await service.update(
-  //       {
-  //         data: {
-  //           ...dto,
-  //           is_u_18: expect.any(Boolean),
-  //           role: 'USER',
-  //         } as UserUncheckedUpdateInput,
-  //         where: whereUniqueDto,
-  //       },
-  //       users[0],
-  //     );
-  //     expect(updateUser).toEqual(returnUser);
+  describe('update', () => {
+    it('should update and return the user', async () => {
+      const updateUser = await service.update({
+        data: {
+          ...dto,
+        },
+        where: whereUniqueDto,
+      });
+      expect(updateUser).toEqual(returnUser);
 
-  //     expect(abilityFactory.defineAbility).toHaveBeenCalled();
-  //     expect(jest.spyOn(prisma.user, 'update')).toHaveBeenCalled();
-  //   });
-  // });
+      expect(jest.spyOn(prisma.user, 'update')).toHaveBeenCalled();
+    });
+  });
 
   describe('delete', () => {
     it('should delete a user', async () => {
