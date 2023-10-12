@@ -1,16 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { AbilityFactory } from '../ability/ability.factory/ability.factory';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { Prisma } from '@prisma/client';
 import { UserUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-create.input';
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly prisma: PrismaService,
-    private abilityFactory: AbilityFactory,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(createUserInput: UserUncheckedCreateInput): Promise<User> {
     try {
@@ -66,13 +62,10 @@ export class UsersService {
   }
 
   //TODO: email shouldn't be updated and should be verified
-  async update(
-    params: {
-      data: Prisma.UserUncheckedUpdateInput;
-      where: Prisma.UserWhereUniqueInput;
-    },
-    currentUser?: User,
-  ): Promise<User> {
+  async update(params: {
+    data: Prisma.UserUncheckedUpdateInput;
+    where: Prisma.UserWhereUniqueInput;
+  }): Promise<User> {
     try {
       const { data, where } = params;
       // const ability = this.abilityFactory.defineAbility(currentUser);
