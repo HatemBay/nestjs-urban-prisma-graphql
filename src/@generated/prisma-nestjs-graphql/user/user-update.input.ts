@@ -6,6 +6,7 @@ import { EnumRoleFieldUpdateOperationsInput } from '../prisma/enum-role-field-up
 import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
 import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
 import { GraphQLJSON } from 'graphql-type-json';
+import { PostUpdateManyWithoutAuthorNestedInput } from '../post/post-update-many-without-author-nested.input';
 
 @InputType()
 export class UserUpdateInput {
@@ -39,4 +40,7 @@ export class UserUpdateInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile?: any;
+
+    @Field(() => PostUpdateManyWithoutAuthorNestedInput, {nullable:true})
+    posts?: PostUpdateManyWithoutAuthorNestedInput;
 }

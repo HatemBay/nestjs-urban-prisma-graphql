@@ -14,6 +14,16 @@ export enum Role {
     GUEST = "GUEST"
 }
 
+export class CreatePostInput {
+    title: string;
+    content: string;
+    is_u_18?: Nullable<boolean>;
+}
+
+export class UpdatePostInput {
+    id: number;
+}
+
 export class CreateUserInput {
     username: string;
     email: string;
@@ -55,6 +65,50 @@ export class GoogleAuthInput {
     email?: Nullable<string>;
 }
 
+export class Post {
+    id: number;
+    author?: Nullable<User>;
+    author_id: number;
+    title: string;
+    content: string;
+    published?: Nullable<boolean>;
+    is_u_18?: Nullable<boolean>;
+    likes_count?: Nullable<number>;
+    dislikes_count?: Nullable<number>;
+    created_at: DateTime;
+    updated_at: DateTime;
+}
+
+export abstract class IQuery {
+    abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+
+    abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+
+    abstract user(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
+}
+
+export abstract class IMutation {
+    abstract createPost(createPostInput: CreatePostInput): Post | Promise<Post>;
+
+    abstract updatePost(updatePostInput: UpdatePostInput): Post | Promise<Post>;
+
+    abstract removePost(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+
+    abstract signup(createUserInput: CreateUserInput): User | Promise<User>;
+
+    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
+
+    abstract updateUser(findUserInput: FindUserInput, updateUserInput: UpdateUserInput): User | Promise<User>;
+
+    abstract removeUser(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract googleAuth(googleAuthInput: GoogleAuthInput): LoginResponse | Promise<LoginResponse>;
+}
+
 export class User {
     id: number;
     username: string;
@@ -65,6 +119,7 @@ export class User {
     is_u_18?: Nullable<boolean>;
     created_at: DateTime;
     updated_at: DateTime;
+    posts?: Nullable<Nullable<Post>[]>;
     google_id?: Nullable<string>;
     google_profile?: Nullable<JSON>;
 }
@@ -86,26 +141,6 @@ export class UserLoginResponse {
     updated_at: DateTime;
     google_id?: Nullable<string>;
     google_profile?: Nullable<JSON>;
-}
-
-export abstract class IQuery {
-    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
-
-    abstract user(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
-}
-
-export abstract class IMutation {
-    abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
-
-    abstract signup(createUserInput: CreateUserInput): User | Promise<User>;
-
-    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
-
-    abstract updateUser(findUserInput: FindUserInput, updateUserInput: UpdateUserInput): User | Promise<User>;
-
-    abstract removeUser(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
-
-    abstract googleAuth(googleAuthInput: GoogleAuthInput): LoginResponse | Promise<LoginResponse>;
 }
 
 export type DateTime = any;

@@ -16,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
 import GraphQLJSON from 'graphql-type-json';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
     PrismaModule,
     AuthModule,
     AbilityModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [

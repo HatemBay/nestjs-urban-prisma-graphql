@@ -107,37 +107,47 @@ describe('UsersResolver', () => {
     expect(resolver).toBeDefined();
   });
 
-  it('should create a user', async () => {
-    const user = await resolver.create(dto);
+  describe('create', () => {
+    it('should create a user', async () => {
+      const user = await resolver.create(dto);
 
-    expect(user).toEqual(returnUser);
-    expect(usersService.create).toHaveBeenCalled();
+      expect(user).toEqual(returnUser);
+      expect(usersService.create).toHaveBeenCalled();
+    });
   });
 
-  it('should get all the users', async () => {
-    expect(await resolver.findAll()).toEqual(users);
-    expect(usersService.findAll).toHaveBeenCalled();
+  describe('findAll', () => {
+    it('should get all the users', async () => {
+      expect(await resolver.findAll()).toEqual(users);
+      expect(usersService.findAll).toHaveBeenCalled();
+    });
   });
 
-  it('should get a user by a unique value', async () => {
-    expect(await resolver.findOne(whereUniqueDto)).toEqual(returnUser);
-    expect(usersService.findOne).toHaveBeenCalled();
+  describe('findOne', () => {
+    it('should get a user by a unique value', async () => {
+      expect(await resolver.findOne(whereUniqueDto)).toEqual(returnUser);
+      expect(usersService.findOne).toHaveBeenCalled();
+    });
   });
 
-  it('should update a user', async () => {
-    expect(
-      await resolver.update(
-        {
-          ...dto,
-        } as UserUncheckedUpdateInput,
-        whereUniqueDto,
-      ),
-    ).toEqual(returnUser);
-    expect(usersService.update).toHaveBeenCalled();
+  describe('update', () => {
+    it('should update a user', async () => {
+      expect(
+        await resolver.update(
+          {
+            ...dto,
+          } as UserUncheckedUpdateInput,
+          whereUniqueDto,
+        ),
+      ).toEqual(returnUser);
+      expect(usersService.update).toHaveBeenCalled();
+    });
   });
 
-  it('should delete a user', async () => {
-    expect(await resolver.remove(whereUniqueDto)).toEqual(returnUser);
-    expect(usersService.remove).toHaveBeenCalled();
+  describe('remove', () => {
+    it('should delete a user and return its value', async () => {
+      expect(await resolver.remove(whereUniqueDto)).toEqual(returnUser);
+      expect(usersService.remove).toHaveBeenCalled();
+    });
   });
 });

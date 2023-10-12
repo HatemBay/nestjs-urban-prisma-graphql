@@ -142,8 +142,8 @@ describe('UsersService', () => {
     });
   });
 
-  describe('delete', () => {
-    it('should delete a user', async () => {
+  describe('remove', () => {
+    it('should delete a user and return its value', async () => {
       expect(await service.remove(whereUniqueDto)).toEqual(returnUser);
 
       expect(jest.spyOn(prisma.user, 'delete')).toHaveBeenCalled();

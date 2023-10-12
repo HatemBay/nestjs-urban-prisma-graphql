@@ -138,8 +138,8 @@ describe('PostsService', () => {
     });
   });
 
-  describe('delete', () => {
-    it('should delete a post', async () => {
+  describe('remove', () => {
+    it('should delete a post and return its value', async () => {
       expect(await service.remove({ id: expect.any(Number) })).toEqual(
         returnPost,
       );

@@ -3,6 +3,7 @@ import { InputType } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
+import { PostCreateNestedManyWithoutAuthorInput } from '../post/post-create-nested-many-without-author.input';
 
 @InputType()
 export class UserCreateInput {
@@ -38,4 +39,7 @@ export class UserCreateInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile?: any;
+
+    @Field(() => PostCreateNestedManyWithoutAuthorInput, {nullable:true})
+    posts?: PostCreateNestedManyWithoutAuthorInput;
 }
