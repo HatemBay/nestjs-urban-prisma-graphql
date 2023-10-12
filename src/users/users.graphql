@@ -11,6 +11,7 @@ type User {
   is_u_18: Boolean
   created_at: DateTime!
   updated_at: DateTime!
+  posts: [Post]
   google_id: String
   google_profile: JSON
 }
