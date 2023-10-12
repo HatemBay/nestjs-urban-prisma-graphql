@@ -20,11 +20,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Tag {
-  SAFE
-  UNSAFE
-}
-
 enum Reason {
   OFFENSIVE
   TABOO
@@ -81,13 +76,20 @@ model Post {
   dislikes_count Int      @default(0)
   author         User     @relation(fields: [author_id], references: [id])
   author_id      Int
-  tags           Tag[]
+  // tags           Tag[]
   is_u_18        Boolean  @default(true)
   created_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
   updated_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
   // examples       Example[]
   // flags          Flag[]
 }
+
+// model Tag {
+//   id     Int    @id @default(autoincrement())
+//   name   String @unique
+//   Post   Post?  @relation(fields: [postId], references: [id])
+//   postId Int?
+// }
 
 // model Example {
 //   id         Int      @id @default(autoincrement())

@@ -6,7 +6,6 @@ type Post {
   author_id: Int!
   title: String!
   content: String!
-  tags: [Tag]!
   published: Boolean
   is_u_18: Boolean
   likes_count: Int
@@ -18,7 +17,6 @@ type Post {
 input CreatePostInput {
   title: String!
   content: String!
-  tags: [Tag]!
   is_u_18: Boolean
 }
 
@@ -35,9 +33,4 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post
-}
-
-enum Tag {
-  SAFE
-  UNSAFE
 }
