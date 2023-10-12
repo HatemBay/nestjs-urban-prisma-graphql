@@ -1,0 +1,43 @@
+scalar DateTime
+
+type Post {
+  id: Int!
+  author: User
+  author_id: Int!
+  title: String!
+  content: String!
+  tags: [Tag]!
+  published: Boolean
+  is_u_18: Boolean
+  likes_count: Int
+  dislikes_count: Int
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreatePostInput {
+  title: String!
+  content: String!
+  tags: [Tag]!
+  is_u_18: Boolean
+}
+
+input UpdatePostInput {
+  id: Int!
+}
+
+type Query {
+  posts: [Post]!
+  post(id: Int!): Post
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): Post
+}
+
+enum Tag {
+  SAFE
+  UNSAFE
+}
