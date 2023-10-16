@@ -12,16 +12,30 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AbilityGuard } from './ability/ability.guard';
 import { AbilityModule } from './ability/ability.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import GraphQLJSON from 'graphql-type-json';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
 import { PostsModule } from './posts/posts.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { EmailModule } from './email/email.module';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        EMAIL_SERVICE: Joi.string().required(),
+        EMAIL_USER: Joi.string().required(),
+        EMAIL_PASSWORD: Joi.string().required(),
+        JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
+        JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        EMAIL_CONFIRMATION_URL: Joi.string().required(),
+        PORT: Joi.number().default(3000),
+      }),
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       playground: false,
       typePaths: ['./**/*.graphql'],
@@ -30,20 +44,31 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       context: ({ req, res }) => ({ req, res }),
     }),
-    MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
-      },
-      template: {
-        dir: __dirname + '/templates',
-        adapter: new PugAdapter(),
-        options: {
-          strict: true,
+    MailerModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        transport: {
+          host: configService.get('EMAIL_HOST'),
+          port: 465, // true for 465
+          secure: true,
+          service: configService.get('EMAIL_SERVICE'),
+          auth: {
+            user: configService.get('EMAIL_USER'),
+            pass: configService.get('EMAIL_PASSWORD'),
+          },
         },
-      },
+        defaults: {
+          from: '"nest-modules" <modules@nestjs.com>',
+        },
+        template: {
+          dir: __dirname + '/templates',
+          adapter: new PugAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
     }),
-    ConfigModule.forRoot(),
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
@@ -55,6 +80,7 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
     AuthModule,
     AbilityModule,
     PostsModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [

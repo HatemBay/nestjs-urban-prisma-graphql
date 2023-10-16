@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
 export class EmailTakenException extends HttpException {
@@ -15,12 +16,12 @@ export class EmailTakenException extends HttpException {
 
 @Catch(EmailTakenException)
 export class EmailTakenExceptionFilter implements ExceptionFilter {
-  constructor() {}
+  constructor(private readonly configService: ConfigService) {}
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const res = ctx.getResponse<Response>();
-    res.redirect(`${process.env.SITE_URL}/auth`);
-    // res.redirect(`${process.env.SITE_URL}/login?email_taken=true`); // TODO: replace line above when at frontend phase
+    res.redirect(`${this.configService.get('SITE_URL')}/auth`);
+    // res.redirect(`${this.configService.get('SITE_URL')}/login?email_taken=true`); // TODO: replace line above when at frontend phase
   }
 }

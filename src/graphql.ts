@@ -73,6 +73,7 @@ export class Post {
     content: string;
     published?: Nullable<boolean>;
     is_u_18?: Nullable<boolean>;
+    email_verified?: Nullable<boolean>;
     likes_count?: Nullable<number>;
     dislikes_count?: Nullable<number>;
     created_at: DateTime;

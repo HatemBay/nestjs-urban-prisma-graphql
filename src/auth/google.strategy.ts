@@ -7,15 +7,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { Role } from '@prisma/client';
 import { LoginResponse } from './dto/login-response';
 import { EmailTakenException } from '../common/filters/email-taken-exception.filter';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private readonly usersService: UsersService,
+    private readonly configService: ConfigService,
     private prisma: PrismaService,
   ) {
     super({
-      clientID: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientID: configService.get('GOOGLE_CLIENT_ID'),
+      clientSecret: configService.get('GOOGLE_CLIENT_SECRET'),
       callbackURL: 'http://localhost:3000/auth/google/google-redirect',
       scope: ['email', 'profile'],
     });
