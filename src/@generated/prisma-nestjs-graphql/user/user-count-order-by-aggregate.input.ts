@@ -27,6 +27,9 @@ export class UserCountOrderByAggregateInput {
     is_u_18?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
+    email_verified?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
     created_at?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})

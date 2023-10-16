@@ -31,6 +31,9 @@ export class UserUncheckedCreateWithoutPostsInput {
     @Field(() => Boolean, {nullable:true})
     is_u_18?: boolean;
 
+    @Field(() => Boolean, {nullable:true})
+    email_verified?: boolean;
+
     @Field(() => Date, {nullable:true})
     created_at?: Date | string;
 

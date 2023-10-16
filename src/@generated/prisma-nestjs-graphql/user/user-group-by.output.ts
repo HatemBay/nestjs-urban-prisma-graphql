@@ -33,6 +33,9 @@ export class UserGroupBy {
     @Field(() => Boolean, {nullable:false})
     is_u_18!: boolean;
 
+    @Field(() => Boolean, {nullable:false})
+    email_verified!: boolean;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date | string;
 

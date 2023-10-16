@@ -32,6 +32,9 @@ export class UserUncheckedUpdateWithoutPostsInput {
     @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
     is_u_18?: BoolFieldUpdateOperationsInput;
 
+    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
+    email_verified?: BoolFieldUpdateOperationsInput;
+
     @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
     created_at?: DateTimeFieldUpdateOperationsInput;
 

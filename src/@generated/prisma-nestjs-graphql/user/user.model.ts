@@ -30,6 +30,9 @@ export class User {
     @Field(() => Boolean, {nullable:false,defaultValue:true})
     is_u_18!: boolean;
 
+    @Field(() => Boolean, {nullable:false,defaultValue:false})
+    email_verified!: boolean;
+
     @Field(() => Date, {nullable:false})
     created_at!: Date;
 

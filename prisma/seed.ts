@@ -17,7 +17,21 @@ async function main() {
   });
 
   Logger.log(`${user1.username} created`);
+  // populateEmailVerified();
+
+  // Logger.log(`populating success`);
 }
+
+// async function populateEmailVerified() {
+//   const users = await prisma.user.findMany();
+
+//   users.forEach((user) => {
+//     if (user.email_verified === null) {
+//       user.email_verified = false;
+//     }
+//   });
+//   await prisma.user.updateMany({ data: users });
+// }
 
 main()
   .catch((e) => {

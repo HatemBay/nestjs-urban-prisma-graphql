@@ -19,6 +19,7 @@ describe('PostsResolver', () => {
     created_at: mockDate,
     updated_at: mockDate,
     author_id: expect.any(Role),
+    email_verified: expect.any(Boolean),
   };
 
   const returnPost = {
@@ -39,6 +40,7 @@ describe('PostsResolver', () => {
     is_u_18: expect.any(Boolean),
     google_id: '1',
     google_profile: {},
+    email_verified: expect.any(Boolean),
   };
 
   const whereUniqueDto = { id: expect.any(Number) };

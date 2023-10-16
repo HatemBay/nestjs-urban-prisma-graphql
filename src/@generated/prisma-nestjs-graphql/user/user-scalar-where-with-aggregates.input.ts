@@ -41,6 +41,9 @@ export class UserScalarWhereWithAggregatesInput {
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
     is_u_18?: BoolWithAggregatesFilter;
 
+    @Field(() => BoolWithAggregatesFilter, {nullable:true})
+    email_verified?: BoolWithAggregatesFilter;
+
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
     created_at?: DateTimeWithAggregatesFilter;
 

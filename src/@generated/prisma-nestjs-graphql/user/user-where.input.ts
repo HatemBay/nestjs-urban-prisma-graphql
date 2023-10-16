@@ -42,6 +42,9 @@ export class UserWhereInput {
     @Field(() => BoolFilter, {nullable:true})
     is_u_18?: BoolFilter;
 
+    @Field(() => BoolFilter, {nullable:true})
+    email_verified?: BoolFilter;
+
     @Field(() => DateTimeFilter, {nullable:true})
     created_at?: DateTimeFilter;
 

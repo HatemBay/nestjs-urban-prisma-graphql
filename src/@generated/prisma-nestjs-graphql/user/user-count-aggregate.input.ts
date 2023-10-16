@@ -26,6 +26,9 @@ export class UserCountAggregateInput {
     is_u_18?: true;
 
     @Field(() => Boolean, {nullable:true})
+    email_verified?: true;
+
+    @Field(() => Boolean, {nullable:true})
     created_at?: true;
 
     @Field(() => Boolean, {nullable:true})

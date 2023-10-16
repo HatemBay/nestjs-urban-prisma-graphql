@@ -27,6 +27,9 @@ export class UserCountAggregate {
     is_u_18!: number;
 
     @Field(() => Int, {nullable:false})
+    email_verified!: number;
+
+    @Field(() => Int, {nullable:false})
     created_at!: number;
 
     @Field(() => Int, {nullable:false})

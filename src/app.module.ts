@@ -17,6 +17,8 @@ import GraphQLJSON from 'graphql-type-json';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
 import { PostsModule } from './posts/posts.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 @Module({
   imports: [
@@ -27,6 +29,19 @@ import { PostsModule } from './posts/posts.module';
       resolvers: { DateTime: GraphQLDateTime, JSON: GraphQLJSON },
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       context: ({ req, res }) => ({ req, res }),
+    }),
+    MailerModule.forRoot({
+      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: __dirname + '/templates',
+        adapter: new PugAdapter(),
+        options: {
+          strict: true,
+        },
+      },
     }),
     ConfigModule.forRoot(),
     ThrottlerModule.forRoot([

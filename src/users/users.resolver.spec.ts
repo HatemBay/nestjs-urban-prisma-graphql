@@ -21,6 +21,7 @@ describe('UsersResolver', () => {
     is_u_18: expect.any(Boolean),
     google_id: '1',
     google_profile: {},
+    email_verified: expect.any(Boolean),
   };
 
   const whereUniqueDto = { id: 1 } || { username: 'testUser' } || {
@@ -45,6 +46,7 @@ describe('UsersResolver', () => {
       is_u_18: true,
       google_id: expect.any(String),
       google_profile: {},
+      email_verified: expect.any(Boolean),
     },
     {
       id: expect.any(Number),
@@ -58,6 +60,7 @@ describe('UsersResolver', () => {
       is_u_18: false,
       google_id: expect.any(String),
       google_profile: {},
+      email_verified: expect.any(Boolean),
     },
     {
       id: expect.any(Number),
@@ -71,6 +74,7 @@ describe('UsersResolver', () => {
       is_u_18: true,
       google_id: expect.any(String),
       google_profile: {},
+      email_verified: expect.any(Boolean),
     },
   ];
 

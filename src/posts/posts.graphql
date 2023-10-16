@@ -8,6 +8,7 @@ type Post {
   content: String!
   published: Boolean
   is_u_18: Boolean
+  email_verified: Boolean
   likes_count: Int
   dislikes_count: Int
   created_at: DateTime!
