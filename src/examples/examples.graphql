@@ -1,0 +1,29 @@
+scalar DateTime
+
+type Example {
+  id: Int!
+  content: String!
+  post: Post
+  post_id: Int!
+  created_at: DateTime!
+  updated_at: DateTime!
+}
+
+input CreateExampleInput {
+  content: String!
+}
+
+input UpdateExampleInput {
+  content: String
+}
+
+type Query {
+  examples: [Example]!
+  example(id: Int!): Example
+}
+
+type Mutation {
+  createExample(createExampleInput: CreateExampleInput!): Example!
+  updateExample(updateExampleInput: UpdateExampleInput!): Example!
+  removeExample(id: Int!): Example
+}
