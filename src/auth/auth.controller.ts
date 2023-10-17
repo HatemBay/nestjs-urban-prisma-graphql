@@ -3,8 +3,11 @@ import { Controller, Get, Req, UseFilters, UseGuards } from '@nestjs/common';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { GoogleOAuthGuard } from './google-oauth.guard';
 import { EmailTakenExceptionFilter } from '../common/filters/email-taken-exception.filter';
+import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('auth')
+@SkipThrottle()
+@UseGuards(ThrottlerGuard)
 export class AuthController {
   constructor(private authService: AuthService) {}
 

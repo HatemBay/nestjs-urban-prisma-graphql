@@ -10,15 +10,19 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { GoogleStrategy } from './google.strategy';
 import { AuthController } from './auth.controller';
 import { ConfigService } from '@nestjs/config';
+import { EmailConfirmationModule } from '../email/email-confirmation.module';
 
 @Module({
   imports: [
     PrismaModule,
     PassportModule,
     UsersModule,
+    EmailConfirmationModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
-        signOptions: { expiresIn: '6000s' },
+        signOptions: {
+          expiresIn: `${configService.get('SECRET_EXPIRATION_TIME')}s`,
+        },
         secret: configService.get('SECRET'),
       }),
       inject: [ConfigService],
