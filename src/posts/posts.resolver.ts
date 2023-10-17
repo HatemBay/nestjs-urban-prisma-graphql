@@ -69,7 +69,7 @@ export class PostsResolver {
 
   @Mutation('removePost')
   async remove(
-    @Args('findPostInput', { type: () => Int || String })
+    @Args('findPostInput', { type: () => Int })
     findPostInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post> {
     return await this.postsService.remove(findPostInput);

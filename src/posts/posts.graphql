@@ -22,7 +22,8 @@ input CreatePostInput {
 }
 
 input UpdatePostInput {
-  id: Int!
+  title: String
+  content: String
 }
 
 type Query {
