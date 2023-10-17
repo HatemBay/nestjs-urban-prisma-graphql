@@ -5,49 +5,22 @@ import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
 import { CheckAbilities } from '../common/decorators/ability.decorator';
 import { Action } from '../ability/ability.factory/ability.factory';
 import { ForbiddenError } from '@casl/ability';
-import {
-  BadRequestException,
-  ForbiddenException,
-  Logger,
-} from '@nestjs/common';
+import { ForbiddenException } from '@nestjs/common';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
-import { MailerService } from '@nestjs-modules/mailer';
-import { ConfigService } from '@nestjs/config';
 @Resolver('User')
 export class UsersResolver {
-  constructor(
-    private readonly usersService: UsersService,
-    private readonly mailerService: MailerService,
-    private readonly configService: ConfigService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @CheckAbilities({ action: Action.Create, subject: User })
   @Mutation('createUser')
   async create(
     @Args('createUserInput') createUserInput: UserCreateInput,
   ): Promise<User | void> {
-    // return new Promise((resolve) => {
-    //   this.usersService.create(createUserInput);
-    // });
-    return await this.usersService.create(createUserInput).then((res) => {
-      this.mailerService
-        .sendMail({
-          to: this.configService.get('EMAIL_USER'), // list of receivers
-          from: this.configService.get('EMAIL_USER'), // sender address
-          subject: 'Confirm your email ✔', // Subject line
-          text: 'welcome', // plaintext body
-          html: '<b>slm</b>', // HTML body content
-        })
-        .then(() => {
-          Logger.log('Email sent');
-        })
-        .catch((err) => {
-          throw new BadRequestException(err.message);
-        });
-      return res;
-    });
+    const user = await this.usersService.create(createUserInput);
+
+    return user;
   }
 
   @CheckAbilities({ action: Action.Read, subject: User })

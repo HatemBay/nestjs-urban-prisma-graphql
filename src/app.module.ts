@@ -19,7 +19,7 @@ import { GqlThrottlerGuard } from './graphql/gql-throttler.guard';
 import { PostsModule } from './posts/posts.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-import { EmailModule } from './email/email.module';
+import { EmailConfirmationModule } from './email/email-confirmation.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -45,6 +45,7 @@ import * as Joi from 'joi';
       context: ({ req, res }) => ({ req, res }),
     }),
     MailerModule.forRootAsync({
+      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         transport: {
           host: configService.get('EMAIL_HOST'),
@@ -80,7 +81,7 @@ import * as Joi from 'joi';
     AuthModule,
     AbilityModule,
     PostsModule,
-    EmailModule,
+    EmailConfirmationModule,
   ],
   controllers: [AppController],
   providers: [
@@ -101,7 +102,7 @@ import * as Joi from 'joi';
     },
     {
       provide: APP_GUARD,
-      useClass: GqlThrottlerGuard,
+      useClass: GqlThrottlerGuard, // Note: If controller use @SkipThrottle() then use ThrottlerGuard to implement the original guard
     },
   ],
 })

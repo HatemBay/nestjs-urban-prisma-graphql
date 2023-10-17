@@ -1,25 +1,23 @@
 import {
   Controller,
-  ClassSerializerInterceptor,
-  UseInterceptors,
   Post,
-  Body,
   Req,
   Query,
   Get,
   UseGuards,
+  Res,
+  Logger,
+  HttpStatus,
 } from '@nestjs/common';
-import { ConfirmEmailInput } from '../graphql';
 import { EmailConfirmationService } from './email-confirmation.service';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { RequestWithUser } from './interfaces/request-with-user.interface';
 import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
 
-// TODO: subject to change to resolver: check when frontend part of the service reached
+// TODO: subject to change to resolver + confirming method: check when frontend part of the service reached
 @Controller('email-confirmation')
 @SkipThrottle()
 @UseGuards(ThrottlerGuard)
-@UseInterceptors(ClassSerializerInterceptor)
 export class EmailConfirmationController {
   constructor(
     private readonly emailConfirmationService: EmailConfirmationService,
@@ -27,15 +25,14 @@ export class EmailConfirmationController {
 
   @SkipAuth()
   @Get('confirm')
-  async confirm(@Query('token') token: string) {
-    console.log('sss');
-    console.log(token);
-
+  async confirm(@Query('token') token: string, @Res() res: any) {
     const email =
       await this.emailConfirmationService.decodeConfirmationToken(token);
-    console.log(email);
 
-    await this.emailConfirmationService.confirmEmail(email);
+    return await this.emailConfirmationService.confirmEmail(email).then(() => {
+      Logger.log('Email confirmed successfully');
+      return res.status(HttpStatus.OK).send('Email confirmed successfully');
+    });
   }
 
   @SkipAuth()

@@ -125,4 +125,17 @@ export class UsersService {
       throw error;
     }
   }
+
+  async markEmailAsConfirmed(email: string) {
+    const dateTime = new Date();
+    dateTime.setHours(dateTime.getHours() + 1);
+    await this.prisma.user
+      .update({
+        data: { email_verified: true, updated_at: dateTime },
+        where: { email },
+      })
+      .catch((err) => {
+        throw err.message;
+      });
+  }
 }
