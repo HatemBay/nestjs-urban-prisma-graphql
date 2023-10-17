@@ -56,7 +56,7 @@ model User {
   email          String   @unique
   password       String?
   name           String?
-  role           Role
+  role           Role     @default(USER)
   is_u_18        Boolean  @default(true)
   email_verified Boolean  @default(false)
   created_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
@@ -69,19 +69,19 @@ model User {
 }
 
 model Post {
-  id             Int      @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   title          String
   content        String
-  published      Boolean? @default(false)
-  likes_count    Int      @default(1)
-  dislikes_count Int      @default(0)
-  author         User     @relation(fields: [author_id], references: [id])
+  published      Boolean?  @default(false)
+  likes_count    Int       @default(1)
+  dislikes_count Int       @default(0)
+  author         User      @relation(fields: [author_id], references: [id])
   author_id      Int
+  is_u_18        Boolean   @default(true)
+  created_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
+  examples       Example[]
   // tags           Tag[]
-  is_u_18        Boolean  @default(true)
-  created_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  updated_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  // examples       Example[]
   // flags          Flag[]
 }
 
@@ -92,14 +92,14 @@ model Post {
 //   postId Int?
 // }
 
-// model Example {
-//   id         Int      @id @default(autoincrement())
-//   content    String
-//   Post       Post     @relation(fields: [postId], references: [id])
-//   postId     Int
-//   created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-//   updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-// }
+model Example {
+  id         Int      @id @default(autoincrement())
+  content    String
+  post       Post     @relation(fields: [post_id], references: [id])
+  post_id    Int
+  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+}
 
 // model Flag {
 //   id         Int      @id @default(autoincrement())
