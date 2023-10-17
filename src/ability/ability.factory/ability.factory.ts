@@ -9,6 +9,7 @@ import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { Post } from '../../@generated/prisma-nestjs-graphql/post/post.model';
+import { Example } from '../../@generated/prisma-nestjs-graphql/example/example.model';
 
 export enum Action {
   Manage = 'manage',
@@ -18,7 +19,9 @@ export enum Action {
   Delete = 'delete',
 }
 
-export type Subjects = InferSubjects<typeof User | typeof Post> | 'all';
+export type Subjects =
+  | InferSubjects<typeof User | typeof Post | typeof Example>
+  | 'all';
 
 export type AppAbility = MongoAbility<[Action, Subjects]>;
 
@@ -34,18 +37,39 @@ export class AbilityFactory {
     // const roles = Object.values(Role);
     const role = user.role;
 
+    const ids_of_posts = user.posts?.map((post) => post.id);
+    console.log('ids_of_posts');
+    console.log(ids_of_posts);
+
     const userIsAdmin = role === Role.ADMIN;
 
     if (userIsAdmin) {
       can(Action.Manage, 'all');
     } else {
-      can(Action.Read, User);
+      // ********** users **********
       cannot(Action.Create, User).because('only admin can');
-      cannot(Action.Update, User).because('can only  edit self');
+      can(Action.Read, User);
+      cannot(Action.Update, User).because('can only edit self');
       can(Action.Update, User, { id: { $eq: user.id } });
       can(Action.Update, User, { email: { $eq: user.email } });
       can(Action.Update, User, { username: { $eq: user.username } });
       can(Action.Update, User, { google_id: { $eq: user.google_id } });
+      cannot(Action.Delete, User).because('can only edit self');
+      // ********** users **********
+      // ********** posts **********
+      can(Action.Create, Post);
+      can(Action.Read, Post);
+      cannot(Action.Update, Post).because('can only edit own posts');
+      can(Action.Update, Post, { author_id: { $eq: user.id } });
+      cannot(Action.Delete, Post).because('can only delete own posts');
+      can(Action.Delete, Post, { author_id: { $eq: user.id } });
+      // ********** posts **********
+      // ********** examples **********
+      cannot(Action.Create, Example).because('only admin can');
+      can(Action.Create, Example, { post_id: { $in: ids_of_posts } });
+      cannot(Action.Update, Example).because('only admin can');
+      can(Action.Update, Example, { post_id: { $in: ids_of_posts } });
+      // ********** examples **********
     }
     return build({
       detectSubjectType: (item) =>

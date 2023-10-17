@@ -40,10 +40,16 @@ export class AbilityGuard implements CanActivate {
     if (skipAuth || skipAbility) return true;
 
     const { user } = ctx.getContext().req;
+    console.log('user in ability guard');
+    console.log(user);
+
     let userToUpdate;
     if (rules && rules[0].action === Action.Update) {
       // const fullUser = await this.usersService.findOne({ id: user.id });
       const args = ctx.getArgs();
+      console.log('args: ');
+      console.log(args);
+
       // console.log(args.findUserInput);
       const getUser = await this.usersService.findOne(args.findUserInput);
 
