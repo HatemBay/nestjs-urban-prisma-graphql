@@ -11,10 +11,15 @@ type Example {
 
 input CreateExampleInput {
   content: String!
+  post_id: Int!
 }
 
 input UpdateExampleInput {
   content: String
+}
+
+input FindExampleInput {
+  id: Int!
 }
 
 type Query {
@@ -24,6 +29,9 @@ type Query {
 
 type Mutation {
   createExample(createExampleInput: CreateExampleInput!): Example!
-  updateExample(updateExampleInput: UpdateExampleInput!): Example!
+  updateExample(
+    findExampleInput: FindExampleInput!
+    updateExampleInput: UpdateExampleInput!
+  ): Example!
   removeExample(id: Int!): Example
 }

@@ -1,34 +1,81 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { ExamplesService } from './examples.service';
-import { CreateExampleInput } from './dto/create-example.input';
-import { UpdateExampleInput } from './dto/update-example.input';
+import { Example } from '../@generated/prisma-nestjs-graphql/example/example.model';
+import { Prisma } from '@prisma/client';
+import { ExampleUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/example/example-unchecked-update.input';
+import { ForbiddenException } from '@nestjs/common';
+import { ForbiddenError } from '@nestjs/apollo';
+import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
+import { ExampleUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/example/example-unchecked-create.input';
+import { CheckAbilities } from '../common/decorators/ability.decorator';
+import { Action } from '../ability/ability.factory/ability.factory';
 
 @Resolver('Example')
 export class ExamplesResolver {
   constructor(private readonly examplesService: ExamplesService) {}
 
+  @CheckAbilities({ action: Action.Create, subject: Example })
   @Mutation('createExample')
-  create(@Args('createExampleInput') createExampleInput: CreateExampleInput) {
-    return this.examplesService.create(createExampleInput);
+  async create(
+    @Args('createExampleInput') createExampleInput: ExampleUncheckedCreateInput,
+  ): Promise<Example> {
+    return await this.examplesService.create(createExampleInput);
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Example })
   @Query('examples')
-  findAll() {
-    return this.examplesService.findAll();
+  async findAll(): Promise<Example[]> {
+    return await this.examplesService.findAll();
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Example })
   @Query('example')
-  findOne(@Args('id') id: number) {
-    return this.examplesService.findOne(id);
+  async findOne(
+    @Args('findExampleInput', { type: () => Int })
+    findExampleInput: Prisma.ExampleWhereUniqueInput,
+  ): Promise<Example> {
+    return await this.examplesService.findOne(findExampleInput);
   }
 
-  @Mutation('updateExample')
-  update(@Args('updateExampleInput') updateExampleInput: UpdateExampleInput) {
-    return this.examplesService.update(updateExampleInput.id, updateExampleInput);
+  @CheckAbilities({ action: Action.Create, subject: Example })
+  @ResolveField(() => Post)
+  async post(@Parent() example: Example): Promise<Post> {
+    return await this.examplesService.getPost(example.post_id);
   }
 
+  @CheckAbilities({ action: Action.Update, subject: Example })
+  @Mutation(() => Example, { name: 'updateExample' })
+  async update(
+    @Args('updateExampleInput') updateExampleInput: ExampleUncheckedUpdateInput,
+    @Args('findExampleInput', { type: () => Int })
+    findExampleInput: Prisma.ExampleWhereUniqueInput,
+  ): Promise<Example> {
+    try {
+      return await this.examplesService.update({
+        data: updateExampleInput,
+        where: findExampleInput,
+      });
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
+  }
+
+  @CheckAbilities({ action: Action.Delete, subject: Example })
   @Mutation('removeExample')
-  remove(@Args('id') id: number) {
-    return this.examplesService.remove(id);
+  async remove(
+    @Args('findExampleInput', { type: () => Int })
+    findExampleInput: Prisma.ExampleWhereUniqueInput,
+  ): Promise<Example> {
+    return await this.examplesService.remove(findExampleInput);
   }
 }
