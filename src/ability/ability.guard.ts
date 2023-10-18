@@ -11,16 +11,18 @@ import {
   RequiredRule,
 } from '../common/decorators/ability.decorator';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { AbilityFactory, Action } from './ability.factory/ability.factory';
-import { UsersService } from '../users/users.service';
-import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
+import {
+  AbilityFactory,
+  Action,
+  SubjectList,
+} from './ability.factory/ability.factory';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class AbilityGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private caslAbilityFactory: AbilityFactory,
-    private usersService: UsersService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -39,40 +41,101 @@ export class AbilityGuard implements CanActivate {
 
     if (skipAuth || skipAbility) return true;
 
-    const { user } = ctx.getContext().req;
-    console.log('user in ability guard');
-    console.log(user);
+    // Retrieving the subject of the ability
+    const subject = rules[0].subject;
+    const action = rules[0].action;
 
-    let userToUpdate;
-    if (rules && rules[0].action === Action.Update) {
-      // const fullUser = await this.usersService.findOne({ id: user.id });
-      const args = ctx.getArgs();
-      console.log('args: ');
-      console.log(args);
+    // The subject of ability within our list of subjects from ability factory and assigning its string key to a var
+    let entity: string;
+    Object.keys(SubjectList).forEach((element) => {
+      if (SubjectList[element] === subject) {
+        entity = element;
+        console.log(element);
+      }
+    });
 
-      // console.log(args.findUserInput);
-      const getUser = await this.usersService.findOne(args.findUserInput);
+    const prisma = new PrismaClient();
 
-      userToUpdate = new User();
-      Object.assign(userToUpdate, getUser);
+    let { user } = ctx.getContext().req;
+    user = await prisma['user'].findUnique({
+      where: { id: user.id },
+    });
+
+    let entityToUpdate;
+    let getEntity;
+    const args = ctx.getArgs();
+
+    // Looking for the argument with where condition
+    const arg = Object.keys(args).filter((element) => {
+      return element.includes('find');
+    });
+
+    if (rules) {
+      // Mapping ability subjects to their original classes and then used as a generic class with dynamic string
+      const entityClassMap: { [key: string]: any } = {
+        ...SubjectList,
+      };
+
+      const isFindAll =
+        action === Action.Read &&
+        (Object.keys(args).length === 0 || args === undefined);
+
+      if (!isFindAll) {
+        if (
+          // Applies to update and delete and findOne (i can't extract conditions from rules so i have to include all CRUD's)
+          action === Action.Update ||
+          action === Action.Delete ||
+          (action === Action.Read && Object.keys(args).length > 0)
+        ) {
+          getEntity = await prisma[entity.toLowerCase()].findUnique({
+            where: { ...args[arg[0]] },
+          });
+        } else if (action === Action.Create) {
+          const createArg = Object.keys(args).filter((element) => {
+            return element.includes('create');
+          })[0];
+          getEntity = args[createArg];
+        }
+
+        // new class with dynamic name mapped from our subjects list in ability factory
+        entityToUpdate = new entityClassMap[entity]();
+
+        Object.assign(entityToUpdate, getEntity);
+      } // TODO: look at the rest casl code and check if findAll works with conditions
+      // else {
+      //   const getEntities = await prisma[entity.toLowerCase()].findMany();
+
+      //   const entitiesToUpdate: User[] = [];
+      //   getEntities.forEach((element) => {
+      //     console.log(element);
+      //     const entityToUpdate = new entityClassMap[entity]();
+      //     // const { name, ...whatever } = element;
+      //     Object.assign(entityToUpdate, element);
+      //     entitiesToUpdate.push(entityToUpdate);
+      //   });
+      //   console.log('entitiesToUpdate');
+      //   console.log(entitiesToUpdate);
+      // }
+      // }
+
+      // * In case i somehow decided to put global ability guard first
+      // if (!user) {
+      //   throw new ForbiddenException('User not authenticated');
     }
-
-    // * In case i somehow decided to put global ability guard first
-    // if (!user) {
-    //   throw new ForbiddenException('User not authenticated');
-    // }
 
     const ability = this.caslAbilityFactory.defineAbility(user);
 
     try {
-      // TODO: improve like A LOT
       rules.forEach((rule) => {
-        console.log(rule.action, ' &&& ', rule.subject);
+        // console.log(rule.action, ' &&& ', rule.subject);
 
-        if (rule.action === Action.Update) {
+        const isFindAll =
+          rule.action === Action.Read &&
+          (Object.keys(args).length === 0 || args === undefined);
+        if (isFindAll) {
           ForbiddenError.from(ability).throwUnlessCan(
             rule.action,
-            userToUpdate,
+            entityToUpdate,
           );
         } else {
           ForbiddenError.from(ability).throwUnlessCan(
@@ -81,6 +144,7 @@ export class AbilityGuard implements CanActivate {
           );
         }
       });
+
       return true;
     } catch (error) {
       if (error instanceof ForbiddenError) {

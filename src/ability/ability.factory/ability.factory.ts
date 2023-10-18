@@ -19,8 +19,23 @@ export enum Action {
   Delete = 'delete',
 }
 
+// export const SubjectList = [User, Post, Example];
+
+export const SubjectList = {
+  User: User,
+  Post: Post,
+  Example: Example,
+};
+// export const SubjectList = new Map<any, any>();
+// SubjectList.set(User, User);
+// SubjectList.set(Post, Post);
+// SubjectList.set(Example, Example);
+
+type SubjectListType = typeof SubjectList;
+// export type Subjects = InferSubjects<SubjectList> | 'all';
+
 export type Subjects =
-  | InferSubjects<typeof User | typeof Post | typeof Example>
+  | InferSubjects<SubjectListType[keyof SubjectListType]>
   | 'all';
 
 export type AppAbility = MongoAbility<[Action, Subjects]>;
@@ -37,6 +52,9 @@ export class AbilityFactory {
     // const roles = Object.values(Role);
     const role = user.role;
 
+    console.log('user_id');
+    console.log(user.id);
+
     const ids_of_posts = user.posts?.map((post) => post.id);
     console.log('ids_of_posts');
     console.log(ids_of_posts);
@@ -48,7 +66,8 @@ export class AbilityFactory {
     } else {
       // ********** users **********
       cannot(Action.Create, User).because('only admin can');
-      can(Action.Read, User);
+      cannot(Action.Read, User).because('only admin can');
+      can(Action.Read, User, { id: { $in: [19, 9] } });
       cannot(Action.Update, User).because('can only edit self');
       can(Action.Update, User, { id: { $eq: user.id } });
       can(Action.Update, User, { email: { $eq: user.email } });
