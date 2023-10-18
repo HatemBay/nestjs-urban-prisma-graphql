@@ -23,8 +23,6 @@ export class EmailConfirmationService {
         'JWT_VERIFICATION_TOKEN_EXPIRATION_TIME',
       )}s`,
     });
-    console.log('tokenCreate');
-    console.log(token);
 
     const url = `${this.configService.get(
       'EMAIL_CONFIRMATION_URL',
@@ -51,9 +49,6 @@ export class EmailConfirmationService {
 
   public async decodeConfirmationToken(token: string) {
     try {
-      console.log('tokenConfirm');
-      console.log(token);
-
       const payload = await this.jwtService.verify(token, {
         secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
       });
@@ -66,8 +61,6 @@ export class EmailConfirmationService {
       if (error?.name === 'TokenExpiredError') {
         throw new BadRequestException('Email confirmation token expired');
       }
-      console.log(error);
-
       throw new BadRequestException('Bad confirmation token');
     }
   }
