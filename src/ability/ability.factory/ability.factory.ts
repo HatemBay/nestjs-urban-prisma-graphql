@@ -84,6 +84,7 @@ export class AbilityFactory {
       can(Action.Delete, Post, { author_id: { $eq: user.id } });
       // ********** posts **********
       // ********** examples **********
+      can(Action.Read, Example);
       cannot(Action.Create, Example).because('only admin can');
       can(Action.Create, Example, { post_id: { $in: ids_of_posts } });
       cannot(Action.Update, Example).because('only admin can');

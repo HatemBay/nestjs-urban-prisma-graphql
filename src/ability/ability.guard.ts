@@ -133,14 +133,15 @@ export class AbilityGuard implements CanActivate {
           rule.action === Action.Read &&
           (Object.keys(args).length === 0 || args === undefined);
         if (isFindAll) {
+          console.log('ujgkhllmkjml');
           ForbiddenError.from(ability).throwUnlessCan(
             rule.action,
-            entityToUpdate,
+            rule.subject,
           );
         } else {
           ForbiddenError.from(ability).throwUnlessCan(
             rule.action,
-            rule.subject,
+            entityToUpdate,
           );
         }
       });
