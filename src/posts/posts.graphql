@@ -26,6 +26,11 @@ input UpdatePostInput {
   content: String
 }
 
+input FindPostInput {
+  id: Int!
+}
+
+
 type Query {
   posts: [Post]!
   post(id: Int!): Post
@@ -33,6 +38,6 @@ type Query {
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
-  updatePost(updatePostInput: UpdatePostInput!): Post!
+  updatePost(findPostInput: FindPostInput!, updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): Post
 }

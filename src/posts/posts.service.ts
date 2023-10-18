@@ -59,8 +59,7 @@ export class PostsService {
     try {
       const dateTime = new Date();
       dateTime.setHours(dateTime.getHours() + 1);
-      where.updated_at = dateTime;
-
+      data.updated_at = dateTime;
       return await this.prisma.post.update({
         data,
         where,

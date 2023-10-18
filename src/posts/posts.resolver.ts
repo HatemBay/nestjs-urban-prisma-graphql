@@ -16,11 +16,14 @@ import { ForbiddenError } from '@nestjs/apollo';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { PostUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/post/post-unchecked-create.input';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { CheckAbilities } from '../common/decorators/ability.decorator';
+import { Action } from '../ability/ability.factory/ability.factory';
 
 @Resolver('Post')
 export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
+  @CheckAbilities({ action: Action.Create, subject: Post })
   @Mutation('createPost')
   async create(
     @Args('createPostInput') createPostInput: PostUncheckedCreateInput,
@@ -30,11 +33,13 @@ export class PostsResolver {
     return await this.postsService.create(createPostInput);
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Post })
   @Query('posts')
   async findAll(): Promise<Post[]> {
     return await this.postsService.findAll();
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Post })
   @Query('post')
   async findOne(
     @Args('findPostInput', { type: () => Int })
@@ -43,19 +48,20 @@ export class PostsResolver {
     return await this.postsService.findOne(findPostInput);
   }
 
-  // resolution to the owner field within the pet entity using ownerId field
   @ResolveField(() => User)
   async author(@Parent() post: Post): Promise<User> {
     return await this.postsService.getAuthor(post.author_id);
   }
 
+  @CheckAbilities({ action: Action.Update, subject: Post })
   @Mutation(() => Post, { name: 'updatePost' })
   async update(
     @Args('updatePostInput') updatePostInput: PostUncheckedUpdateInput,
-    @Args('findPostInput', { type: () => Int })
+    @Args('findPostInput')
     findPostInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post> {
     try {
+      console.log('12');
       return await this.postsService.update({
         data: updatePostInput,
         where: findPostInput,
@@ -67,6 +73,7 @@ export class PostsResolver {
     }
   }
 
+  @CheckAbilities({ action: Action.Delete, subject: Post })
   @Mutation('removePost')
   async remove(
     @Args('findPostInput', { type: () => Int })
