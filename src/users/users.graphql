@@ -7,7 +7,7 @@ type User {
   email: String!
   password: String
   name: String
-  role: Role!
+  role: Role
   is_u_18: Boolean
   email_verified: Boolean
   created_at: DateTime!
@@ -42,7 +42,7 @@ input CreateUserInput {
   email: String!
   password: String
   name: String
-  role: Role!
+  role: Role
   is_u_18: Boolean
   email_verified: Boolean
   created_at: DateTime
