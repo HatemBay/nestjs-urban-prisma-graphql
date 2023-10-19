@@ -54,8 +54,7 @@ export class AbilityFactory {
 
     console.log('user_id');
     console.log(user.id);
-
-    const ids_of_posts = user.posts?.map((post) => post.id);
+    const ids_of_posts = user.posts?.map((post) => post.id) || [];
     console.log('ids_of_posts');
     console.log(ids_of_posts);
 

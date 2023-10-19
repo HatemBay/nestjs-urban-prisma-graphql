@@ -1,0 +1,24 @@
+type Country {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input CreateCountryInput {
+  # Example field (placeholder)
+  exampleField: Int
+}
+
+input UpdateCountryInput {
+  id: Int!
+}
+
+type Query {
+  countries: [Country]!
+  country(id: Int!): Country
+}
+
+type Mutation {
+  createCountry(createCountryInput: CreateCountryInput!): Country!
+  updateCountry(updateCountryInput: UpdateCountryInput!): Country!
+  removeCountry(id: Int!): Country
+}

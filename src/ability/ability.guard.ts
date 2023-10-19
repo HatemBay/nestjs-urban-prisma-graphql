@@ -56,10 +56,16 @@ export class AbilityGuard implements CanActivate {
 
     const prisma = new PrismaClient();
 
+    // TODO: find a way to make it that i don't have to include every relationship to the connected user
     let { user } = ctx.getContext().req;
     user = await prisma['user'].findUnique({
       where: { id: user.id },
+      include: {
+        posts: true,
+      },
     });
+    console.log('userrrrrrr');
+    console.log(user);
 
     let entityToUpdate;
     let getEntity;
@@ -133,7 +139,6 @@ export class AbilityGuard implements CanActivate {
           rule.action === Action.Read &&
           (Object.keys(args).length === 0 || args === undefined);
         if (isFindAll) {
-          console.log('ujgkhllmkjml');
           ForbiddenError.from(ability).throwUnlessCan(
             rule.action,
             rule.subject,
