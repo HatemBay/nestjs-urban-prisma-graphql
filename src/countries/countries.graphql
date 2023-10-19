@@ -1,15 +1,16 @@
 type Country {
-  # Example field (placeholder)
-  exampleField: Int
+  id: Int!
+  name: String!
+  users: [User]
 }
 
 input CreateCountryInput {
-  # Example field (placeholder)
-  exampleField: Int
+  name: String!
 }
 
 input UpdateCountryInput {
   id: Int!
+  name: String!
 }
 
 type Query {
@@ -17,8 +18,16 @@ type Query {
   country(id: Int!): Country
 }
 
+input FindCountryInput {
+  id: Int
+  name: String
+}
+
 type Mutation {
   createCountry(createCountryInput: CreateCountryInput!): Country!
-  updateCountry(updateCountryInput: UpdateCountryInput!): Country!
+  updateCountry(
+    findCountryInput: FindCountryInput!
+    updateCountryInput: UpdateCountryInput!
+  ): Country!
   removeCountry(id: Int!): Country
 }

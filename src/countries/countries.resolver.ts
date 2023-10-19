@@ -1,34 +1,79 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { CountriesService } from './countries.service';
-import { CreateCountryInput } from './dto/create-country.input';
-import { UpdateCountryInput } from './dto/update-country.input';
+import { Country } from '../@generated/prisma-nestjs-graphql/country/country.model';
+import { Prisma } from '@prisma/client';
+import { CountryUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/country/country-unchecked-update.input';
+import { ForbiddenException } from '@nestjs/common';
+import { ForbiddenError } from '@nestjs/apollo';
+import { CountryUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/country/country-unchecked-create.input';
+import { CheckAbilities } from '../common/decorators/ability.decorator';
+import { Action } from '../ability/ability.factory/ability.factory';
+import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
 
 @Resolver('Country')
 export class CountriesResolver {
   constructor(private readonly countriesService: CountriesService) {}
 
+  @CheckAbilities({ action: Action.Create, subject: Country })
   @Mutation('createCountry')
-  create(@Args('createCountryInput') createCountryInput: CreateCountryInput) {
-    return this.countriesService.create(createCountryInput);
+  async create(
+    @Args('createCountryInput') createCountryInput: CountryUncheckedCreateInput,
+  ): Promise<Country> {
+    return await this.countriesService.create(createCountryInput);
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Country })
   @Query('countries')
-  findAll() {
-    return this.countriesService.findAll();
+  async findAll(): Promise<Country[]> {
+    return await this.countriesService.findAll();
   }
 
+  @CheckAbilities({ action: Action.Read, subject: Country })
   @Query('country')
-  findOne(@Args('id') id: number) {
-    return this.countriesService.findOne(id);
+  async findOne(
+    @Args(
+      'findCountryInput',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('country'),
+    )
+    findCountryInput: Prisma.CountryWhereUniqueInput,
+  ): Promise<Country> {
+    return await this.countriesService.findOne(findCountryInput);
   }
 
-  @Mutation('updateCountry')
-  update(@Args('updateCountryInput') updateCountryInput: UpdateCountryInput) {
-    return this.countriesService.update(updateCountryInput.id, updateCountryInput);
+  @CheckAbilities({ action: Action.Update, subject: Country })
+  @Mutation(() => Country, { name: 'updateCountry' })
+  async update(
+    @Args('updateCountryInput') updateCountryInput: CountryUncheckedUpdateInput,
+    @Args(
+      'findCountryInput',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('country'),
+    )
+    findCountryInput: Prisma.CountryWhereUniqueInput,
+  ): Promise<Country> {
+    try {
+      return await this.countriesService.update({
+        data: updateCountryInput,
+        where: findCountryInput,
+      });
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
   }
 
+  @CheckAbilities({ action: Action.Delete, subject: Country })
   @Mutation('removeCountry')
-  remove(@Args('id') id: number) {
-    return this.countriesService.remove(id);
+  async remove(
+    @Args(
+      'findCountryInput',
+      { type: () => Int || String },
+      new ValidateOneKeyPipe('country'),
+    )
+    findCountryInput: Prisma.CountryWhereUniqueInput,
+  ): Promise<Country> {
+    return await this.countriesService.remove(findCountryInput);
   }
 }

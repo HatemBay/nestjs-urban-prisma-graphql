@@ -1,26 +1,85 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCountryInput } from './dto/create-country.input';
-import { UpdateCountryInput } from './dto/update-country.input';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
+import { Prisma } from '@prisma/client';
+import { CountryUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/country/country-unchecked-create.input';
+import { Country } from '../@generated/prisma-nestjs-graphql/country/country.model';
 
 @Injectable()
 export class CountriesService {
-  create(createCountryInput: CreateCountryInput) {
-    return 'This action adds a new country';
+  constructor(private prisma: PrismaService) {}
+
+  async create(
+    createCountryDto: CountryUncheckedCreateInput,
+  ): Promise<Country> {
+    try {
+      return await this.prisma.country.create({
+        data: { ...createCountryDto },
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          console.log('There is a unique constraint violation');
+        }
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Please provide correct information');
+        }
+      }
+      throw error;
+    }
   }
 
-  findAll() {
-    return `This action returns all countries`;
+  async findAll(): Promise<Country[]> {
+    return await this.prisma.country.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} country`;
+  async findOne(where: Prisma.CountryWhereUniqueInput): Promise<Country> {
+    try {
+      return await this.prisma.country.findUniqueOrThrow({ where });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Country Not found');
+        }
+      }
+      throw error;
+    }
   }
 
-  update(id: number, updateCountryInput: UpdateCountryInput) {
-    return `This action updates a #${id} country`;
+  async update(params: {
+    where: Prisma.CountryWhereUniqueInput;
+    data: Prisma.CountryUncheckedUpdateInput;
+  }): Promise<Country> {
+    const { data, where } = params;
+    try {
+      return await this.prisma.country.update({
+        data,
+        where,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          console.log('There is a unique constraint violation');
+        }
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Please provide correct information');
+        }
+      }
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} country`;
+  async remove(where: Prisma.CountryWhereUniqueInput): Promise<Country> {
+    try {
+      return await this.prisma.country.delete({
+        where,
+      });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new NotFoundException('Country Not found');
+        }
+      }
+      throw error;
+    }
   }
 }
