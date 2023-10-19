@@ -1,5 +1,6 @@
 import { PrismaClient, Role } from '@prisma/client';
 import { Logger } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -7,11 +8,12 @@ async function main() {
   const admin: Role = Role.ADMIN;
   await prisma.user.deleteMany();
   const username = 'user1';
+  const password = await bcrypt.hash(username, 10);
   const user1 = await prisma.user.create({
     data: {
       username,
       email: `${username}@gmail.com`,
-      password: username,
+      password,
       role: admin,
     },
   });

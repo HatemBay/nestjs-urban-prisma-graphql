@@ -1,13 +1,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator nestgraphql {
-  provider                    = "node node_modules/prisma-nestjs-graphql"
+  provider               = "node node_modules/prisma-nestjs-graphql"
   // for yarn monorepos
   // provider = "prisma-nestjs-graphql"
-  output                      = "../src/@generated/prisma-nestjs-graphql"
-  fields_Validator_from       = "class-validator"
-  fields_Validator_input      = true
-  useInputType_WhereInput_ALL = "WhereInput"
+  output                 = "../src/@generated/prisma-nestjs-graphql"
+  fields_Validator_from  = "class-validator"
+  fields_Validator_input = true
+  noAtomicOperations     = true
+  // useInputType_WhereInput_ALL = "WhereInput"
 }
 
 generator client {
@@ -32,20 +33,18 @@ enum Role {
   GUEST
 }
 
-// model Country {
-//   id      Int      @id @default(autoincrement())
-//   name    String   @unique
-//   regions Region[]
-// }
+model Country {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
+}
 
 // model Region {
-//   id          Int      @id @default(autoincrement())
-//   name        String   @unique
+//   id          Int     @id @default(autoincrement())
+//   name        String  @unique
 //   address     String?
 //   postal_code Int?
 //   users       User[]
-//   Country     Country? @relation(fields: [countryId], references: [id])
-//   countryId   Int?
 // }
 
 model User {
@@ -54,6 +53,8 @@ model User {
   username       String   @unique
   /// @Validator.IsEmail()
   email          String   @unique
+  // TODO: @Validator.MinLength(8)
+  // TODO: @Validator.MaxLength(15)
   password       String?
   name           String?
   role           Role     @default(USER)
@@ -64,8 +65,8 @@ model User {
   google_id      String?  @unique
   google_profile Json?
   posts          Post[]
-  // Region     Region?  @relation(fields: [regionId], references: [id])
-  // regionId   Int?
+  country        Country? @relation(fields: [country_id], references: [id])
+  country_id     Int?
 }
 
 model Post {
@@ -86,10 +87,10 @@ model Post {
 }
 
 // model Tag {
-//   id     Int    @id @default(autoincrement())
-//   name   String @unique
-//   Post   Post?  @relation(fields: [postId], references: [id])
-//   postId Int?
+//   id      Int    @id @default(autoincrement())
+//   name    String @unique
+//   post    Post?  @relation(fields: [post_id], references: [id])
+//   post_id Int?
 // }
 
 model Example {
