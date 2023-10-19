@@ -10,6 +10,7 @@ import { Role } from '@prisma/client';
 import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { Post } from '../../@generated/prisma-nestjs-graphql/post/post.model';
 import { Example } from '../../@generated/prisma-nestjs-graphql/example/example.model';
+import { Country } from '../../@generated/prisma-nestjs-graphql/country/country.model';
 
 export enum Action {
   Manage = 'manage',
@@ -19,20 +20,14 @@ export enum Action {
   Delete = 'delete',
 }
 
-// export const SubjectList = [User, Post, Example];
-
 export const SubjectList = {
-  User: User,
-  Post: Post,
-  Example: Example,
+  User,
+  Post,
+  Example,
+  Country,
 };
-// export const SubjectList = new Map<any, any>();
-// SubjectList.set(User, User);
-// SubjectList.set(Post, Post);
-// SubjectList.set(Example, Example);
 
 type SubjectListType = typeof SubjectList;
-// export type Subjects = InferSubjects<SubjectList> | 'all';
 
 export type Subjects =
   | InferSubjects<SubjectListType[keyof SubjectListType]>
@@ -65,7 +60,7 @@ export class AbilityFactory {
     } else {
       // ********** users **********
       cannot(Action.Create, User).because('only admin can');
-      cannot(Action.Read, User).because('only admin can');
+      // cannot(Action.Read, User).because('only admin can');
       can(Action.Read, User, { id: { $in: [19, 9] } });
       cannot(Action.Update, User).because('can only edit self');
       can(Action.Update, User, { id: { $eq: user.id } });
@@ -89,6 +84,12 @@ export class AbilityFactory {
       cannot(Action.Update, Example).because('only admin can');
       can(Action.Update, Example, { post_id: { $in: ids_of_posts } });
       // ********** examples **********
+      // ********** countries **********
+      can(Action.Read, Country);
+      cannot(Action.Create, Example).because('only admin can');
+      cannot(Action.Update, Example).because('only admin can');
+      cannot(Action.Delete, Example).because('only admin can');
+      // ********** countries **********
     }
     return build({
       detectSubjectType: (item) =>
