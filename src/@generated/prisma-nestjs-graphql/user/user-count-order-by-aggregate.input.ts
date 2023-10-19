@@ -40,4 +40,7 @@ export class UserCountOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     google_profile?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    country_id?: keyof typeof SortOrder;
 }

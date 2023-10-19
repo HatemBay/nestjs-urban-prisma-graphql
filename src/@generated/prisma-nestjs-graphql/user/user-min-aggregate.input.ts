@@ -36,4 +36,7 @@ export class UserMinAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     google_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    country_id?: true;
 }

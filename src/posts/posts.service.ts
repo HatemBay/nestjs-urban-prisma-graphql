@@ -17,6 +17,9 @@ export class PostsService {
       return await this.prisma.post.create({ data: { ...createPostDto } });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          console.log('There is a unique constraint violation');
+        }
         if (error.code === 'P2025') {
           throw new NotFoundException('Please provide correct information');
         }

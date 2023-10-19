@@ -61,7 +61,6 @@ export class PostsResolver {
     findPostInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post> {
     try {
-      console.log('12');
       return await this.postsService.update({
         data: updatePostInput,
         where: findPostInput,

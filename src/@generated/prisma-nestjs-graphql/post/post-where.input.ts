@@ -5,7 +5,8 @@ import { StringFilter } from '../prisma/string-filter.input';
 import { BoolNullableFilter } from '../prisma/bool-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
-import { UserWhereInput } from '../user/user-where.input';
+import { UserRelationFilter } from '../user/user-relation-filter.input';
+import { ExampleListRelationFilter } from '../example/example-list-relation-filter.input';
 
 @InputType()
 export class PostWhereInput {
@@ -49,6 +50,9 @@ export class PostWhereInput {
     @Field(() => DateTimeFilter, {nullable:true})
     updated_at?: DateTimeFilter;
 
-    @Field(() => UserWhereInput, {nullable:true})
-    author?: UserWhereInput;
+    @Field(() => UserRelationFilter, {nullable:true})
+    author?: UserRelationFilter;
+
+    @Field(() => ExampleListRelationFilter, {nullable:true})
+    examples?: ExampleListRelationFilter;
 }

@@ -86,9 +86,9 @@ export class AbilityFactory {
       // ********** examples **********
       // ********** countries **********
       can(Action.Read, Country);
-      cannot(Action.Create, Example).because('only admin can');
-      cannot(Action.Update, Example).because('only admin can');
-      cannot(Action.Delete, Example).because('only admin can');
+      cannot(Action.Create, Country).because('only admin can');
+      cannot(Action.Update, Country).because('only admin can');
+      cannot(Action.Delete, Country).because('only admin can');
       // ********** countries **********
     }
     return build({

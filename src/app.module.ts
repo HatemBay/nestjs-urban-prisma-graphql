@@ -20,6 +20,9 @@ import { PostsModule } from './posts/posts.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { EmailConfirmationModule } from './email/email-confirmation.module';
+import { ExamplesModule } from './examples/examples.module';
+import { SharedModule } from './shared/shared.module';
+import { CountriesModule } from './countries/countries.module';
 import * as Joi from 'joi';
 
 @Module({
@@ -32,6 +35,7 @@ import * as Joi from 'joi';
         EMAIL_PASSWORD: Joi.string().required(),
         JWT_VERIFICATION_TOKEN_SECRET: Joi.string().required(),
         JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
+        SECRET_EXPIRATION_TIME: Joi.string().required(),
         EMAIL_CONFIRMATION_URL: Joi.string().required(),
         PORT: Joi.number().default(3000),
       }),
@@ -82,6 +86,9 @@ import * as Joi from 'joi';
     AbilityModule,
     PostsModule,
     EmailConfirmationModule,
+    ExamplesModule,
+    SharedModule,
+    CountriesModule,
   ],
   controllers: [AppController],
   providers: [

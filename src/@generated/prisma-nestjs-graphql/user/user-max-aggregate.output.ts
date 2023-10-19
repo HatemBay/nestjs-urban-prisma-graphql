@@ -38,4 +38,7 @@ export class UserMaxAggregate {
 
     @Field(() => String, {nullable:true})
     google_id?: string;
+
+    @Field(() => Int, {nullable:true})
+    country_id?: number;
 }

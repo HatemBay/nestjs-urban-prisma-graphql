@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -8,154 +9,212 @@
 /* eslint-disable */
 
 export enum Role {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-  GUEST = 'GUEST',
+    ADMIN = "ADMIN",
+    USER = "USER",
+    GUEST = "GUEST"
+}
+
+export class CreateCountryInput {
+    name: string;
+}
+
+export class UpdateCountryInput {
+    id: number;
+    name: string;
+}
+
+export class FindCountryInput {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+}
+
+export class CreateExampleInput {
+    content: string;
+    post_id: number;
+}
+
+export class UpdateExampleInput {
+    content?: Nullable<string>;
+}
+
+export class FindExampleInput {
+    id: number;
 }
 
 export class CreatePostInput {
-  title: string;
-  content: string;
-  is_u_18?: Nullable<boolean>;
+    title: string;
+    content: string;
+    is_u_18?: Nullable<boolean>;
 }
 
 export class UpdatePostInput {
-  id: number;
+    title?: Nullable<string>;
+    content?: Nullable<string>;
+}
+
+export class FindPostInput {
+    id: number;
 }
 
 export class CreateUserInput {
-  username: string;
-  email: string;
-  password?: Nullable<string>;
-  name?: Nullable<string>;
-  role: Role;
-  is_u_18?: Nullable<boolean>;
-  email_verified?: Nullable<boolean>;
-  created_at?: Nullable<DateTime>;
-  updated_at?: Nullable<DateTime>;
-  google_id?: Nullable<string>;
-  google_profile?: Nullable<JSON>;
-}
-
-export class LoginUserInput {
-  username: string;
-  password: string;
+    username: string;
+    email: string;
+    password?: Nullable<string>;
+    name?: Nullable<string>;
+    role?: Nullable<Role>;
+    is_u_18?: Nullable<boolean>;
+    email_verified?: Nullable<boolean>;
+    created_at?: Nullable<DateTime>;
+    updated_at?: Nullable<DateTime>;
+    google_id?: Nullable<string>;
+    google_profile?: Nullable<JSON>;
 }
 
 export class UpdateUserInput {
-  username?: Nullable<string>;
-  email?: Nullable<string>;
-  password?: Nullable<string>;
-  name?: Nullable<string>;
-  role?: Nullable<Role>;
-  email_verified?: Nullable<boolean>;
-  is_u_18?: Nullable<boolean>;
-  updated_at?: Nullable<DateTime>;
-  google_id?: Nullable<string>;
-  google_profile?: Nullable<JSON>;
+    username?: Nullable<string>;
+    email?: Nullable<string>;
+    password?: Nullable<string>;
+    name?: Nullable<string>;
+    role?: Nullable<Role>;
+    email_verified?: Nullable<boolean>;
+    is_u_18?: Nullable<boolean>;
+    updated_at?: Nullable<DateTime>;
+    google_id?: Nullable<string>;
+    google_profile?: Nullable<JSON>;
+}
+
+export class LoginUserInput {
+    username: string;
+    password: string;
 }
 
 export class FindUserInput {
-  id?: Nullable<number>;
-  username?: Nullable<string>;
-  email?: Nullable<string>;
-  google_id?: Nullable<string>;
+    id?: Nullable<number>;
+    username?: Nullable<string>;
+    email?: Nullable<string>;
+    google_id?: Nullable<string>;
 }
 
 export class GoogleAuthInput {
-  email?: Nullable<string>;
+    email?: Nullable<string>;
 }
 
-export class Post {
-  id: number;
-  author?: Nullable<User>;
-  author_id: number;
-  title: string;
-  content: string;
-  published?: Nullable<boolean>;
-  is_u_18?: Nullable<boolean>;
-  email_verified?: Nullable<boolean>;
-  likes_count?: Nullable<number>;
-  dislikes_count?: Nullable<number>;
-  created_at: DateTime;
-  updated_at: DateTime;
+export class Country {
+    id: number;
+    name: string;
+    users?: Nullable<Nullable<User>[]>;
 }
 
 export abstract class IQuery {
-  abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+    abstract countries(): Nullable<Country>[] | Promise<Nullable<Country>[]>;
 
-  abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+    abstract country(id: number): Nullable<Country> | Promise<Nullable<Country>>;
 
-  abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    abstract examples(): Nullable<Example>[] | Promise<Nullable<Example>[]>;
 
-  abstract user(
-    findUserInput: FindUserInput,
-  ): Nullable<User> | Promise<Nullable<User>>;
+    abstract example(id: number): Nullable<Example> | Promise<Nullable<Example>>;
+
+    abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+
+    abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+
+    abstract user(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export abstract class IMutation {
-  abstract createPost(createPostInput: CreatePostInput): Post | Promise<Post>;
+    abstract createCountry(createCountryInput: CreateCountryInput): Country | Promise<Country>;
 
-  abstract updatePost(updatePostInput: UpdatePostInput): Post | Promise<Post>;
+    abstract updateCountry(findCountryInput: FindCountryInput, updateCountryInput: UpdateCountryInput): Country | Promise<Country>;
 
-  abstract removePost(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+    abstract removeCountry(id: number): Nullable<Country> | Promise<Nullable<Country>>;
 
-  abstract login(
-    LoginUserInput: LoginUserInput,
-  ): LoginResponse | Promise<LoginResponse>;
+    abstract createExample(createExampleInput: CreateExampleInput): Example | Promise<Example>;
 
-  abstract signup(createUserInput: CreateUserInput): User | Promise<User>;
+    abstract updateExample(findExampleInput: FindExampleInput, updateExampleInput: UpdateExampleInput): Example | Promise<Example>;
 
-  abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
+    abstract removeExample(id: number): Nullable<Example> | Promise<Nullable<Example>>;
 
-  abstract updateUser(
-    findUserInput: FindUserInput,
-    updateUserInput: UpdateUserInput,
-  ): User | Promise<User>;
+    abstract createPost(createPostInput: CreatePostInput): Post | Promise<Post>;
 
-  abstract removeUser(
-    findUserInput: FindUserInput,
-  ): Nullable<User> | Promise<Nullable<User>>;
+    abstract updatePost(findPostInput: FindPostInput, updatePostInput: UpdatePostInput): Post | Promise<Post>;
 
-  abstract googleAuth(
-    googleAuthInput: GoogleAuthInput,
-  ): LoginResponse | Promise<LoginResponse>;
+    abstract removePost(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+
+    abstract signup(createUserInput: CreateUserInput): User | Promise<User>;
+
+    abstract createUser(createUserInput: CreateUserInput): User | Promise<User>;
+
+    abstract updateUser(findUserInput: FindUserInput, updateUserInput: UpdateUserInput): User | Promise<User>;
+
+    abstract removeUser(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract googleAuth(googleAuthInput: GoogleAuthInput): LoginResponse | Promise<LoginResponse>;
+}
+
+export class Example {
+    id: number;
+    content: string;
+    post?: Nullable<Post>;
+    post_id: number;
+    created_at: DateTime;
+    updated_at: DateTime;
+}
+
+export class Post {
+    id: number;
+    author?: Nullable<User>;
+    author_id: number;
+    title: string;
+    content: string;
+    published?: Nullable<boolean>;
+    is_u_18?: Nullable<boolean>;
+    email_verified?: Nullable<boolean>;
+    likes_count?: Nullable<number>;
+    dislikes_count?: Nullable<number>;
+    created_at: DateTime;
+    updated_at: DateTime;
 }
 
 export class User {
-  id: number;
-  username: string;
-  email: string;
-  password?: Nullable<string>;
-  name?: Nullable<string>;
-  role: Role;
-  is_u_18?: Nullable<boolean>;
-  email_verified?: Nullable<boolean>;
-  created_at: DateTime;
-  updated_at: DateTime;
-  posts?: Nullable<Nullable<Post>[]>;
-  google_id?: Nullable<string>;
-  google_profile?: Nullable<JSON>;
+    id: number;
+    username: string;
+    email: string;
+    password?: Nullable<string>;
+    name?: Nullable<string>;
+    role?: Nullable<Role>;
+    is_u_18?: Nullable<boolean>;
+    email_verified?: Nullable<boolean>;
+    created_at: DateTime;
+    updated_at: DateTime;
+    posts?: Nullable<Nullable<Post>[]>;
+    country?: Nullable<Country>;
+    country_id: number;
+    google_id?: Nullable<string>;
+    google_profile?: Nullable<JSON>;
 }
 
 export class LoginResponse {
-  access_token: string;
-  user: UserLoginResponse;
+    access_token: string;
+    user: UserLoginResponse;
 }
 
 export class UserLoginResponse {
-  id: number;
-  username: string;
-  email: string;
-  password?: Nullable<string>;
-  name?: Nullable<string>;
-  role?: Nullable<Role>;
-  is_u_18?: Nullable<boolean>;
-  email_verified?: Nullable<boolean>;
-  created_at: DateTime;
-  updated_at: DateTime;
-  google_id?: Nullable<string>;
-  google_profile?: Nullable<JSON>;
+    id: number;
+    username: string;
+    email: string;
+    password?: Nullable<string>;
+    name?: Nullable<string>;
+    role?: Nullable<Role>;
+    is_u_18?: Nullable<boolean>;
+    email_verified?: Nullable<boolean>;
+    created_at: DateTime;
+    updated_at: DateTime;
+    google_id?: Nullable<string>;
+    google_profile?: Nullable<JSON>;
 }
 
 export type DateTime = any;

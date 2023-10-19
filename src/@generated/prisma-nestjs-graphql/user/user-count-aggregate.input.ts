@@ -41,5 +41,8 @@ export class UserCountAggregateInput {
     google_profile?: true;
 
     @Field(() => Boolean, {nullable:true})
+    country_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
     _all?: true;
 }

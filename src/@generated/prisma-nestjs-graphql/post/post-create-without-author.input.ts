@@ -1,6 +1,7 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
+import { ExampleCreateNestedManyWithoutPostInput } from '../example/example-create-nested-many-without-post.input';
 
 @InputType()
 export class PostCreateWithoutAuthorInput {
@@ -28,4 +29,7 @@ export class PostCreateWithoutAuthorInput {
 
     @Field(() => Date, {nullable:true})
     updated_at?: Date | string;
+
+    @Field(() => ExampleCreateNestedManyWithoutPostInput, {nullable:true})
+    examples?: ExampleCreateNestedManyWithoutPostInput;
 }

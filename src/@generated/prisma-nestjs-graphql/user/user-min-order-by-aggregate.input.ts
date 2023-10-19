@@ -37,4 +37,7 @@ export class UserMinOrderByAggregateInput {
 
     @Field(() => SortOrder, {nullable:true})
     google_id?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    country_id?: keyof typeof SortOrder;
 }

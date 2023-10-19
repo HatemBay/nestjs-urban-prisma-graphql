@@ -1,41 +1,37 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { IntFieldUpdateOperationsInput } from '../prisma/int-field-update-operations.input';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableBoolFieldUpdateOperationsInput } from '../prisma/nullable-bool-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
+import { Int } from '@nestjs/graphql';
 
 @InputType()
 export class PostUncheckedUpdateManyInput {
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    id?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    id?: number;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    title?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    title?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    content?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    content?: string;
 
-    @Field(() => NullableBoolFieldUpdateOperationsInput, {nullable:true})
-    published?: NullableBoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    published?: boolean;
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    likes_count?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    likes_count?: number;
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    dislikes_count?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    dislikes_count?: number;
 
-    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
-    author_id?: IntFieldUpdateOperationsInput;
+    @Field(() => Int, {nullable:true})
+    author_id?: number;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    is_u_18?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    is_u_18?: boolean;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 }

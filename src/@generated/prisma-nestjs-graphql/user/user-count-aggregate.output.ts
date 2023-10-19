@@ -42,5 +42,8 @@ export class UserCountAggregate {
     google_profile!: number;
 
     @Field(() => Int, {nullable:false})
+    country_id!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }

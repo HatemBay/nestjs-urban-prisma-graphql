@@ -7,7 +7,9 @@ import { EnumRoleFilter } from '../prisma/enum-role-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
+import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { PostListRelationFilter } from '../post/post-list-relation-filter.input';
+import { CountryNullableRelationFilter } from '../country/country-nullable-relation-filter.input';
 
 @InputType()
 export class UserWhereInput {
@@ -57,6 +59,12 @@ export class UserWhereInput {
     @Field(() => JsonNullableFilter, {nullable:true})
     google_profile?: JsonNullableFilter;
 
+    @Field(() => IntNullableFilter, {nullable:true})
+    country_id?: IntNullableFilter;
+
     @Field(() => PostListRelationFilter, {nullable:true})
     posts?: PostListRelationFilter;
+
+    @Field(() => CountryNullableRelationFilter, {nullable:true})
+    country?: CountryNullableRelationFilter;
 }

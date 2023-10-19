@@ -3,7 +3,9 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
+import { Int } from '@nestjs/graphql';
 import { Post } from '../post/post.model';
+import { Country } from '../country/country.model';
 import { UserCount } from './user-count.output';
 
 @ObjectType()
@@ -24,7 +26,7 @@ export class User {
     @Field(() => String, {nullable:true})
     name!: string | null;
 
-    @Field(() => Role, {nullable:false})
+    @Field(() => Role, {nullable:false,defaultValue:'USER'})
     role!: keyof typeof Role;
 
     @Field(() => Boolean, {nullable:false,defaultValue:true})
@@ -45,8 +47,14 @@ export class User {
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile!: any | null;
 
+    @Field(() => Int, {nullable:true})
+    country_id!: number | null;
+
     @Field(() => [Post], {nullable:true})
     posts?: Array<Post>;
+
+    @Field(() => Country, {nullable:true})
+    country?: Country | null;
 
     @Field(() => UserCount, {nullable:false})
     _count?: UserCount;

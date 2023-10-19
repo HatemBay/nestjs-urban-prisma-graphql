@@ -13,6 +13,35 @@ type User {
   created_at: DateTime!
   updated_at: DateTime!
   posts: [Post]
+  country: Country
+  country_id: Int!
+  google_id: String
+  google_profile: JSON
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String
+  name: String
+  role: Role
+  is_u_18: Boolean
+  email_verified: Boolean
+  created_at: DateTime
+  updated_at: DateTime
+  google_id: String
+  google_profile: JSON
+}
+
+input UpdateUserInput {
+  username: String
+  email: String
+  password: String
+  name: String
+  role: Role
+  email_verified: Boolean
+  is_u_18: Boolean
+  updated_at: DateTime
   google_id: String
   google_profile: JSON
 }
@@ -37,36 +66,9 @@ type UserLoginResponse {
   google_profile: JSON
 }
 
-input CreateUserInput {
-  username: String!
-  email: String!
-  password: String
-  name: String
-  role: Role
-  is_u_18: Boolean
-  email_verified: Boolean
-  created_at: DateTime
-  updated_at: DateTime
-  google_id: String
-  google_profile: JSON
-}
-
 input LoginUserInput {
   username: String!
   password: String!
-}
-
-input UpdateUserInput {
-  username: String
-  email: String
-  password: String
-  name: String
-  role: Role
-  email_verified: Boolean
-  is_u_18: Boolean
-  updated_at: DateTime
-  google_id: String
-  google_profile: JSON
 }
 
 input FindUserInput {

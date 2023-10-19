@@ -47,6 +47,9 @@ export class UserOrderByWithAggregationInput {
     @Field(() => SortOrderInput, {nullable:true})
     google_profile?: SortOrderInput;
 
+    @Field(() => SortOrderInput, {nullable:true})
+    country_id?: SortOrderInput;
+
     @Field(() => UserCountOrderByAggregateInput, {nullable:true})
     _count?: UserCountOrderByAggregateInput;
 

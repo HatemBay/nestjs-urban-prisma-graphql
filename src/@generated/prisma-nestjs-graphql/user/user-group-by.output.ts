@@ -48,6 +48,9 @@ export class UserGroupBy {
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile?: any;
 
+    @Field(() => Int, {nullable:true})
+    country_id?: number;
+
     @Field(() => UserCountAggregate, {nullable:true})
     _count?: UserCountAggregate;
 

@@ -36,4 +36,7 @@ export class UserMaxAggregateInput {
 
     @Field(() => Boolean, {nullable:true})
     google_id?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    country_id?: true;
 }

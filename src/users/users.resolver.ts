@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { ValidateOneKeyPipe } from '../common/pipes/validate-one-key.pipe';
@@ -9,6 +17,7 @@ import { ForbiddenException } from '@nestjs/common';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
+import { Country } from '../@generated/prisma-nestjs-graphql/country/country.model';
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
@@ -40,6 +49,11 @@ export class UsersResolver {
     findUserInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
     return await this.usersService.findOne(findUserInput);
+  }
+
+  @ResolveField(() => Country)
+  async country(@Parent() user: User): Promise<Country> {
+    return await this.usersService.getCountry(user.country_id);
   }
 
   @CheckAbilities({ action: Action.Update, subject: User })

@@ -3,6 +3,8 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { User } from '../user/user.model';
+import { Example } from '../example/example.model';
+import { PostCount } from './post-count.output';
 
 @ObjectType()
 export class Post {
@@ -39,4 +41,10 @@ export class Post {
 
     @Field(() => User, {nullable:false})
     author?: User;
+
+    @Field(() => [Example], {nullable:true})
+    examples?: Array<Example>;
+
+    @Field(() => PostCount, {nullable:false})
+    _count?: PostCount;
 }

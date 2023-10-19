@@ -26,8 +26,8 @@ export class UserUncheckedCreateInput {
     @Field(() => String, {nullable:true})
     name?: string;
 
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
+    @Field(() => Role, {nullable:true})
+    role?: keyof typeof Role;
 
     @Field(() => Boolean, {nullable:true})
     is_u_18?: boolean;
@@ -46,6 +46,9 @@ export class UserUncheckedCreateInput {
 
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile?: any;
+
+    @Field(() => Int, {nullable:true})
+    country_id?: number;
 
     @Field(() => PostUncheckedCreateNestedManyWithoutAuthorInput, {nullable:true})
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput;

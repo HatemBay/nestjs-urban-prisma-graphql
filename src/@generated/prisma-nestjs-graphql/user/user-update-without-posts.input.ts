@@ -1,45 +1,48 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { StringFieldUpdateOperationsInput } from '../prisma/string-field-update-operations.input';
-import { NullableStringFieldUpdateOperationsInput } from '../prisma/nullable-string-field-update-operations.input';
-import { EnumRoleFieldUpdateOperationsInput } from '../prisma/enum-role-field-update-operations.input';
-import { BoolFieldUpdateOperationsInput } from '../prisma/bool-field-update-operations.input';
-import { DateTimeFieldUpdateOperationsInput } from '../prisma/date-time-field-update-operations.input';
+import * as Validator from 'class-validator';
+import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
+import { CountryUpdateOneWithoutUsersNestedInput } from '../country/country-update-one-without-users-nested.input';
 
 @InputType()
 export class UserUpdateWithoutPostsInput {
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    username?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    @Validator.MinLength(3)
+    username?: string;
 
-    @Field(() => StringFieldUpdateOperationsInput, {nullable:true})
-    email?: StringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    @Validator.IsEmail()
+    email?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    password?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    password?: string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    name?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    name?: string;
 
-    @Field(() => EnumRoleFieldUpdateOperationsInput, {nullable:true})
-    role?: EnumRoleFieldUpdateOperationsInput;
+    @Field(() => Role, {nullable:true})
+    role?: keyof typeof Role;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    is_u_18?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    is_u_18?: boolean;
 
-    @Field(() => BoolFieldUpdateOperationsInput, {nullable:true})
-    email_verified?: BoolFieldUpdateOperationsInput;
+    @Field(() => Boolean, {nullable:true})
+    email_verified?: boolean;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    created_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    created_at?: Date | string;
 
-    @Field(() => DateTimeFieldUpdateOperationsInput, {nullable:true})
-    updated_at?: DateTimeFieldUpdateOperationsInput;
+    @Field(() => Date, {nullable:true})
+    updated_at?: Date | string;
 
-    @Field(() => NullableStringFieldUpdateOperationsInput, {nullable:true})
-    google_id?: NullableStringFieldUpdateOperationsInput;
+    @Field(() => String, {nullable:true})
+    google_id?: string;
 
     @Field(() => GraphQLJSON, {nullable:true})
     google_profile?: any;
+
+    @Field(() => CountryUpdateOneWithoutUsersNestedInput, {nullable:true})
+    country?: CountryUpdateOneWithoutUsersNestedInput;
 }

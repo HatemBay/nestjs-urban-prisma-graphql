@@ -8,6 +8,7 @@ import { IntFilter } from '../prisma/int-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { UserRelationFilter } from '../user/user-relation-filter.input';
+import { ExampleListRelationFilter } from '../example/example-list-relation-filter.input';
 
 @InputType()
 export class PostWhereUniqueInput {
@@ -53,4 +54,7 @@ export class PostWhereUniqueInput {
 
     @Field(() => UserRelationFilter, {nullable:true})
     author?: UserRelationFilter;
+
+    @Field(() => ExampleListRelationFilter, {nullable:true})
+    examples?: ExampleListRelationFilter;
 }

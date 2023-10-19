@@ -7,6 +7,7 @@ import { EnumRoleWithAggregatesFilter } from '../prisma/enum-role-with-aggregate
 import { BoolWithAggregatesFilter } from '../prisma/bool-with-aggregates-filter.input';
 import { DateTimeWithAggregatesFilter } from '../prisma/date-time-with-aggregates-filter.input';
 import { JsonNullableWithAggregatesFilter } from '../prisma/json-nullable-with-aggregates-filter.input';
+import { IntNullableWithAggregatesFilter } from '../prisma/int-nullable-with-aggregates-filter.input';
 
 @InputType()
 export class UserScalarWhereWithAggregatesInput {
@@ -55,4 +56,7 @@ export class UserScalarWhereWithAggregatesInput {
 
     @Field(() => JsonNullableWithAggregatesFilter, {nullable:true})
     google_profile?: JsonNullableWithAggregatesFilter;
+
+    @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
+    country_id?: IntNullableWithAggregatesFilter;
 }

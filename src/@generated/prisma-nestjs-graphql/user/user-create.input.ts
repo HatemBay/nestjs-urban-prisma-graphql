@@ -4,6 +4,7 @@ import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
 import { PostCreateNestedManyWithoutAuthorInput } from '../post/post-create-nested-many-without-author.input';
+import { CountryCreateNestedOneWithoutUsersInput } from '../country/country-create-nested-one-without-users.input';
 
 @InputType()
 export class UserCreateInput {
@@ -22,8 +23,8 @@ export class UserCreateInput {
     @Field(() => String, {nullable:true})
     name?: string;
 
-    @Field(() => Role, {nullable:false})
-    role!: keyof typeof Role;
+    @Field(() => Role, {nullable:true})
+    role?: keyof typeof Role;
 
     @Field(() => Boolean, {nullable:true})
     is_u_18?: boolean;
@@ -45,4 +46,7 @@ export class UserCreateInput {
 
     @Field(() => PostCreateNestedManyWithoutAuthorInput, {nullable:true})
     posts?: PostCreateNestedManyWithoutAuthorInput;
+
+    @Field(() => CountryCreateNestedOneWithoutUsersInput, {nullable:true})
+    country?: CountryCreateNestedOneWithoutUsersInput;
 }

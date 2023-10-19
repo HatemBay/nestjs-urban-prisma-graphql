@@ -12,7 +12,8 @@ export enum UserScalarFieldEnum {
     created_at = "created_at",
     updated_at = "updated_at",
     google_id = "google_id",
-    google_profile = "google_profile"
+    google_profile = "google_profile",
+    country_id = "country_id"
 }
 
 
