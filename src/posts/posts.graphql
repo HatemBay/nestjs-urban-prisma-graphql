@@ -30,14 +30,21 @@ input FindPostInput {
   id: Int!
 }
 
+input OrderByParams {
+  field: String
+  direction: String
+}
 
 type Query {
-  posts: [Post]!
+  posts(orderBy: OrderByParams): [Post]!
   post(id: Int!): Post
 }
 
 type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
-  updatePost(findPostInput: FindPostInput!, updatePostInput: UpdatePostInput!): Post!
+  updatePost(
+    findPostInput: FindPostInput!
+    updatePostInput: UpdatePostInput!
+  ): Post!
   removePost(id: Int!): Post
 }

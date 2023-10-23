@@ -5,6 +5,7 @@ import { PostUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/po
 import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { UsersService } from '../users/users.service';
+import { OrderByParams } from '../graphql';
 @Injectable()
 export class PostsService {
   constructor(
@@ -28,8 +29,10 @@ export class PostsService {
     }
   }
 
-  async findAll(): Promise<Post[]> {
+  async findAll(orderBy?: OrderByParams): Promise<Post[]> {
+    const { field = 'created_at', direction = 'desc' } = orderBy || {};
     return await this.prisma.post.findMany({
+      orderBy: { [field]: direction },
       include: {
         // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
         author: true,

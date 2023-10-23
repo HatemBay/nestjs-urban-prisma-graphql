@@ -18,6 +18,7 @@ import { PostUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/po
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { CheckAbilities } from '../common/decorators/ability.decorator';
 import { Action } from '../ability/ability.factory/ability.factory';
+import { OrderByParams } from '../graphql';
 
 @Resolver('Post')
 export class PostsResolver {
@@ -35,8 +36,8 @@ export class PostsResolver {
 
   @CheckAbilities({ action: Action.Read, subject: Post })
   @Query('posts')
-  async findAll(): Promise<Post[]> {
-    return await this.postsService.findAll();
+  async findAll(@Args('orderBy') orderBy?: OrderByParams): Promise<Post[]> {
+    return await this.postsService.findAll(orderBy);
   }
 
   @CheckAbilities({ action: Action.Read, subject: Post })
