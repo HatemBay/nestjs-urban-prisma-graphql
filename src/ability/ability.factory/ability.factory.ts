@@ -27,6 +27,13 @@ export const SubjectList = {
   Country,
 };
 
+export const PluralSubjectList = {
+  User: 'users',
+  Post: 'posts',
+  Example: 'examples',
+  Country: 'countries',
+};
+
 type SubjectListType = typeof SubjectList;
 
 export type Subjects =
@@ -61,7 +68,7 @@ export class AbilityFactory {
       // ********** users **********
       cannot(Action.Create, User).because('only admin can');
       // cannot(Action.Read, User).because('only admin can');
-      can(Action.Read, User, { id: { $in: [19, 9] } });
+      can(Action.Read, User);
       cannot(Action.Update, User).because('can only edit self');
       can(Action.Update, User, { id: { $eq: user.id } });
       can(Action.Update, User, { email: { $eq: user.email } });

@@ -14,6 +14,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import {
   AbilityFactory,
   Action,
+  PluralSubjectList,
   SubjectList,
 } from './ability.factory/ability.factory';
 import { PrismaClient } from '@prisma/client';
@@ -27,6 +28,8 @@ export class AbilityGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = GqlExecutionContext.create(context);
+    const args = ctx.getArgs();
+    const { fieldName } = ctx.getInfo();
 
     const rules =
       this.reflector.get<RequiredRule[]>(CHECK_ABILITY, context.getHandler()) ||
@@ -47,9 +50,11 @@ export class AbilityGuard implements CanActivate {
 
     // The subject of ability within our list of subjects from ability factory and assigning its string key to a var
     let entity: string;
+    let pluralEntity: string;
     Object.keys(SubjectList).forEach((element) => {
       if (SubjectList[element] === subject) {
         entity = element;
+        pluralEntity = PluralSubjectList[element];
         console.log(element);
       }
     });
@@ -69,22 +74,18 @@ export class AbilityGuard implements CanActivate {
 
     let entityToUpdate;
     let getEntity;
-    const args = ctx.getArgs();
 
     // Looking for the argument with where condition
     const arg = Object.keys(args).filter((element) => {
       return element.includes('find');
     });
 
+    const isFindAll = action === Action.Read && fieldName === pluralEntity;
     if (rules) {
       // Mapping ability subjects to their original classes and then used as a generic class with dynamic string
       const entityClassMap: { [key: string]: any } = {
         ...SubjectList,
       };
-
-      const isFindAll =
-        action === Action.Read &&
-        (Object.keys(args).length === 0 || args === undefined);
 
       if (!isFindAll) {
         if (
@@ -135,9 +136,6 @@ export class AbilityGuard implements CanActivate {
       rules.forEach((rule) => {
         // console.log(rule.action, ' &&& ', rule.subject);
 
-        const isFindAll =
-          rule.action === Action.Read &&
-          (Object.keys(args).length === 0 || args === undefined);
         if (isFindAll) {
           ForbiddenError.from(ability).throwUnlessCan(
             rule.action,
