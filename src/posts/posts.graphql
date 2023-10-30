@@ -3,22 +3,21 @@ scalar DateTime
 type Post {
   id: Int!
   author: User
-  author_id: Int!
+  authorId: Int!
   title: String!
   content: String!
   published: Boolean
-  is_u_18: Boolean
-  email_verified: Boolean
-  likes_count: Int
-  dislikes_count: Int
-  created_at: DateTime!
-  updated_at: DateTime!
+  isU18: Boolean
+  likesCount: Int
+  dislikesCount: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input CreatePostInput {
   title: String!
   content: String!
-  is_u_18: Boolean
+  isU18: Boolean
 }
 
 input UpdatePostInput {
@@ -35,8 +34,14 @@ input OrderByParams {
   direction: String
 }
 
+input PaginationParams {
+  page: Int
+  take: Int
+  filter: String
+}
+
 type Query {
-  posts(orderBy: OrderByParams): [Post]!
+  posts(orderBy: OrderByParams, pagination: PaginationParams): [Post]!
   post(id: Int!): Post
 }
 

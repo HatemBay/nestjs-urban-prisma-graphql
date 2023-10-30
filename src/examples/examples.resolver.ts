@@ -48,7 +48,7 @@ export class ExamplesResolver {
   @CheckAbilities({ action: Action.Create, subject: Example })
   @ResolveField(() => Post)
   async post(@Parent() example: Example): Promise<Post> {
-    return await this.examplesService.getPost(example.post_id);
+    return await this.examplesService.getPost(example.postId);
   }
 
   @CheckAbilities({ action: Action.Update, subject: Example })

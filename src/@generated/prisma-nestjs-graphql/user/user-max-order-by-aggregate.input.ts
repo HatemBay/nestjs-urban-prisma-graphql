@@ -24,20 +24,20 @@ export class UserMaxOrderByAggregateInput {
     role?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    is_u_18?: keyof typeof SortOrder;
+    isU18?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    email_verified?: keyof typeof SortOrder;
+    emailVerified?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    created_at?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    updated_at?: keyof typeof SortOrder;
+    updatedAt?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    google_id?: keyof typeof SortOrder;
+    googleId?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    country_id?: keyof typeof SortOrder;
+    countryId?: keyof typeof SortOrder;
 }

@@ -7,13 +7,13 @@ export enum UserScalarFieldEnum {
     password = "password",
     name = "name",
     role = "role",
-    is_u_18 = "is_u_18",
-    email_verified = "email_verified",
-    created_at = "created_at",
-    updated_at = "updated_at",
-    google_id = "google_id",
-    google_profile = "google_profile",
-    country_id = "country_id"
+    isU18 = "isU18",
+    emailVerified = "emailVerified",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt",
+    googleId = "googleId",
+    googleProfile = "googleProfile",
+    countryId = "countryId"
 }
 
 

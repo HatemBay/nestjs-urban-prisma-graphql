@@ -23,20 +23,20 @@ export class UserMaxAggregateInput {
     role?: true;
 
     @Field(() => Boolean, {nullable:true})
-    is_u_18?: true;
+    isU18?: true;
 
     @Field(() => Boolean, {nullable:true})
-    email_verified?: true;
+    emailVerified?: true;
 
     @Field(() => Boolean, {nullable:true})
-    created_at?: true;
+    createdAt?: true;
 
     @Field(() => Boolean, {nullable:true})
-    updated_at?: true;
+    updatedAt?: true;
 
     @Field(() => Boolean, {nullable:true})
-    google_id?: true;
+    googleId?: true;
 
     @Field(() => Boolean, {nullable:true})
-    country_id?: true;
+    countryId?: true;
 }

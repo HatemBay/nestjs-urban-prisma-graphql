@@ -10,7 +10,7 @@ export class UserUpdateWithWhereUniqueWithoutCountryInput {
 
     @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'google_id'>;
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'googleId'>;
 
     @Field(() => UserUpdateWithoutCountryInput, {nullable:false})
     @Type(() => UserUpdateWithoutCountryInput)

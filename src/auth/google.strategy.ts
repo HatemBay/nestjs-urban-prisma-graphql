@@ -30,7 +30,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   ): Promise<any> {
     const { name, emails } = profile;
     let user = await this.prisma.user.findFirst({
-      where: { google_id: profile.id },
+      where: { googleId: profile.id },
     });
     if (!user) {
       const googleEmail = emails[0].value;
@@ -48,8 +48,8 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         username: usernameFromGoogle,
         name: nameFromGoogle,
         email: googleEmail,
-        google_id: profile.id,
-        google_profile: profile._json,
+        googleId: profile.id,
+        googleProfile: profile._json,
         role: Role.USER,
       });
 
@@ -59,13 +59,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       Logger.log(`Registered new user via Google signup: ${googleEmail}`);
     } else {
       await this.prisma.user.update({
-        data: { google_id: profile.id, google_profile: profile._json },
+        data: { googleId: profile.id, googleProfile: profile._json },
         where: { id: user.id },
       });
     }
 
     const reqUser: LoginResponse = {
-      access_token: accessToken,
+      accessToken: accessToken,
       user: user,
     };
 

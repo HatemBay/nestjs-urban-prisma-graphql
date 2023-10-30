@@ -9,10 +9,10 @@ export class ExampleCreateInput {
     content!: string;
 
     @Field(() => Date, {nullable:true})
-    created_at?: Date | string;
+    createdAt?: Date | string;
 
     @Field(() => Date, {nullable:true})
-    updated_at?: Date | string;
+    updatedAt?: Date | string;
 
     @Field(() => PostCreateNestedOneWithoutExamplesInput, {nullable:false})
     post!: PostCreateNestedOneWithoutExamplesInput;

@@ -40,23 +40,23 @@ export class UserScalarWhereWithAggregatesInput {
     role?: EnumRoleWithAggregatesFilter;
 
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
-    is_u_18?: BoolWithAggregatesFilter;
+    isU18?: BoolWithAggregatesFilter;
 
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
-    email_verified?: BoolWithAggregatesFilter;
+    emailVerified?: BoolWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    created_at?: DateTimeWithAggregatesFilter;
+    createdAt?: DateTimeWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    updated_at?: DateTimeWithAggregatesFilter;
+    updatedAt?: DateTimeWithAggregatesFilter;
 
     @Field(() => StringNullableWithAggregatesFilter, {nullable:true})
-    google_id?: StringNullableWithAggregatesFilter;
+    googleId?: StringNullableWithAggregatesFilter;
 
     @Field(() => JsonNullableWithAggregatesFilter, {nullable:true})
-    google_profile?: JsonNullableWithAggregatesFilter;
+    googleProfile?: JsonNullableWithAggregatesFilter;
 
     @Field(() => IntNullableWithAggregatesFilter, {nullable:true})
-    country_id?: IntNullableWithAggregatesFilter;
+    countryId?: IntNullableWithAggregatesFilter;
 }

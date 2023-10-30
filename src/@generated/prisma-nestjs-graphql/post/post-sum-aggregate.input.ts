@@ -8,11 +8,11 @@ export class PostSumAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    likes_count?: true;
+    likesCount?: true;
 
     @Field(() => Boolean, {nullable:true})
-    dislikes_count?: true;
+    dislikesCount?: true;
 
     @Field(() => Boolean, {nullable:true})
-    author_id?: true;
+    authorId?: true;
 }

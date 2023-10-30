@@ -12,11 +12,11 @@ export class ExampleMaxOrderByAggregateInput {
     content?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    post_id?: keyof typeof SortOrder;
+    postId?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    created_at?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    updated_at?: keyof typeof SortOrder;
+    updatedAt?: keyof typeof SortOrder;
 }

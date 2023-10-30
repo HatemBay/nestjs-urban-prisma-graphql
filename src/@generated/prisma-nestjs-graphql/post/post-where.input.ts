@@ -33,22 +33,22 @@ export class PostWhereInput {
     published?: BoolNullableFilter;
 
     @Field(() => IntFilter, {nullable:true})
-    likes_count?: IntFilter;
+    likesCount?: IntFilter;
 
     @Field(() => IntFilter, {nullable:true})
-    dislikes_count?: IntFilter;
+    dislikesCount?: IntFilter;
 
     @Field(() => IntFilter, {nullable:true})
-    author_id?: IntFilter;
+    authorId?: IntFilter;
 
     @Field(() => BoolFilter, {nullable:true})
-    is_u_18?: BoolFilter;
+    isU18?: BoolFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    created_at?: DateTimeFilter;
+    createdAt?: DateTimeFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    updated_at?: DateTimeFilter;
+    updatedAt?: DateTimeFilter;
 
     @Field(() => UserRelationFilter, {nullable:true})
     author?: UserRelationFilter;

@@ -8,5 +8,5 @@ export class UserSumAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    country_id?: true;
+    countryId?: true;
 }

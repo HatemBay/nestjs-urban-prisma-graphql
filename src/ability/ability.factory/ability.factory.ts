@@ -54,11 +54,7 @@ export class AbilityFactory {
     // const roles = Object.values(Role);
     const role = user.role;
 
-    console.log('user_id');
-    console.log(user.id);
     const ids_of_posts = user.posts?.map((post) => post.id) || [];
-    console.log('ids_of_posts');
-    console.log(ids_of_posts);
 
     const userIsAdmin = role === Role.ADMIN;
 
@@ -73,23 +69,23 @@ export class AbilityFactory {
       can(Action.Update, User, { id: { $eq: user.id } });
       can(Action.Update, User, { email: { $eq: user.email } });
       can(Action.Update, User, { username: { $eq: user.username } });
-      can(Action.Update, User, { google_id: { $eq: user.google_id } });
+      can(Action.Update, User, { googleId: { $eq: user.googleId } });
       cannot(Action.Delete, User).because('can only edit self');
       // ********** users **********
       // ********** posts **********
       can(Action.Create, Post);
       can(Action.Read, Post);
       cannot(Action.Update, Post).because('can only edit own posts');
-      can(Action.Update, Post, { author_id: { $eq: user.id } });
+      can(Action.Update, Post, { authorId: { $eq: user.id } });
       cannot(Action.Delete, Post).because('can only delete own posts');
-      can(Action.Delete, Post, { author_id: { $eq: user.id } });
+      can(Action.Delete, Post, { authorId: { $eq: user.id } });
       // ********** posts **********
       // ********** examples **********
       can(Action.Read, Example);
       cannot(Action.Create, Example).because('only admin can');
-      can(Action.Create, Example, { post_id: { $in: ids_of_posts } });
+      can(Action.Create, Example, { postId: { $in: ids_of_posts } });
       cannot(Action.Update, Example).because('only admin can');
-      can(Action.Update, Example, { post_id: { $in: ids_of_posts } });
+      can(Action.Update, Example, { postId: { $in: ids_of_posts } });
       // ********** examples **********
       // ********** countries **********
       can(Action.Read, Country);

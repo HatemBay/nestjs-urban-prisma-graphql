@@ -40,48 +40,48 @@ model Country {
 }
 
 // model Region {
-//   id          Int     @id @default(autoincrement())
-//   name        String  @unique
-//   address     String?
-//   postal_code Int?
-//   users       User[]
+//   id         Int     @id @default(autoincrement())
+//   name       String  @unique
+//   address    String?
+//   postalCode Int?
+//   users      User[]
 // }
 
 model User {
-  id             Int      @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   /// @Validator.MinLength(3)
-  username       String   @unique
+  username      String   @unique @db.VarChar(255)
   /// @Validator.IsEmail()
-  email          String   @unique
+  email         String   @unique @db.VarChar(255)
   // TODO: @Validator.MinLength(8)
   // TODO: @Validator.MaxLength(15)
-  password       String?
-  name           String?
-  role           Role     @default(USER)
-  is_u_18        Boolean  @default(true)
-  email_verified Boolean  @default(false)
-  created_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  updated_at     DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  google_id      String?  @unique
-  google_profile Json?
-  posts          Post[]
-  country        Country? @relation(fields: [country_id], references: [id])
-  country_id     Int?
+  password      String?
+  name          String?
+  role          Role     @default(USER)
+  isU18         Boolean  @default(true)
+  emailVerified Boolean  @default(false)
+  createdAt     DateTime @default(dbgenerated("NOW()"))
+  updatedAt     DateTime @default(dbgenerated("NOW()"))
+  googleId      String?  @unique
+  googleProfile Json?
+  posts         Post[]
+  country       Country? @relation(fields: [countryId], references: [id])
+  countryId     Int?
 }
 
 model Post {
-  id             Int       @id @default(autoincrement())
-  title          String
-  content        String
-  published      Boolean?  @default(false)
-  likes_count    Int       @default(1)
-  dislikes_count Int       @default(0)
-  author         User      @relation(fields: [author_id], references: [id])
-  author_id      Int
-  is_u_18        Boolean   @default(true)
-  created_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
-  updated_at     DateTime  @default(dbgenerated("NOW() + interval '1 year'"))
-  examples       Example[]
+  id            Int       @id @default(autoincrement())
+  title         String
+  content       String
+  published     Boolean?  @default(false)
+  likesCount    Int       @default(1)
+  dislikesCount Int       @default(0)
+  author        User      @relation(fields: [authorId], references: [id])
+  authorId      Int
+  isU18         Boolean   @default(true)
+  createdAt     DateTime  @default(dbgenerated("NOW()"))
+  updatedAt     DateTime  @default(dbgenerated("NOW()"))
+  examples      Example[]
   // tags           Tag[]
   // flags          Flag[]
 }
@@ -89,17 +89,17 @@ model Post {
 // model Tag {
 //   id      Int    @id @default(autoincrement())
 //   name    String @unique
-//   post    Post?  @relation(fields: [post_id], references: [id])
-//   post_id Int?
+//   post    Post?  @relation(fields: [postId], references: [id])
+//   postId Int?
 // }
 
 model Example {
-  id         Int      @id @default(autoincrement())
-  content    String
-  post       Post     @relation(fields: [post_id], references: [id])
-  post_id    Int
-  created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
-  updated_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+  id        Int      @id @default(autoincrement())
+  content   String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  createdAt DateTime @default(dbgenerated("NOW()"))
+  updatedAt DateTime @default(dbgenerated("NOW()"))
 }
 
 // model Flag {
@@ -107,5 +107,5 @@ model Example {
 //   reason     Reason
 //   Post       Post?    @relation(fields: [postId], references: [id])
 //   postId     Int?
-//   created_at DateTime @default(dbgenerated("NOW() + interval '1 year'"))
+//   createdAt DateTime @default(dbgenerated("NOW()"))
 // }

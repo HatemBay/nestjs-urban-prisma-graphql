@@ -30,25 +30,25 @@ export class User {
     role!: keyof typeof Role;
 
     @Field(() => Boolean, {nullable:false,defaultValue:true})
-    is_u_18!: boolean;
+    isU18!: boolean;
 
     @Field(() => Boolean, {nullable:false,defaultValue:false})
-    email_verified!: boolean;
+    emailVerified!: boolean;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date;
+    createdAt!: Date;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @Field(() => String, {nullable:true})
-    google_id!: string | null;
+    googleId!: string | null;
 
     @Field(() => GraphQLJSON, {nullable:true})
-    google_profile!: any | null;
+    googleProfile!: any | null;
 
     @Field(() => Int, {nullable:true})
-    country_id!: number | null;
+    countryId!: number | null;
 
     @Field(() => [Post], {nullable:true})
     posts?: Array<Post>;

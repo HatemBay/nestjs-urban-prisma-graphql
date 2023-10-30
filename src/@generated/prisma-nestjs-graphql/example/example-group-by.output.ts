@@ -17,13 +17,13 @@ export class ExampleGroupBy {
     content!: string;
 
     @Field(() => Int, {nullable:false})
-    post_id!: number;
+    postId!: number;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date | string;
+    createdAt!: Date | string;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date | string;
+    updatedAt!: Date | string;
 
     @Field(() => ExampleCountAggregate, {nullable:true})
     _count?: ExampleCountAggregate;

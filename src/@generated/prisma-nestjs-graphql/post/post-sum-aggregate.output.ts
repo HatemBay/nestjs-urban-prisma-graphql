@@ -9,11 +9,11 @@ export class PostSumAggregate {
     id?: number;
 
     @Field(() => Int, {nullable:true})
-    likes_count?: number;
+    likesCount?: number;
 
     @Field(() => Int, {nullable:true})
-    dislikes_count?: number;
+    dislikesCount?: number;
 
     @Field(() => Int, {nullable:true})
-    author_id?: number;
+    authorId?: number;
 }

@@ -30,7 +30,7 @@ export class FindCountryInput {
 
 export class CreateExampleInput {
     content: string;
-    post_id: number;
+    postId: number;
 }
 
 export class UpdateExampleInput {
@@ -44,7 +44,7 @@ export class FindExampleInput {
 export class CreatePostInput {
     title: string;
     content: string;
-    is_u_18?: Nullable<boolean>;
+    isU18?: Nullable<boolean>;
 }
 
 export class UpdatePostInput {
@@ -56,18 +56,29 @@ export class FindPostInput {
     id: number;
 }
 
+export class OrderByParams {
+    field?: Nullable<string>;
+    direction?: Nullable<string>;
+}
+
+export class PaginationParams {
+    page?: Nullable<number>;
+    take?: Nullable<number>;
+    filter?: Nullable<string>;
+}
+
 export class CreateUserInput {
     username: string;
     email: string;
     password?: Nullable<string>;
     name?: Nullable<string>;
     role?: Nullable<Role>;
-    is_u_18?: Nullable<boolean>;
-    email_verified?: Nullable<boolean>;
-    created_at?: Nullable<DateTime>;
-    updated_at?: Nullable<DateTime>;
-    google_id?: Nullable<string>;
-    google_profile?: Nullable<JSON>;
+    isU18?: Nullable<boolean>;
+    emailVerified?: Nullable<boolean>;
+    createdAt?: Nullable<DateTime>;
+    updatedAt?: Nullable<DateTime>;
+    googleId?: Nullable<string>;
+    googleProfile?: Nullable<JSON>;
 }
 
 export class UpdateUserInput {
@@ -76,11 +87,11 @@ export class UpdateUserInput {
     password?: Nullable<string>;
     name?: Nullable<string>;
     role?: Nullable<Role>;
-    email_verified?: Nullable<boolean>;
-    is_u_18?: Nullable<boolean>;
-    updated_at?: Nullable<DateTime>;
-    google_id?: Nullable<string>;
-    google_profile?: Nullable<JSON>;
+    emailVerified?: Nullable<boolean>;
+    isU18?: Nullable<boolean>;
+    updatedAt?: Nullable<DateTime>;
+    googleId?: Nullable<string>;
+    googleProfile?: Nullable<JSON>;
 }
 
 export class LoginUserInput {
@@ -92,7 +103,7 @@ export class FindUserInput {
     id?: Nullable<number>;
     username?: Nullable<string>;
     email?: Nullable<string>;
-    google_id?: Nullable<string>;
+    googleId?: Nullable<string>;
 }
 
 export class GoogleAuthInput {
@@ -114,11 +125,11 @@ export abstract class IQuery {
 
     abstract example(id: number): Nullable<Example> | Promise<Nullable<Example>>;
 
-    abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
 
-    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    abstract users(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>): Nullable<User>[] | Promise<Nullable<User>[]>;
 
     abstract user(findUserInput: FindUserInput): Nullable<User> | Promise<Nullable<User>>;
 }
@@ -159,24 +170,23 @@ export class Example {
     id: number;
     content: string;
     post?: Nullable<Post>;
-    post_id: number;
-    created_at: DateTime;
-    updated_at: DateTime;
+    postId: number;
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class Post {
     id: number;
     author?: Nullable<User>;
-    author_id: number;
+    authorId: number;
     title: string;
     content: string;
     published?: Nullable<boolean>;
-    is_u_18?: Nullable<boolean>;
-    email_verified?: Nullable<boolean>;
-    likes_count?: Nullable<number>;
-    dislikes_count?: Nullable<number>;
-    created_at: DateTime;
-    updated_at: DateTime;
+    isU18?: Nullable<boolean>;
+    likesCount?: Nullable<number>;
+    dislikesCount?: Nullable<number>;
+    createdAt: DateTime;
+    updatedAt: DateTime;
 }
 
 export class User {
@@ -186,19 +196,19 @@ export class User {
     password?: Nullable<string>;
     name?: Nullable<string>;
     role?: Nullable<Role>;
-    is_u_18?: Nullable<boolean>;
-    email_verified?: Nullable<boolean>;
-    created_at: DateTime;
-    updated_at: DateTime;
+    isU18?: Nullable<boolean>;
+    emailVerified?: Nullable<boolean>;
+    createdAt: DateTime;
+    updatedAt: DateTime;
     posts?: Nullable<Nullable<Post>[]>;
     country?: Nullable<Country>;
-    country_id: number;
-    google_id?: Nullable<string>;
-    google_profile?: Nullable<JSON>;
+    countryId?: Nullable<number>;
+    googleId?: Nullable<string>;
+    googleProfile?: Nullable<JSON>;
 }
 
 export class LoginResponse {
-    access_token: string;
+    accessToken: string;
     user: UserLoginResponse;
 }
 
@@ -209,12 +219,12 @@ export class UserLoginResponse {
     password?: Nullable<string>;
     name?: Nullable<string>;
     role?: Nullable<Role>;
-    is_u_18?: Nullable<boolean>;
-    email_verified?: Nullable<boolean>;
-    created_at: DateTime;
-    updated_at: DateTime;
-    google_id?: Nullable<string>;
-    google_profile?: Nullable<JSON>;
+    isU18?: Nullable<boolean>;
+    emailVerified?: Nullable<boolean>;
+    createdAt: DateTime;
+    updatedAt: DateTime;
+    googleId?: Nullable<string>;
+    googleProfile?: Nullable<JSON>;
 }
 
 export type DateTime = any;

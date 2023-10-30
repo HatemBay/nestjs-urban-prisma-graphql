@@ -4,14 +4,14 @@ type Example {
   id: Int!
   content: String!
   post: Post
-  post_id: Int!
-  created_at: DateTime!
-  updated_at: DateTime!
+  postId: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 input CreateExampleInput {
   content: String!
-  post_id: Int!
+  postId: Int!
 }
 
 input UpdateExampleInput {

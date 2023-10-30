@@ -25,7 +25,7 @@ export class UserUpdateOneRequiredWithoutPostsNestedInput {
 
     @Field(() => UserWhereUniqueInput, {nullable:true})
     @Type(() => UserWhereUniqueInput)
-    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'google_id'>;
+    connect?: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'googleId'>;
 
     @Field(() => UserUpdateToOneWithWhereWithoutPostsInput, {nullable:true})
     @Type(() => UserUpdateToOneWithWhereWithoutPostsInput)

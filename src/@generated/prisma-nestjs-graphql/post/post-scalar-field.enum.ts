@@ -5,12 +5,12 @@ export enum PostScalarFieldEnum {
     title = "title",
     content = "content",
     published = "published",
-    likes_count = "likes_count",
-    dislikes_count = "dislikes_count",
-    author_id = "author_id",
-    is_u_18 = "is_u_18",
-    created_at = "created_at",
-    updated_at = "updated_at"
+    likesCount = "likesCount",
+    dislikesCount = "dislikesCount",
+    authorId = "authorId",
+    isU18 = "isU18",
+    createdAt = "createdAt",
+    updatedAt = "updatedAt"
 }
 
 

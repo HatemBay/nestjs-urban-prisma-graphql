@@ -18,22 +18,22 @@ export class PostCountAggregate {
     published!: number;
 
     @Field(() => Int, {nullable:false})
-    likes_count!: number;
+    likesCount!: number;
 
     @Field(() => Int, {nullable:false})
-    dislikes_count!: number;
+    dislikesCount!: number;
 
     @Field(() => Int, {nullable:false})
-    author_id!: number;
+    authorId!: number;
 
     @Field(() => Int, {nullable:false})
-    is_u_18!: number;
+    isU18!: number;
 
     @Field(() => Int, {nullable:false})
-    created_at!: number;
+    createdAt!: number;
 
     @Field(() => Int, {nullable:false})
-    updated_at!: number;
+    updatedAt!: number;
 
     @Field(() => Int, {nullable:false})
     _all!: number;

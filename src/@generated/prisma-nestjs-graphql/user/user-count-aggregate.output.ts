@@ -24,25 +24,25 @@ export class UserCountAggregate {
     role!: number;
 
     @Field(() => Int, {nullable:false})
-    is_u_18!: number;
+    isU18!: number;
 
     @Field(() => Int, {nullable:false})
-    email_verified!: number;
+    emailVerified!: number;
 
     @Field(() => Int, {nullable:false})
-    created_at!: number;
+    createdAt!: number;
 
     @Field(() => Int, {nullable:false})
-    updated_at!: number;
+    updatedAt!: number;
 
     @Field(() => Int, {nullable:false})
-    google_id!: number;
+    googleId!: number;
 
     @Field(() => Int, {nullable:false})
-    google_profile!: number;
+    googleProfile!: number;
 
     @Field(() => Int, {nullable:false})
-    country_id!: number;
+    countryId!: number;
 
     @Field(() => Int, {nullable:false})
     _all!: number;

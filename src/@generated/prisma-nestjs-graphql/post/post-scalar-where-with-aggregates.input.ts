@@ -31,20 +31,20 @@ export class PostScalarWhereWithAggregatesInput {
     published?: BoolNullableWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    likes_count?: IntWithAggregatesFilter;
+    likesCount?: IntWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    dislikes_count?: IntWithAggregatesFilter;
+    dislikesCount?: IntWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    author_id?: IntWithAggregatesFilter;
+    authorId?: IntWithAggregatesFilter;
 
     @Field(() => BoolWithAggregatesFilter, {nullable:true})
-    is_u_18?: BoolWithAggregatesFilter;
+    isU18?: BoolWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    created_at?: DateTimeWithAggregatesFilter;
+    createdAt?: DateTimeWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    updated_at?: DateTimeWithAggregatesFilter;
+    updatedAt?: DateTimeWithAggregatesFilter;
 }

@@ -8,15 +8,15 @@ type User {
   password: String
   name: String
   role: Role
-  is_u_18: Boolean
-  email_verified: Boolean
-  created_at: DateTime!
-  updated_at: DateTime!
+  isU18: Boolean
+  emailVerified: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
   posts: [Post]
   country: Country
-  country_id: Int!
-  google_id: String
-  google_profile: JSON
+  countryId: Int
+  googleId: String
+  googleProfile: JSON
 }
 
 input CreateUserInput {
@@ -25,12 +25,12 @@ input CreateUserInput {
   password: String
   name: String
   role: Role
-  is_u_18: Boolean
-  email_verified: Boolean
-  created_at: DateTime
-  updated_at: DateTime
-  google_id: String
-  google_profile: JSON
+  isU18: Boolean
+  emailVerified: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+  googleId: String
+  googleProfile: JSON
 }
 
 input UpdateUserInput {
@@ -39,15 +39,15 @@ input UpdateUserInput {
   password: String
   name: String
   role: Role
-  email_verified: Boolean
-  is_u_18: Boolean
-  updated_at: DateTime
-  google_id: String
-  google_profile: JSON
+  emailVerified: Boolean
+  isU18: Boolean
+  updatedAt: DateTime
+  googleId: String
+  googleProfile: JSON
 }
 
 type LoginResponse {
-  access_token: String!
+  accessToken: String!
   user: UserLoginResponse!
 }
 
@@ -58,12 +58,12 @@ type UserLoginResponse {
   password: String
   name: String
   role: Role
-  is_u_18: Boolean
-  email_verified: Boolean
-  created_at: DateTime!
-  updated_at: DateTime!
-  google_id: String
-  google_profile: JSON
+  isU18: Boolean
+  emailVerified: Boolean
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  googleId: String
+  googleProfile: JSON
 }
 
 input LoginUserInput {
@@ -75,7 +75,7 @@ input FindUserInput {
   id: Int
   username: String
   email: String
-  google_id: String
+  googleId: String
 }
 
 input GoogleAuthInput {
@@ -83,7 +83,8 @@ input GoogleAuthInput {
 }
 
 type Query {
-  users: [User]!
+  # orderBy and pagination are defined in the posts section
+  users(orderBy: OrderByParams, pagination: PaginationParams): [User]!
   user(findUserInput: FindUserInput!): User
 }
 

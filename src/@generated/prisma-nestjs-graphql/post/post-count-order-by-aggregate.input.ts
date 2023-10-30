@@ -18,20 +18,20 @@ export class PostCountOrderByAggregateInput {
     published?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    likes_count?: keyof typeof SortOrder;
+    likesCount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    dislikes_count?: keyof typeof SortOrder;
+    dislikesCount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    author_id?: keyof typeof SortOrder;
+    authorId?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    is_u_18?: keyof typeof SortOrder;
+    isU18?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    created_at?: keyof typeof SortOrder;
+    createdAt?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    updated_at?: keyof typeof SortOrder;
+    updatedAt?: keyof typeof SortOrder;
 }

@@ -41,7 +41,7 @@ export class EmailConfirmationService {
 
   public async confirmEmail(email: string) {
     const user = await this.usersService.findOne({ email });
-    if (user.email_verified) {
+    if (user.emailVerified) {
       throw new BadRequestException('Email already confirmed');
     }
     return await this.usersService.markEmailAsConfirmed(email);
@@ -67,7 +67,7 @@ export class EmailConfirmationService {
 
   public async resendConfirmationLink(id: number) {
     const user = await this.usersService.findOne({ id });
-    if (user.email_verified) {
+    if (user.emailVerified) {
       throw new BadRequestException('Email already confirmed');
     }
     await this.sendVerificationLink(user.email);

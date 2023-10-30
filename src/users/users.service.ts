@@ -8,6 +8,7 @@ import { Country } from '../@generated/prisma-nestjs-graphql/country/country.mod
 import { CountriesService } from '../countries/countries.service';
 import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/user/user-unchecked-update.input';
 import { CustomError } from '../common/errors/custom.error';
+import { OrderByParams, PaginationParams } from '../graphql';
 @Injectable()
 export class UsersService {
   constructor(
@@ -66,8 +67,34 @@ export class UsersService {
     }
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(
+    orderBy?: OrderByParams,
+    pagination?: PaginationParams,
+  ): Promise<User[]> {
+    const { field = 'createdAt', direction = 'desc' } = orderBy || {};
+    const { page = 1, take = 10, filter } = pagination || {};
+
+    const skip = (page - 1) * take;
+    let where = {};
+
+    if (filter !== null && filter !== undefined) {
+      where = {
+        OR: [
+          {
+            username: { startsWith: filter },
+          },
+          {
+            email: { startsWith: filter },
+          },
+        ],
+      };
+    }
+
     return await this.prisma.user.findMany({
+      skip,
+      take,
+      where: where,
+      orderBy: { [field]: direction },
       include: {
         posts: true,
       },
@@ -76,9 +103,6 @@ export class UsersService {
 
   async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
     try {
-      console.log('where in find one');
-      console.log(where);
-
       return await this.prisma.user.findUniqueOrThrow({
         where,
         include: {
@@ -95,8 +119,8 @@ export class UsersService {
     }
   }
 
-  async getCountry(country_id: number): Promise<Country> {
-    return await this.countriesService.findOne({ id: country_id });
+  async getCountry(countryId: number): Promise<Country> {
+    return await this.countriesService.findOne({ id: countryId });
   }
 
   // TODO: email shouldn't be updated and should be verified (verification is done, update to go)
@@ -105,9 +129,8 @@ export class UsersService {
     where: Prisma.UserWhereUniqueInput;
   }): Promise<User> {
     try {
+      // TODO: remove because we've created the logic in the guard
       const { data, where } = params;
-      console.log('where');
-      console.log(where);
 
       // const ability = this.abilityFactory.defineAbility(currentUser);
       const getUser = await this.findOne(where);
@@ -127,7 +150,7 @@ export class UsersService {
 
         const dateTime = new Date();
         dateTime.setHours(dateTime.getHours() + 1);
-        data.updated_at = dateTime;
+        data.updatedAt = dateTime;
         return await this.prisma.user.update({
           data,
           where,
@@ -163,7 +186,7 @@ export class UsersService {
     dateTime.setHours(dateTime.getHours() + 1);
     await this.prisma.user
       .update({
-        data: { email_verified: true, updated_at: dateTime },
+        data: { emailVerified: true, updatedAt: dateTime },
         where: { email },
       })
       .catch((err) => {

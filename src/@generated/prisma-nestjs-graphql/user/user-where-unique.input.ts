@@ -27,7 +27,7 @@ export class UserWhereUniqueInput {
     email?: string;
 
     @Field(() => String, {nullable:true})
-    google_id?: string;
+    googleId?: string;
 
     @Field(() => [UserWhereInput], {nullable:true})
     AND?: Array<UserWhereInput>;
@@ -48,22 +48,22 @@ export class UserWhereUniqueInput {
     role?: EnumRoleFilter;
 
     @Field(() => BoolFilter, {nullable:true})
-    is_u_18?: BoolFilter;
+    isU18?: BoolFilter;
 
     @Field(() => BoolFilter, {nullable:true})
-    email_verified?: BoolFilter;
+    emailVerified?: BoolFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    created_at?: DateTimeFilter;
+    createdAt?: DateTimeFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    updated_at?: DateTimeFilter;
+    updatedAt?: DateTimeFilter;
 
     @Field(() => JsonNullableFilter, {nullable:true})
-    google_profile?: JsonNullableFilter;
+    googleProfile?: JsonNullableFilter;
 
     @Field(() => IntNullableFilter, {nullable:true})
-    country_id?: IntNullableFilter;
+    countryId?: IntNullableFilter;
 
     @Field(() => PostListRelationFilter, {nullable:true})
     posts?: PostListRelationFilter;

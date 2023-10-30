@@ -10,7 +10,7 @@ export class UserCreateOrConnectWithoutPostsInput {
 
     @Field(() => UserWhereUniqueInput, {nullable:false})
     @Type(() => UserWhereUniqueInput)
-    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'google_id'>;
+    where!: Prisma.AtLeast<UserWhereUniqueInput, 'id' | 'username' | 'email' | 'googleId'>;
 
     @Field(() => UserCreateWithoutPostsInput, {nullable:false})
     @Type(() => UserCreateWithoutPostsInput)

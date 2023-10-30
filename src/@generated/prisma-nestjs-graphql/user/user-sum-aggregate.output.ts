@@ -9,5 +9,5 @@ export class UserSumAggregate {
     id?: number;
 
     @Field(() => Int, {nullable:true})
-    country_id?: number;
+    countryId?: number;
 }

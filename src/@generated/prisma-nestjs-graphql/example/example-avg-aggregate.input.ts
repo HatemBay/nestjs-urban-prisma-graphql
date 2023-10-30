@@ -8,5 +8,5 @@ export class ExampleAvgAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    post_id?: true;
+    postId?: true;
 }

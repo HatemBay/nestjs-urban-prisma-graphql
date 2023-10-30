@@ -17,20 +17,20 @@ export class PostMinAggregateInput {
     published?: true;
 
     @Field(() => Boolean, {nullable:true})
-    likes_count?: true;
+    likesCount?: true;
 
     @Field(() => Boolean, {nullable:true})
-    dislikes_count?: true;
+    dislikesCount?: true;
 
     @Field(() => Boolean, {nullable:true})
-    author_id?: true;
+    authorId?: true;
 
     @Field(() => Boolean, {nullable:true})
-    is_u_18?: true;
+    isU18?: true;
 
     @Field(() => Boolean, {nullable:true})
-    created_at?: true;
+    createdAt?: true;
 
     @Field(() => Boolean, {nullable:true})
-    updated_at?: true;
+    updatedAt?: true;
 }

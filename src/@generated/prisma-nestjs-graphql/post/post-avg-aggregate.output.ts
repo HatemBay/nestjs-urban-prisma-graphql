@@ -9,11 +9,11 @@ export class PostAvgAggregate {
     id?: number;
 
     @Field(() => Float, {nullable:true})
-    likes_count?: number;
+    likesCount?: number;
 
     @Field(() => Float, {nullable:true})
-    dislikes_count?: number;
+    dislikesCount?: number;
 
     @Field(() => Float, {nullable:true})
-    author_id?: number;
+    authorId?: number;
 }

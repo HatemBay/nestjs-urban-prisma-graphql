@@ -18,20 +18,20 @@ export class PostMaxAggregate {
     published?: boolean;
 
     @Field(() => Int, {nullable:true})
-    likes_count?: number;
+    likesCount?: number;
 
     @Field(() => Int, {nullable:true})
-    dislikes_count?: number;
+    dislikesCount?: number;
 
     @Field(() => Int, {nullable:true})
-    author_id?: number;
+    authorId?: number;
 
     @Field(() => Boolean, {nullable:true})
-    is_u_18?: boolean;
+    isU18?: boolean;
 
     @Field(() => Date, {nullable:true})
-    created_at?: Date | string;
+    createdAt?: Date | string;
 
     @Field(() => Date, {nullable:true})
-    updated_at?: Date | string;
+    updatedAt?: Date | string;
 }

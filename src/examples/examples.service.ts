@@ -54,8 +54,8 @@ export class ExamplesService {
     }
   }
 
-  async getPost(post_id: number): Promise<Post> {
-    return await this.postsService.findOne({ id: post_id });
+  async getPost(postId: number): Promise<Post> {
+    return await this.postsService.findOne({ id: postId });
   }
 
   async update(params: {
@@ -66,7 +66,7 @@ export class ExamplesService {
     try {
       const dateTime = new Date();
       dateTime.setHours(dateTime.getHours() + 1);
-      data.updated_at = dateTime;
+      data.updatedAt = dateTime;
 
       return await this.prisma.example.update({
         data,

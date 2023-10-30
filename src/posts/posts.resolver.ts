@@ -18,7 +18,9 @@ import { PostUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/po
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { CheckAbilities } from '../common/decorators/ability.decorator';
 import { Action } from '../ability/ability.factory/ability.factory';
-import { OrderByParams } from '../graphql';
+import { OrderByParams, PaginationParams } from '../graphql';
+import { SkipAuth } from '../common/decorators/skip-auth.decorator';
+import { SkipAbility } from '../common/decorators/skip-ability.decorator';
 
 @Resolver('Post')
 export class PostsResolver {
@@ -30,14 +32,19 @@ export class PostsResolver {
     @Args('createPostInput') createPostInput: PostUncheckedCreateInput,
     @CurrentUser() user: User,
   ): Promise<Post> {
-    createPostInput.author_id = user.id;
+    createPostInput.authorId = user.id;
     return await this.postsService.create(createPostInput);
   }
 
+  @SkipAuth()
+  @SkipAbility()
   @CheckAbilities({ action: Action.Read, subject: Post })
   @Query('posts')
-  async findAll(@Args('orderBy') orderBy?: OrderByParams): Promise<Post[]> {
-    return await this.postsService.findAll(orderBy);
+  async findAll(
+    @Args('orderBy') orderBy?: OrderByParams,
+    @Args('pagination') pagination?: PaginationParams,
+  ): Promise<Post[]> {
+    return await this.postsService.findAll(orderBy, pagination);
   }
 
   @CheckAbilities({ action: Action.Read, subject: Post })
@@ -51,7 +58,7 @@ export class PostsResolver {
 
   @ResolveField(() => User)
   async author(@Parent() post: Post): Promise<User> {
-    return await this.postsService.getAuthor(post.author_id);
+    return await this.postsService.getAuthor(post.authorId);
   }
 
   @CheckAbilities({ action: Action.Update, subject: Post })

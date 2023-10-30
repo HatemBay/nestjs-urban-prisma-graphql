@@ -9,5 +9,5 @@ export class ExampleAvgAggregate {
     id?: number;
 
     @Field(() => Float, {nullable:true})
-    post_id?: number;
+    postId?: number;
 }

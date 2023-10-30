@@ -31,25 +31,25 @@ export class UserGroupBy {
     role!: keyof typeof Role;
 
     @Field(() => Boolean, {nullable:false})
-    is_u_18!: boolean;
+    isU18!: boolean;
 
     @Field(() => Boolean, {nullable:false})
-    email_verified!: boolean;
+    emailVerified!: boolean;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date | string;
+    createdAt!: Date | string;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date | string;
+    updatedAt!: Date | string;
 
     @Field(() => String, {nullable:true})
-    google_id?: string;
+    googleId?: string;
 
     @Field(() => GraphQLJSON, {nullable:true})
-    google_profile?: any;
+    googleProfile?: any;
 
     @Field(() => Int, {nullable:true})
-    country_id?: number;
+    countryId?: number;
 
     @Field(() => UserCountAggregate, {nullable:true})
     _count?: UserCountAggregate;

@@ -13,13 +13,13 @@ describe('PostsResolver', () => {
     title: '3ak3ek',
     content: '3ak3aka you3ak3ikou t3ak3ikan',
     published: expect.any(Boolean),
-    likes_count: 1,
-    dislikes_count: 30,
-    is_u_18: expect.any(Boolean),
-    created_at: mockDate,
-    updated_at: mockDate,
-    author_id: expect.any(Role),
-    email_verified: expect.any(Boolean),
+    likesCount: 1,
+    dislikesCount: 30,
+    isU18: expect.any(Boolean),
+    createdAt: mockDate,
+    updatedAt: mockDate,
+    authorId: expect.any(Role),
+    emailVerified: expect.any(Boolean),
   };
 
   const returnPost = {
@@ -35,12 +35,13 @@ describe('PostsResolver', () => {
     name: 'test user',
     password: 'test',
     role: expect.any(Role),
-    created_at: mockDate,
-    updated_at: mockDate,
-    is_u_18: expect.any(Boolean),
-    google_id: '1',
-    google_profile: {},
-    email_verified: expect.any(Boolean),
+    createdAt: mockDate,
+    updatedAt: mockDate,
+    isU18: expect.any(Boolean),
+    googleId: '1',
+    googleProfile: {},
+    emailVerified: expect.any(Boolean),
+    countryId: expect.any(Number),
   };
 
   const whereUniqueDto = { id: expect.any(Number) };
@@ -90,7 +91,7 @@ describe('PostsResolver', () => {
       const post = await resolver.author(returnPost);
 
       expect(post).toEqual(user);
-      expect(postsService.getAuthor).toHaveBeenCalledWith(returnPost.author_id);
+      expect(postsService.getAuthor).toHaveBeenCalledWith(returnPost.authorId);
     });
   });
 

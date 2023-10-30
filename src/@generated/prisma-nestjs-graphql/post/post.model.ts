@@ -22,22 +22,22 @@ export class Post {
     published!: boolean | null;
 
     @Field(() => Int, {nullable:false,defaultValue:1})
-    likes_count!: number;
+    likesCount!: number;
 
     @Field(() => Int, {nullable:false,defaultValue:0})
-    dislikes_count!: number;
+    dislikesCount!: number;
 
     @Field(() => Int, {nullable:false})
-    author_id!: number;
+    authorId!: number;
 
     @Field(() => Boolean, {nullable:false,defaultValue:true})
-    is_u_18!: boolean;
+    isU18!: boolean;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date;
+    createdAt!: Date;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @Field(() => User, {nullable:false})
     author?: User;

@@ -9,5 +9,5 @@ export class ExampleSumAggregate {
     id?: number;
 
     @Field(() => Int, {nullable:true})
-    post_id?: number;
+    postId?: number;
 }

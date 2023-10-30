@@ -18,6 +18,10 @@ import { UserUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/us
 import { UserCreateInput } from '../@generated/prisma-nestjs-graphql/user/user-create.input';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { Country } from '../@generated/prisma-nestjs-graphql/country/country.model';
+import { SkipAuth } from '../common/decorators/skip-auth.decorator';
+import { SkipAbility } from '../common/decorators/skip-ability.decorator';
+import { OrderByParams, PaginationParams } from '../graphql';
+
 @Resolver('User')
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
@@ -32,10 +36,15 @@ export class UsersResolver {
     return user;
   }
 
-  @CheckAbilities({ action: Action.Read, subject: User })
+  @SkipAuth()
+  @SkipAbility()
+  // @CheckAbilities({ action: Action.Read, subject: User })
   @Query('users')
-  async findAll(): Promise<User[]> {
-    return await this.usersService.findAll();
+  async findAll(
+    @Args('orderBy') orderBy?: OrderByParams,
+    @Args('pagination') pagination?: PaginationParams,
+  ): Promise<User[]> {
+    return await this.usersService.findAll(orderBy, pagination);
   }
 
   @CheckAbilities({ action: Action.Read, subject: User })
@@ -53,7 +62,7 @@ export class UsersResolver {
 
   @ResolveField(() => Country)
   async country(@Parent() user: User): Promise<Country> {
-    return await this.usersService.getCountry(user.country_id);
+    return await this.usersService.getCountry(user.countryId);
   }
 
   @CheckAbilities({ action: Action.Update, subject: User })

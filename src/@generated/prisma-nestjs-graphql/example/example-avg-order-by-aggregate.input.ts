@@ -9,5 +9,5 @@ export class ExampleAvgOrderByAggregateInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    post_id?: keyof typeof SortOrder;
+    postId?: keyof typeof SortOrder;
 }

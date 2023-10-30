@@ -5,7 +5,7 @@ import { PostUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/po
 import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { UsersService } from '../users/users.service';
-import { OrderByParams } from '../graphql';
+import { OrderByParams, PaginationParams } from '../graphql';
 @Injectable()
 export class PostsService {
   constructor(
@@ -29,9 +29,23 @@ export class PostsService {
     }
   }
 
-  async findAll(orderBy?: OrderByParams): Promise<Post[]> {
-    const { field = 'created_at', direction = 'desc' } = orderBy || {};
+  async findAll(
+    orderBy?: OrderByParams,
+    pagination?: PaginationParams,
+  ): Promise<Post[]> {
+    const { field = 'createdAt', direction = 'desc' } = orderBy || {};
+    const { page = 1, take = 10, filter } = pagination || {};
+
+    const skip = (page - 1) * take;
+
     return await this.prisma.post.findMany({
+      skip,
+      take,
+      where: {
+        title: {
+          startsWith: filter,
+        },
+      },
       orderBy: { [field]: direction },
       include: {
         // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
@@ -53,8 +67,8 @@ export class PostsService {
     }
   }
 
-  async getAuthor(author_id: number): Promise<User> {
-    return await this.usersService.findOne({ id: author_id });
+  async getAuthor(authorId: number): Promise<User> {
+    return await this.usersService.findOne({ id: authorId });
   }
 
   async update(params: {
@@ -65,7 +79,7 @@ export class PostsService {
     try {
       const dateTime = new Date();
       dateTime.setHours(dateTime.getHours() + 1);
-      data.updated_at = dateTime;
+      data.updatedAt = dateTime;
       return await this.prisma.post.update({
         data,
         where,

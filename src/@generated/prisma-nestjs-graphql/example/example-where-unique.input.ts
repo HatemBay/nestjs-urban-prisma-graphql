@@ -26,13 +26,13 @@ export class ExampleWhereUniqueInput {
     content?: StringFilter;
 
     @Field(() => IntFilter, {nullable:true})
-    post_id?: IntFilter;
+    postId?: IntFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    created_at?: DateTimeFilter;
+    createdAt?: DateTimeFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
-    updated_at?: DateTimeFilter;
+    updatedAt?: DateTimeFilter;
 
     @Field(() => PostRelationFilter, {nullable:true})
     post?: PostRelationFilter;

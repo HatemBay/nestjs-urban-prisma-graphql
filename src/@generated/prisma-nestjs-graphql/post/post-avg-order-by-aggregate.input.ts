@@ -9,11 +9,11 @@ export class PostAvgOrderByAggregateInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    likes_count?: keyof typeof SortOrder;
+    likesCount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    dislikes_count?: keyof typeof SortOrder;
+    dislikesCount?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    author_id?: keyof typeof SortOrder;
+    authorId?: keyof typeof SortOrder;
 }

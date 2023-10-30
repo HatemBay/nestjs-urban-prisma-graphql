@@ -14,13 +14,13 @@ export class Example {
     content!: string;
 
     @Field(() => Int, {nullable:false})
-    post_id!: number;
+    postId!: number;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date;
+    createdAt!: Date;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date;
+    updatedAt!: Date;
 
     @Field(() => Post, {nullable:false})
     post?: Post;

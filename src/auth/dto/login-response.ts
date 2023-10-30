@@ -4,7 +4,7 @@ import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 @ObjectType()
 export class LoginResponse {
   @Field()
-  access_token: string;
+  accessToken: string;
 
   @Field(() => User)
   user: User;

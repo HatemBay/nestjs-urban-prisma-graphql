@@ -23,11 +23,11 @@ export class ExampleScalarWhereWithAggregatesInput {
     content?: StringWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
-    post_id?: IntWithAggregatesFilter;
+    postId?: IntWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    created_at?: DateTimeWithAggregatesFilter;
+    createdAt?: DateTimeWithAggregatesFilter;
 
     @Field(() => DateTimeWithAggregatesFilter, {nullable:true})
-    updated_at?: DateTimeWithAggregatesFilter;
+    updatedAt?: DateTimeWithAggregatesFilter;
 }

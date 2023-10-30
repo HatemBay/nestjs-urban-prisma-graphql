@@ -23,22 +23,22 @@ export class PostGroupBy {
     published?: boolean;
 
     @Field(() => Int, {nullable:false})
-    likes_count!: number;
+    likesCount!: number;
 
     @Field(() => Int, {nullable:false})
-    dislikes_count!: number;
+    dislikesCount!: number;
 
     @Field(() => Int, {nullable:false})
-    author_id!: number;
+    authorId!: number;
 
     @Field(() => Boolean, {nullable:false})
-    is_u_18!: boolean;
+    isU18!: boolean;
 
     @Field(() => Date, {nullable:false})
-    created_at!: Date | string;
+    createdAt!: Date | string;
 
     @Field(() => Date, {nullable:false})
-    updated_at!: Date | string;
+    updatedAt!: Date | string;
 
     @Field(() => PostCountAggregate, {nullable:true})
     _count?: PostCountAggregate;

@@ -11,13 +11,13 @@ export class ExampleCountAggregateInput {
     content?: true;
 
     @Field(() => Boolean, {nullable:true})
-    post_id?: true;
+    postId?: true;
 
     @Field(() => Boolean, {nullable:true})
-    created_at?: true;
+    createdAt?: true;
 
     @Field(() => Boolean, {nullable:true})
-    updated_at?: true;
+    updatedAt?: true;
 
     @Field(() => Boolean, {nullable:true})
     _all?: true;

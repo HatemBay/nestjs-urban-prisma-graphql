@@ -21,7 +21,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { EmailConfirmationModule } from './email/email-confirmation.module';
 import { ExamplesModule } from './examples/examples.module';
-import { SharedModule } from './shared/shared.module';
 import { CountriesModule } from './countries/countries.module';
 import * as Joi from 'joi';
 
@@ -87,7 +86,6 @@ import * as Joi from 'joi';
     PostsModule,
     EmailConfirmationModule,
     ExamplesModule,
-    SharedModule,
     CountriesModule,
   ],
   controllers: [AppController],
