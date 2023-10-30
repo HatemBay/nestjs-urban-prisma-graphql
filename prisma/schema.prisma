@@ -12,7 +12,7 @@ generator nestgraphql {
   decorate_1_type        = "UserUncheckedUpdateInput"
   decorate_1_field       = "!(id)"
   decorate_1_from        = "class-validator"
-  decorate_1_name        = isOptional
+  decorate_1_name        = IsOptional
   decorate_1_arguments   = "[]"
 }
 
