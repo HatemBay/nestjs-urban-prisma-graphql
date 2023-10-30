@@ -151,6 +151,7 @@ export class UsersService {
         const dateTime = new Date();
         dateTime.setHours(dateTime.getHours() + 1);
         data.updatedAt = dateTime;
+
         return await this.prisma.user.update({
           data,
           where,

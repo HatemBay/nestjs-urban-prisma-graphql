@@ -77,6 +77,8 @@ export class UsersResolver {
     findUserInput: Prisma.UserWhereUniqueInput,
   ): Promise<User> {
     try {
+      console.log('data');
+      console.log(updateUserInput);
       return await this.usersService.update({
         data: updateUserInput,
         where: findUserInput,

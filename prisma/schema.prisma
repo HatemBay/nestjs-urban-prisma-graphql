@@ -9,6 +9,11 @@ generator nestgraphql {
   fields_Validator_input = true
   noAtomicOperations     = true
   // useInputType_WhereInput_ALL = "WhereInput"
+  decorate_1_type        = "UserUncheckedUpdateInput"
+  decorate_1_field       = "!(id)"
+  decorate_1_from        = "class-validator"
+  decorate_1_name        = isOptional
+  decorate_1_arguments   = "[]"
 }
 
 generator client {
