@@ -11,7 +11,7 @@ export class PostsService {
   constructor(
     private prisma: PrismaService,
     private usersService: UsersService,
-  ) {}
+  ) { }
 
   async create(createPostDto: PostUncheckedCreateInput): Promise<Post> {
     try {
@@ -44,6 +44,7 @@ export class PostsService {
       where: {
         title: {
           startsWith: filter,
+          mode: 'insensitive',
         },
       },
       orderBy: { [field]: direction },
