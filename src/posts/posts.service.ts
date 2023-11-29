@@ -55,7 +55,14 @@ export class PostsService {
           author: true,
         },
       });
-      const totalCount = await this.prisma.post.count();
+      const totalCount = await this.prisma.post.count({
+        where: {
+          title: {
+            startsWith: filter,
+            mode: 'insensitive',
+          },
+        },
+      });
 
       const result: PaginatedEntities<Post> = {
         pagination: { totalCount },
