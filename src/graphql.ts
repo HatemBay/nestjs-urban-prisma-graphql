@@ -41,6 +41,12 @@ export class FindExampleInput {
     id: number;
 }
 
+export class PaginationParams {
+    page?: Nullable<number>;
+    take?: Nullable<number>;
+    filter?: Nullable<string>;
+}
+
 export class CreatePostInput {
     title: string;
     content: string;
@@ -59,12 +65,6 @@ export class FindPostInput {
 export class OrderByParams {
     field?: Nullable<string>;
     direction?: Nullable<string>;
-}
-
-export class PaginationParams {
-    page?: Nullable<number>;
-    take?: Nullable<number>;
-    filter?: Nullable<string>;
 }
 
 export class CreateUserInput {
@@ -125,7 +125,7 @@ export abstract class IQuery {
 
     abstract example(id: number): Nullable<Example> | Promise<Nullable<Example>>;
 
-    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>): PaginatedPosts | Promise<PaginatedPosts>;
 
     abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
 
@@ -187,6 +187,15 @@ export class Post {
     dislikesCount?: Nullable<number>;
     createdAt: DateTime;
     updatedAt: DateTime;
+}
+
+export class PaginatedPosts {
+    pagination: PaginationOptions;
+    data: Nullable<Post>[];
+}
+
+export class PaginationOptions {
+    totalCount: number;
 }
 
 export class User {

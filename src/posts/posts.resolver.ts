@@ -21,10 +21,11 @@ import { Action } from '../ability/ability.factory/ability.factory';
 import { OrderByParams, PaginationParams } from '../graphql';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { SkipAbility } from '../common/decorators/skip-ability.decorator';
+import { PaginatedEntities } from 'src/common/types/paginatedEntities';
 
 @Resolver('Post')
 export class PostsResolver {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(private readonly postsService: PostsService) { }
 
   @CheckAbilities({ action: Action.Create, subject: Post })
   @Mutation('createPost')
@@ -43,7 +44,7 @@ export class PostsResolver {
   async findAll(
     @Args('orderBy') orderBy?: OrderByParams,
     @Args('pagination') pagination?: PaginationParams,
-  ): Promise<Post[]> {
+  ): Promise<PaginatedEntities<Post>> {
     return await this.postsService.findAll(orderBy, pagination);
   }
 

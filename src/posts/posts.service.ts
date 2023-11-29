@@ -6,6 +6,7 @@ import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
 import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 import { UsersService } from '../users/users.service';
 import { OrderByParams, PaginationParams } from '../graphql';
+import { PaginatedEntities } from 'src/common/types/paginatedEntities';
 @Injectable()
 export class PostsService {
   constructor(
@@ -32,27 +33,38 @@ export class PostsService {
   async findAll(
     orderBy?: OrderByParams,
     pagination?: PaginationParams,
-  ): Promise<Post[]> {
+  ): Promise<PaginatedEntities<Post>> {
     const { field = 'createdAt', direction = 'desc' } = orderBy || {};
     const { page = 1, take = 10, filter } = pagination || {};
 
     const skip = (page - 1) * take;
 
-    return await this.prisma.post.findMany({
-      skip,
-      take,
-      where: {
-        title: {
-          startsWith: filter,
-          mode: 'insensitive',
+    return await this.prisma.$transaction(async () => {
+      const posts = await this.prisma.post.findMany({
+        skip,
+        take,
+        where: {
+          title: {
+            startsWith: filter,
+            mode: 'insensitive',
+          },
         },
-      },
-      orderBy: { [field]: direction },
-      include: {
-        // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
-        author: true,
-      },
+        orderBy: { [field]: direction },
+        include: {
+          // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
+          author: true,
+        },
+      });
+      const totalCount = await this.prisma.post.count();
+
+      const result: PaginatedEntities<Post> = {
+        pagination: { totalCount },
+        data: posts,
+      }
+
+      return result;
     });
+
   }
 
   async findOne(where: Prisma.PostWhereUniqueInput): Promise<Post> {

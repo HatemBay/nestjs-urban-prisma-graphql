@@ -14,6 +14,21 @@ type Post {
   updatedAt: DateTime!
 }
 
+type PaginatedPosts {
+  pagination: PaginationOptions!,
+  data: [Post]!
+}
+
+type PaginationOptions {
+  totalCount: Int!
+}
+
+input PaginationParams {
+  page: Int
+  take: Int
+  filter: String
+}
+
 input CreatePostInput {
   title: String!
   content: String!
@@ -34,14 +49,8 @@ input OrderByParams {
   direction: String
 }
 
-input PaginationParams {
-  page: Int
-  take: Int
-  filter: String
-}
-
 type Query {
-  posts(orderBy: OrderByParams, pagination: PaginationParams): [Post]!
+  posts(orderBy: OrderByParams, pagination: PaginationParams): PaginatedPosts!
   post(id: Int!): Post
 }
 
