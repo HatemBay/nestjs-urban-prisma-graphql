@@ -33,28 +33,39 @@ export class PostsService {
   async findAll(
     orderBy?: OrderByParams,
     pagination?: PaginationParams,
+    randomize?: boolean,
   ): Promise<PaginatedEntities<Post>> {
+    console.log(pagination);
+
     const { field = 'createdAt', direction = 'desc' } = orderBy || {};
     const { page = 1, take = 10, filter } = pagination || {};
 
     const skip = (page - 1) * take;
 
     return await this.prisma.$transaction(async () => {
-      const posts = await this.prisma.post.findMany({
-        skip,
-        take,
-        where: {
-          title: {
-            startsWith: filter,
-            mode: 'insensitive',
+      let posts: Post[];
+
+      if (randomize) {
+        posts = await this.prisma.$queryRaw`SELECT p.* FROM "Post" As p join "User" As u 
+        ON p."authorId" = u."id" ORDER BY random()
+      LIMIT 7`;
+      } else {
+        posts = await this.prisma.post.findMany({
+          skip,
+          take,
+          where: {
+            title: {
+              startsWith: filter,
+              mode: 'insensitive',
+            },
           },
-        },
-        orderBy: { [field]: direction },
-        include: {
-          // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
-          author: true,
-        },
-      });
+          orderBy: { [field]: direction },
+          include: {
+            // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
+            author: true,
+          },
+        });
+      }
       const totalCount = await this.prisma.post.count({
         where: {
           title: {
