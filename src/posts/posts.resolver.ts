@@ -44,8 +44,9 @@ export class PostsResolver {
   async findAll(
     @Args('orderBy') orderBy?: OrderByParams,
     @Args('pagination') pagination?: PaginationParams,
+    @Args('randomize') randomize?: boolean,
   ): Promise<PaginatedEntities<Post>> {
-    return await this.postsService.findAll(orderBy, pagination);
+    return await this.postsService.findAll(orderBy, pagination, randomize);
   }
 
   @CheckAbilities({ action: Action.Read, subject: Post })
@@ -89,4 +90,5 @@ export class PostsResolver {
   ): Promise<Post> {
     return await this.postsService.remove(findPostInput);
   }
+
 }

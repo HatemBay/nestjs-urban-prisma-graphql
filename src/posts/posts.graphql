@@ -50,7 +50,7 @@ input OrderByParams {
 }
 
 type Query {
-  posts(orderBy: OrderByParams, pagination: PaginationParams): PaginatedPosts!
+  posts(orderBy: OrderByParams, pagination: PaginationParams, randomize: Boolean): PaginatedPosts! 
   post(id: Int!): Post
 }
 
