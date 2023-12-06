@@ -17,6 +17,7 @@ import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
 import { ExampleUncheckedCreateInput } from '../@generated/prisma-nestjs-graphql/example/example-unchecked-create.input';
 import { CheckAbilities } from '../common/decorators/ability.decorator';
 import { Action } from '../ability/ability.factory/ability.factory';
+import { SkipAuth } from 'src/common/decorators/skip-auth.decorator';
 
 @Resolver('Example')
 export class ExamplesResolver {
@@ -32,6 +33,7 @@ export class ExamplesResolver {
 
   @CheckAbilities({ action: Action.Read, subject: Example })
   @Query('examples')
+  @SkipAuth()
   async findAll(): Promise<Example[]> {
     return await this.examplesService.findAll();
   }
