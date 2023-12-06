@@ -36,7 +36,8 @@ import * as Joi from 'joi';
         JWT_VERIFICATION_TOKEN_EXPIRATION_TIME: Joi.string().required(),
         SECRET_EXPIRATION_TIME: Joi.string().required(),
         EMAIL_CONFIRMATION_URL: Joi.string().required(),
-        PORT: Joi.number().default(3000),
+        GOOGLE_REDIRECT_URL: Joi.string().required(),
+        PORT: Joi.number().default(3001),
       }),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
