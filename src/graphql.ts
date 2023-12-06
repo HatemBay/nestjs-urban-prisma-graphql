@@ -125,7 +125,7 @@ export abstract class IQuery {
 
     abstract example(id: number): Nullable<Example> | Promise<Nullable<Example>>;
 
-    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>): PaginatedPosts | Promise<PaginatedPosts>;
+    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>, randomize?: Nullable<boolean>): PaginatedPosts | Promise<PaginatedPosts>;
 
     abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
 
@@ -185,6 +185,7 @@ export class Post {
     isU18?: Nullable<boolean>;
     likesCount?: Nullable<number>;
     dislikesCount?: Nullable<number>;
+    examples?: Nullable<Nullable<Example>[]>;
     createdAt: DateTime;
     updatedAt: DateTime;
 }
