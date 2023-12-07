@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 
 async function main() {
   const admin: Role = Role.ADMIN;
+  await prisma.example.deleteMany();
+  await prisma.post.deleteMany();
   await prisma.user.deleteMany();
   const username = 'admin';
   const password = await bcrypt.hash(username, 10);
