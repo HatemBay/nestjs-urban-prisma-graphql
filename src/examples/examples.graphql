@@ -2,7 +2,9 @@ scalar DateTime
 
 type Example {
   id: Int!
-  content: String!
+  contentArabic: String!
+  contentEnglish: String
+  contentFrench: String
   post: Post
   postId: Int!
   createdAt: DateTime!
@@ -10,12 +12,16 @@ type Example {
 }
 
 input CreateExampleInput {
-  content: String!
+  contentArabic: String!
+  contentEnglish: String
+  contentFrench: String
   postId: Int!
 }
 
 input UpdateExampleInput {
-  content: String
+  contentArabic: String
+  contentEnglish: String
+  contentFrench: String
 }
 
 input FindExampleInput {
