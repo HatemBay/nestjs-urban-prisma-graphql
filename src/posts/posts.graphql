@@ -4,8 +4,11 @@ type Post {
   id: Int!
   author: User
   authorId: Int!
-  title: String!
-  content: String!
+  titleArabic: String!
+  titleLatin: String
+  contentArabic: String!
+  contentEnglish: String
+  contentFrench: String
   published: Boolean
   isU18: Boolean
   likesCount: Int
@@ -16,7 +19,7 @@ type Post {
 }
 
 type PaginatedPosts {
-  pagination: PaginationOptions!,
+  pagination: PaginationOptions!
   data: [Post]!
 }
 
@@ -31,14 +34,20 @@ input PaginationParams {
 }
 
 input CreatePostInput {
-  title: String!
-  content: String!
+  titleArabic: String!
+  titleLatin: String
+  contentArabic: String!
+  contentEnglish: String
+  contentFrench: String
   isU18: Boolean
 }
 
 input UpdatePostInput {
-  title: String
-  content: String
+  titleArabic: String
+  titleLatin: String
+  contentArabic: String!
+  contentEnglish: String
+  contentFrench: String
 }
 
 input FindPostInput {
@@ -51,7 +60,11 @@ input OrderByParams {
 }
 
 type Query {
-  posts(orderBy: OrderByParams, pagination: PaginationParams, randomize: Boolean): PaginatedPosts! 
+  posts(
+    orderBy: OrderByParams
+    pagination: PaginationParams
+    randomize: Boolean
+  ): PaginatedPosts!
   post(id: Int!): Post
 }
 

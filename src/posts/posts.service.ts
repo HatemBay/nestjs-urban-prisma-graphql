@@ -12,7 +12,7 @@ export class PostsService {
   constructor(
     private prisma: PrismaService,
     private usersService: UsersService,
-  ) { }
+  ) {}
 
   async create(createPostDto: PostUncheckedCreateInput): Promise<Post> {
     try {
@@ -46,7 +46,8 @@ export class PostsService {
       let posts: Post[];
 
       if (randomize) {
-        posts = await this.prisma.$queryRaw`SELECT p.* FROM "Post" As p join "User" As u 
+        posts = await this.prisma
+          .$queryRaw`SELECT p.* FROM "Post" As p join "User" As u 
         ON p."authorId" = u."id" ORDER BY random()
       LIMIT 7`;
       } else {
@@ -54,7 +55,8 @@ export class PostsService {
           skip,
           take,
           where: {
-            title: {
+            //TODO: add condition on title arabic
+            titleLatin: {
               startsWith: filter,
               mode: 'insensitive',
             },
@@ -63,12 +65,13 @@ export class PostsService {
           include: {
             // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
             author: true,
+            examples: true,
           },
         });
       }
       const totalCount = await this.prisma.post.count({
         where: {
-          title: {
+          titleLatin: {
             startsWith: filter,
             mode: 'insensitive',
           },
@@ -78,11 +81,10 @@ export class PostsService {
       const result: PaginatedEntities<Post> = {
         pagination: { totalCount },
         data: posts,
-      }
+      };
 
       return result;
     });
-
   }
 
   async findOne(where: Prisma.PostWhereUniqueInput): Promise<Post> {
