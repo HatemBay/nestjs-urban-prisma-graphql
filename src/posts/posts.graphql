@@ -13,7 +13,7 @@ type Post {
   isU18: Boolean
   likesCount: Int
   dislikesCount: Int
-  examples: [Example]
+  example: Example
   createdAt: DateTime!
   updatedAt: DateTime!
 }

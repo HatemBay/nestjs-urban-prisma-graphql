@@ -46,9 +46,13 @@ export class PostsService {
       let posts: Post[];
 
       if (randomize) {
-        posts = await this.prisma
-          .$queryRaw`SELECT p.* FROM "Post" As p join "User" As u 
-        ON p."authorId" = u."id" ORDER BY random()
+        // TODO: if the query gets too big, import it as a function with parameters
+        posts = await this.prisma.$queryRaw`SELECT p.*, jsonb_build_object(
+            'id', e."id",
+            'contentArabic', e."contentArabic",
+            'contentEnglish', e."contentEnglish",
+            'contentFrench', e."contentFrench"
+          ) AS "example" FROM "Post" As p join "User" As u ON p."authorId" = u."id" left join "Example" As e ON p."id" = e."postId" ORDER BY random()
       LIMIT 7`;
       } else {
         posts = await this.prisma.post.findMany({
@@ -65,7 +69,7 @@ export class PostsService {
           include: {
             // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
             author: true,
-            examples: true,
+            example: true,
           },
         });
       }
