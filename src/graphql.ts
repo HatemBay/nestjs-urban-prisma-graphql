@@ -161,7 +161,7 @@ export abstract class IMutation {
 
     abstract updatePost(findPostInput: FindPostInput, updatePostInput: UpdatePostInput): Post | Promise<Post>;
 
-    abstract removePost(id: number): Nullable<Post> | Promise<Nullable<Post>>;
+    abstract removePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
 
     abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
@@ -200,7 +200,7 @@ export class Post {
     isU18?: Nullable<boolean>;
     likesCount?: Nullable<number>;
     dislikesCount?: Nullable<number>;
-    examples?: Nullable<Nullable<Example>[]>;
+    example?: Nullable<Example>;
     createdAt: DateTime;
     updatedAt: DateTime;
 }
