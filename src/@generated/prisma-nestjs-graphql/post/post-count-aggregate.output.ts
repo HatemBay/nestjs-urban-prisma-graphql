@@ -9,10 +9,19 @@ export class PostCountAggregate {
     id!: number;
 
     @Field(() => Int, {nullable:false})
-    title!: number;
+    titleArabic!: number;
 
     @Field(() => Int, {nullable:false})
-    content!: number;
+    titleLatin!: number;
+
+    @Field(() => Int, {nullable:false})
+    contentArabic!: number;
+
+    @Field(() => Int, {nullable:false})
+    contentEnglish!: number;
+
+    @Field(() => Int, {nullable:false})
+    contentFrench!: number;
 
     @Field(() => Int, {nullable:false})
     published!: number;

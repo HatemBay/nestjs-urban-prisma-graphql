@@ -74,5 +74,5 @@ type Mutation {
     findPostInput: FindPostInput!
     updatePostInput: UpdatePostInput!
   ): Post!
-  removePost(id: Int!): Post
+  removePost(findPostInput: FindPostInput!): Post
 }

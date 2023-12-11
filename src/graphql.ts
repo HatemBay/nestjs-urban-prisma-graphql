@@ -29,12 +29,16 @@ export class FindCountryInput {
 }
 
 export class CreateExampleInput {
-    content: string;
+    contentArabic: string;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
     postId: number;
 }
 
 export class UpdateExampleInput {
-    content?: Nullable<string>;
+    contentArabic?: Nullable<string>;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
 }
 
 export class FindExampleInput {
@@ -48,14 +52,20 @@ export class PaginationParams {
 }
 
 export class CreatePostInput {
-    title: string;
-    content: string;
+    titleArabic: string;
+    titleLatin?: Nullable<string>;
+    contentArabic: string;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
     isU18?: Nullable<boolean>;
 }
 
 export class UpdatePostInput {
-    title?: Nullable<string>;
-    content?: Nullable<string>;
+    titleArabic?: Nullable<string>;
+    titleLatin?: Nullable<string>;
+    contentArabic: string;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
 }
 
 export class FindPostInput {
@@ -168,7 +178,9 @@ export abstract class IMutation {
 
 export class Example {
     id: number;
-    content: string;
+    contentArabic: string;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
     post?: Nullable<Post>;
     postId: number;
     createdAt: DateTime;
@@ -179,8 +191,11 @@ export class Post {
     id: number;
     author?: Nullable<User>;
     authorId: number;
-    title: string;
-    content: string;
+    titleArabic: string;
+    titleLatin?: Nullable<string>;
+    contentArabic: string;
+    contentEnglish?: Nullable<string>;
+    contentFrench?: Nullable<string>;
     published?: Nullable<boolean>;
     isU18?: Nullable<boolean>;
     likesCount?: Nullable<number>;

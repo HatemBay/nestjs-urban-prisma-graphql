@@ -22,10 +22,19 @@ export class PostScalarWhereWithAggregatesInput {
     id?: IntWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    title?: StringWithAggregatesFilter;
+    titleArabic?: StringWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    content?: StringWithAggregatesFilter;
+    titleLatin?: StringWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    contentArabic?: StringWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    contentEnglish?: StringWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    contentFrench?: StringWithAggregatesFilter;
 
     @Field(() => BoolNullableWithAggregatesFilter, {nullable:true})
     published?: BoolNullableWithAggregatesFilter;

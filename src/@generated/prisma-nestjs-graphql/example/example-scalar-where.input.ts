@@ -20,7 +20,13 @@ export class ExampleScalarWhereInput {
     id?: IntFilter;
 
     @Field(() => StringFilter, {nullable:true})
-    content?: StringFilter;
+    contentArabic?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    contentEnglish?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    contentFrench?: StringFilter;
 
     @Field(() => IntFilter, {nullable:true})
     postId?: IntFilter;

@@ -9,7 +9,13 @@ export class ExampleCountAggregate {
     id!: number;
 
     @Field(() => Int, {nullable:false})
-    content!: number;
+    contentArabic!: number;
+
+    @Field(() => Int, {nullable:false})
+    contentEnglish!: number;
+
+    @Field(() => Int, {nullable:false})
+    contentFrench!: number;
 
     @Field(() => Int, {nullable:false})
     postId!: number;

@@ -2,8 +2,11 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum PostScalarFieldEnum {
     id = "id",
-    title = "title",
-    content = "content",
+    titleArabic = "titleArabic",
+    titleLatin = "titleLatin",
+    contentArabic = "contentArabic",
+    contentEnglish = "contentEnglish",
+    contentFrench = "contentFrench",
     published = "published",
     likesCount = "likesCount",
     dislikesCount = "dislikesCount",

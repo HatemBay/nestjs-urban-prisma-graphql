@@ -44,6 +44,8 @@ export class AuthService {
 
   googleLogin(req) {
     if (!req.user) {
+      console.log('No user from google');
+
       return 'No user from google';
     }
     return {

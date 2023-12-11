@@ -8,10 +8,19 @@ export class PostMinAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    title?: true;
+    titleArabic?: true;
 
     @Field(() => Boolean, {nullable:true})
-    content?: true;
+    titleLatin?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    contentArabic?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    contentEnglish?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    contentFrench?: true;
 
     @Field(() => Boolean, {nullable:true})
     published?: true;

@@ -25,7 +25,7 @@ import { PaginatedEntities } from 'src/common/types/paginatedEntities';
 
 @Resolver('Post')
 export class PostsResolver {
-  constructor(private readonly postsService: PostsService) { }
+  constructor(private readonly postsService: PostsService) {}
 
   @CheckAbilities({ action: Action.Create, subject: Post })
   @Mutation('createPost')
@@ -85,10 +85,8 @@ export class PostsResolver {
   @CheckAbilities({ action: Action.Delete, subject: Post })
   @Mutation('removePost')
   async remove(
-    @Args('findPostInput', { type: () => Int })
-    findPostInput: Prisma.PostWhereUniqueInput,
+    @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post> {
     return await this.postsService.remove(findPostInput);
   }
-
 }

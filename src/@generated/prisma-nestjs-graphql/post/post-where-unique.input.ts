@@ -26,10 +26,19 @@ export class PostWhereUniqueInput {
     NOT?: Array<PostWhereInput>;
 
     @Field(() => StringFilter, {nullable:true})
-    title?: StringFilter;
+    titleArabic?: StringFilter;
 
     @Field(() => StringFilter, {nullable:true})
-    content?: StringFilter;
+    titleLatin?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    contentArabic?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    contentEnglish?: StringFilter;
+
+    @Field(() => StringFilter, {nullable:true})
+    contentFrench?: StringFilter;
 
     @Field(() => BoolNullableFilter, {nullable:true})
     published?: BoolNullableFilter;

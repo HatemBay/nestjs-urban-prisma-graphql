@@ -8,7 +8,13 @@ export class ExampleCountAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    content?: true;
+    contentArabic?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    contentEnglish?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    contentFrench?: true;
 
     @Field(() => Boolean, {nullable:true})
     postId?: true;

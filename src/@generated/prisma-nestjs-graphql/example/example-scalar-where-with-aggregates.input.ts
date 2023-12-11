@@ -20,7 +20,13 @@ export class ExampleScalarWhereWithAggregatesInput {
     id?: IntWithAggregatesFilter;
 
     @Field(() => StringWithAggregatesFilter, {nullable:true})
-    content?: StringWithAggregatesFilter;
+    contentArabic?: StringWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    contentEnglish?: StringWithAggregatesFilter;
+
+    @Field(() => StringWithAggregatesFilter, {nullable:true})
+    contentFrench?: StringWithAggregatesFilter;
 
     @Field(() => IntWithAggregatesFilter, {nullable:true})
     postId?: IntWithAggregatesFilter;

@@ -9,7 +9,13 @@ export class ExampleUncheckedUpdateWithoutPostInput {
     id?: number;
 
     @Field(() => String, {nullable:true})
-    content?: string;
+    contentArabic?: string;
+
+    @Field(() => String, {nullable:true})
+    contentEnglish?: string;
+
+    @Field(() => String, {nullable:true})
+    contentFrench?: string;
 
     @Field(() => Date, {nullable:true})
     createdAt?: Date | string;

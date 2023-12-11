@@ -9,10 +9,19 @@ export class PostUncheckedUpdateManyWithoutAuthorInput {
     id?: number;
 
     @Field(() => String, {nullable:true})
-    title?: string;
+    titleArabic?: string;
 
     @Field(() => String, {nullable:true})
-    content?: string;
+    titleLatin?: string;
+
+    @Field(() => String, {nullable:true})
+    contentArabic?: string;
+
+    @Field(() => String, {nullable:true})
+    contentEnglish?: string;
+
+    @Field(() => String, {nullable:true})
+    contentFrench?: string;
 
     @Field(() => Boolean, {nullable:true})
     published?: boolean;

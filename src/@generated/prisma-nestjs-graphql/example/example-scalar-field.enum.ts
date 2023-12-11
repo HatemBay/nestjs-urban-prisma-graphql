@@ -2,7 +2,9 @@ import { registerEnumType } from '@nestjs/graphql';
 
 export enum ExampleScalarFieldEnum {
     id = "id",
-    content = "content",
+    contentArabic = "contentArabic",
+    contentEnglish = "contentEnglish",
+    contentFrench = "contentFrench",
     postId = "postId",
     createdAt = "createdAt",
     updatedAt = "updatedAt"

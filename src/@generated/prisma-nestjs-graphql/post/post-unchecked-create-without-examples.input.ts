@@ -9,10 +9,19 @@ export class PostUncheckedCreateWithoutExamplesInput {
     id?: number;
 
     @Field(() => String, {nullable:false})
-    title!: string;
+    titleArabic!: string;
 
     @Field(() => String, {nullable:false})
-    content!: string;
+    titleLatin!: string;
+
+    @Field(() => String, {nullable:false})
+    contentArabic!: string;
+
+    @Field(() => String, {nullable:false})
+    contentEnglish!: string;
+
+    @Field(() => String, {nullable:false})
+    contentFrench!: string;
 
     @Field(() => Boolean, {nullable:true})
     published?: boolean;

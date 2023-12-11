@@ -14,7 +14,13 @@ export class ExampleOrderByWithAggregationInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    content?: keyof typeof SortOrder;
+    contentArabic?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    contentEnglish?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    contentFrench?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
     postId?: keyof typeof SortOrder;
