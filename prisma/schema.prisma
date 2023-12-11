@@ -75,23 +75,23 @@ model User {
 }
 
 model Post {
-  id             Int       @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   titleArabic    String
   titleLatin     String
   contentArabic  String
   contentEnglish String
   contentFrench  String
-  published      Boolean?  @default(false)
-  likesCount     Int       @default(1)
-  dislikesCount  Int       @default(0)
-  author         User      @relation(fields: [authorId], references: [id])
+  published      Boolean? @default(false)
+  likesCount     Int      @default(1)
+  dislikesCount  Int      @default(0)
+  author         User     @relation(fields: [authorId], references: [id])
   authorId       Int
-  isU18          Boolean   @default(true)
-  createdAt      DateTime  @default(dbgenerated("NOW()"))
-  updatedAt      DateTime  @default(dbgenerated("NOW()"))
-  examples       Example[]  
+  isU18          Boolean  @default(true)
+  createdAt      DateTime @default(dbgenerated("NOW()"))
+  updatedAt      DateTime @default(dbgenerated("NOW()"))
   // tags           Tag[]
   // flags          Flag[]
+  example        Example?
 }
 
 // model Tag {
@@ -107,7 +107,7 @@ model Example {
   contentEnglish String
   contentFrench  String
   post           Post     @relation(fields: [postId], references: [id])
-  postId         Int
+  postId         Int      @unique
   createdAt      DateTime @default(dbgenerated("NOW()"))
   updatedAt      DateTime @default(dbgenerated("NOW()"))
 }
