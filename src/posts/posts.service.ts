@@ -34,6 +34,7 @@ export class PostsService {
     orderBy?: OrderByParams,
     pagination?: PaginationParams,
     randomize?: boolean,
+    authorId?: number,
   ): Promise<PaginatedEntities<Post>> {
     console.log(pagination);
 
@@ -52,8 +53,7 @@ export class PostsService {
             'contentArabic', e."contentArabic",
             'contentEnglish', e."contentEnglish",
             'contentFrench', e."contentFrench"
-          ) AS "example" FROM "Post" As p join "User" As u ON p."authorId" = u."id" left join "Example" As e ON p."id" = e."postId" ORDER BY random()
-      LIMIT 7`;
+          ) AS "example" FROM "Post" As p join "User" As u ON p."authorId" = u."id" left join "Example" As e ON p."id" = e."postId" ORDER BY random() LIMIT 7`;
       } else {
         posts = await this.prisma.post.findMany({
           skip,
@@ -64,6 +64,7 @@ export class PostsService {
               startsWith: filter,
               mode: 'insensitive',
             },
+            authorId,
           },
           orderBy: { [field]: direction },
           include: {

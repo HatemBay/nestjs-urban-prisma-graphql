@@ -64,6 +64,7 @@ type Query {
     orderBy: OrderByParams
     pagination: PaginationParams
     randomize: Boolean
+    authorId: Int
   ): PaginatedPosts!
   post(id: Int!): Post
 }

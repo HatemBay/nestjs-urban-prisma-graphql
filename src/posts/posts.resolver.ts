@@ -45,8 +45,14 @@ export class PostsResolver {
     @Args('orderBy') orderBy?: OrderByParams,
     @Args('pagination') pagination?: PaginationParams,
     @Args('randomize') randomize?: boolean,
+    @Args('authorId') authorId?: number,
   ): Promise<PaginatedEntities<Post>> {
-    return await this.postsService.findAll(orderBy, pagination, randomize);
+    return await this.postsService.findAll(
+      orderBy,
+      pagination,
+      randomize,
+      authorId,
+    );
   }
 
   @CheckAbilities({ action: Action.Read, subject: Post })
