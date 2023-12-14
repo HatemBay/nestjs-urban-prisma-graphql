@@ -80,6 +80,7 @@ export class PostsService {
             startsWith: filter,
             mode: 'insensitive',
           },
+          authorId,
         },
       });
 
