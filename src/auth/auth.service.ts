@@ -28,29 +28,29 @@ export class AuthService {
   }
 
   async login(user: User) {
-    return {
-      accessToken: this.jwtService.sign({
-        username: user.username,
-        sub: user.id,
-        role: user.role,
-      }),
+    const accessToken = this.jwtService.sign({
+      username: user.username,
+      sub: user.id,
+      role: user.role,
+    });
+
+    const res = {
+      accessToken,
       user: user,
     };
+
+    return res;
   }
 
   async signup(signupUserInput: UserCreateInput): Promise<User> {
     return await this.usersService.create(signupUserInput);
   }
 
-  googleLogin(req) {
+  //TODO: improve (make case for if user exists or no)
+  async googleLogin(req: any) {
     if (!req.user) {
-      console.log('No user from google');
-
       return 'No user from google';
     }
-    return {
-      message: 'User information from google',
-      user: req.user,
-    };
+    return await this.login(req.user.user);
   }
 }
