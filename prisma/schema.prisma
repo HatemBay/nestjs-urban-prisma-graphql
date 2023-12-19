@@ -70,6 +70,8 @@ model User {
   googleId      String?  @unique
   googleProfile Json?
   posts         Post[]
+  likedPosts    Post[]   @relation("UserLikedPosts")
+  dislikedPosts Post[]   @relation("UserDislikedPosts")
   country       Country? @relation(fields: [countryId], references: [id])
   countryId     Int?
 }
@@ -92,6 +94,8 @@ model Post {
   // tags           Tag[]
   // flags          Flag[]
   example        Example?
+  likedBy        User[]   @relation("UserLikedPosts")
+  dislikedBy     User[]   @relation("UserDislikedPosts")
 }
 
 // model Tag {
