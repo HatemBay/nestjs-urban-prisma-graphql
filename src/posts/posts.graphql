@@ -16,6 +16,8 @@ type Post {
   example: Example
   createdAt: DateTime!
   updatedAt: DateTime!
+  likedBy: [User]
+  dislikedBy: [User]
 }
 
 type PaginatedPosts {
@@ -40,14 +42,26 @@ input CreatePostInput {
   contentEnglish: String
   contentFrench: String
   isU18: Boolean
+  likedBy: [FindUserInput!]
 }
 
 input UpdatePostInput {
   titleArabic: String
   titleLatin: String
-  contentArabic: String!
+  contentArabic: String
   contentEnglish: String
   contentFrench: String
+  likesCount: Int
+  dislikesCount: Int
+  likedBy: [FindUserInput!]
+  dislikedBy: [FindUserInput!]
+}
+
+input ReactToPostInput {
+  likesCount: Int
+  dislikesCount: Int
+  likedBy: [FindUserInput!]
+  dislikedBy: [FindUserInput!]
 }
 
 input FindPostInput {
@@ -76,4 +90,8 @@ type Mutation {
     updatePostInput: UpdatePostInput!
   ): Post!
   removePost(findPostInput: FindPostInput!): Post
+  likePost(findPostInput: FindPostInput!): Post
+  unlikePost(findPostInput: FindPostInput!): Post
+  dislikePost(findPostInput: FindPostInput!): Post
+  undislikePost(findPostInput: FindPostInput!): Post
 }

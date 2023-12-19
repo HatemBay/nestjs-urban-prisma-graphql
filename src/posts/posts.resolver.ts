@@ -34,6 +34,9 @@ export class PostsResolver {
     @CurrentUser() user: User,
   ): Promise<Post> {
     createPostInput.authorId = user.id;
+    createPostInput.likedBy = {
+      connect: [{ id: user.id }],
+    };
     return await this.postsService.create(createPostInput);
   }
 
@@ -94,5 +97,111 @@ export class PostsResolver {
     @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
   ): Promise<Post> {
     return await this.postsService.remove(findPostInput);
+  }
+
+  //*************************** POST REACTIONS ***************************/
+  //TODO: put constraints to existing users (like when a user has already liked a post then he can't like again and connect to the likedBy array)
+  @CheckAbilities({ action: Action.Update, subject: Post })
+  @Mutation(() => Post, { name: 'likePost' })
+  async likePost(
+    reactToPostInput: PostUncheckedUpdateInput,
+    @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
+    @CurrentUser() user: User,
+  ): Promise<Post> {
+    try {
+      const post = await this.findOne(findPostInput);
+      reactToPostInput = {};
+      reactToPostInput.likedBy = {
+        connect: [{ id: user.id }],
+      };
+      reactToPostInput.likesCount = post.likesCount + 1;
+
+      return await this.postsService.update({
+        data: reactToPostInput,
+        where: findPostInput,
+      });
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
+  }
+  @CheckAbilities({ action: Action.Update, subject: Post })
+  @Mutation(() => Post, { name: 'dislikePost' })
+  async dislikePost(
+    reactToPostInput: PostUncheckedUpdateInput,
+    @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
+    @CurrentUser() user: User,
+  ): Promise<Post> {
+    try {
+      const post = await this.findOne(findPostInput);
+      reactToPostInput = {};
+      reactToPostInput.dislikedBy = {
+        connect: [{ id: user.id }],
+      };
+      reactToPostInput.dislikesCount = post.dislikesCount + 1;
+
+      return await this.postsService.update({
+        data: reactToPostInput,
+        where: findPostInput,
+      });
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
+  }
+  @CheckAbilities({ action: Action.Update, subject: Post })
+  @Mutation(() => Post, { name: 'unlikePost' })
+  async unlikePost(
+    @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
+    reactToPostInput: PostUncheckedUpdateInput,
+    @CurrentUser() user: User,
+  ): Promise<Post> {
+    try {
+      const post = await this.findOne(findPostInput);
+      reactToPostInput = {};
+      reactToPostInput.likedBy = {
+        disconnect: [{ id: user.id }],
+      };
+      reactToPostInput.likesCount = post.likesCount - 1;
+
+      return await this.postsService.update({
+        data: reactToPostInput,
+        where: findPostInput,
+      });
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
+  }
+
+  @CheckAbilities({ action: Action.Update, subject: Post })
+  @Mutation(() => Post, { name: 'undislikePost' })
+  async undislikePost(
+    reactToPostInput: PostUncheckedUpdateInput,
+    @Args('findPostInput') findPostInput: Prisma.PostWhereUniqueInput,
+    @CurrentUser() user: User,
+  ): Promise<Post> {
+    try {
+      const post = await this.findOne(findPostInput);
+      reactToPostInput = {};
+      reactToPostInput.dislikedBy = {
+        disconnect: [{ id: user.id }],
+      };
+      reactToPostInput.dislikesCount = post.dislikesCount - 1;
+
+      return await this.postsService.update({
+        data: reactToPostInput,
+        where: findPostInput,
+      });
+    } catch (error) {
+      if (error instanceof ForbiddenError) {
+        throw new ForbiddenException(error.message);
+      }
+    }
   }
 }
