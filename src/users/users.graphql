@@ -17,6 +17,8 @@ type User {
   countryId: Int
   googleId: String
   googleProfile: JSON
+  likedPosts: [Post]
+  dislikedPosts: [Post]
 }
 
 input CreateUserInput {
@@ -44,6 +46,8 @@ input UpdateUserInput {
   updatedAt: DateTime
   googleId: String
   googleProfile: JSON
+  likedPosts: [FindPostInput]
+  dislikedPosts: [FindPostInput]
 }
 
 type LoginResponse {
