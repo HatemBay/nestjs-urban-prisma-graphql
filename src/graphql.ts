@@ -58,14 +58,26 @@ export class CreatePostInput {
     contentEnglish?: Nullable<string>;
     contentFrench?: Nullable<string>;
     isU18?: Nullable<boolean>;
+    likedBy?: Nullable<FindUserInput[]>;
 }
 
 export class UpdatePostInput {
     titleArabic?: Nullable<string>;
     titleLatin?: Nullable<string>;
-    contentArabic: string;
+    contentArabic?: Nullable<string>;
     contentEnglish?: Nullable<string>;
     contentFrench?: Nullable<string>;
+    likesCount?: Nullable<number>;
+    dislikesCount?: Nullable<number>;
+    likedBy?: Nullable<FindUserInput[]>;
+    dislikedBy?: Nullable<FindUserInput[]>;
+}
+
+export class ReactToPostInput {
+    likesCount?: Nullable<number>;
+    dislikesCount?: Nullable<number>;
+    likedBy?: Nullable<FindUserInput[]>;
+    dislikedBy?: Nullable<FindUserInput[]>;
 }
 
 export class FindPostInput {
@@ -102,6 +114,8 @@ export class UpdateUserInput {
     updatedAt?: Nullable<DateTime>;
     googleId?: Nullable<string>;
     googleProfile?: Nullable<JSON>;
+    likedPosts?: Nullable<Nullable<FindPostInput>[]>;
+    dislikedPosts?: Nullable<Nullable<FindPostInput>[]>;
 }
 
 export class LoginUserInput {
@@ -135,7 +149,7 @@ export abstract class IQuery {
 
     abstract example(id: number): Nullable<Example> | Promise<Nullable<Example>>;
 
-    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>, randomize?: Nullable<boolean>): PaginatedPosts | Promise<PaginatedPosts>;
+    abstract posts(orderBy?: Nullable<OrderByParams>, pagination?: Nullable<PaginationParams>, randomize?: Nullable<boolean>, authorId?: Nullable<number>): PaginatedPosts | Promise<PaginatedPosts>;
 
     abstract post(id: number): Nullable<Post> | Promise<Nullable<Post>>;
 
@@ -162,6 +176,14 @@ export abstract class IMutation {
     abstract updatePost(findPostInput: FindPostInput, updatePostInput: UpdatePostInput): Post | Promise<Post>;
 
     abstract removePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract likePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract unlikePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract dislikePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract undislikePost(findPostInput: FindPostInput): Nullable<Post> | Promise<Nullable<Post>>;
 
     abstract login(LoginUserInput: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
@@ -203,6 +225,8 @@ export class Post {
     example?: Nullable<Example>;
     createdAt: DateTime;
     updatedAt: DateTime;
+    likedBy?: Nullable<Nullable<User>[]>;
+    dislikedBy?: Nullable<Nullable<User>[]>;
 }
 
 export class PaginatedPosts {
@@ -230,6 +254,8 @@ export class User {
     countryId?: Nullable<number>;
     googleId?: Nullable<string>;
     googleProfile?: Nullable<JSON>;
+    likedPosts?: Nullable<Nullable<Post>[]>;
+    dislikedPosts?: Nullable<Nullable<Post>[]>;
 }
 
 export class LoginResponse {
