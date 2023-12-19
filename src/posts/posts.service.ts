@@ -9,6 +9,12 @@ import { OrderByParams, PaginationParams } from '../graphql';
 import { PaginatedEntities } from 'src/common/types/paginatedEntities';
 @Injectable()
 export class PostsService {
+  include: Prisma.PostInclude = {
+    author: true,
+    example: true,
+    likedBy: true,
+    dislikedBy: true,
+  };
   constructor(
     private prisma: PrismaService,
     private usersService: UsersService,
@@ -67,11 +73,7 @@ export class PostsService {
             authorId,
           },
           orderBy: { [field]: direction },
-          include: {
-            // Nb: true means that all properties will be included, otherwise we just specify the shape and conditions in options
-            author: true,
-            example: true,
-          },
+          include: this.include,
         });
       }
       const totalCount = await this.prisma.post.count({
@@ -95,7 +97,10 @@ export class PostsService {
 
   async findOne(where: Prisma.PostWhereUniqueInput): Promise<Post> {
     try {
-      return await this.prisma.post.findUniqueOrThrow({ where });
+      return await this.prisma.post.findUniqueOrThrow({
+        where,
+        include: this.include,
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
@@ -110,15 +115,19 @@ export class PostsService {
     return await this.usersService.findOne({ id: authorId });
   }
 
+  async updateTime(): Promise<Date> {
+    const dateTime = new Date();
+    dateTime.setHours(dateTime.getHours() + 1);
+    return dateTime;
+  }
+
   async update(params: {
     where: Prisma.PostWhereUniqueInput;
     data: Prisma.PostUncheckedUpdateInput;
   }): Promise<Post> {
     const { data, where } = params;
     try {
-      const dateTime = new Date();
-      dateTime.setHours(dateTime.getHours() + 1);
-      data.updatedAt = dateTime;
+      data.updatedAt = await this.updateTime();
       return await this.prisma.post.update({
         data,
         where,
