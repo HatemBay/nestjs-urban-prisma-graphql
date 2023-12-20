@@ -1,0 +1,46 @@
+scalar DateTime
+
+type Flag {
+  id: Int!
+  reason: Reason!
+  content: String
+  post: Post!
+  postId: Int!
+  createdAt: DateTime!
+}
+
+input CreateFlagInput {
+  reason: Reason!
+  content: String
+  postId: Int!
+}
+
+input UpdateFlagInput {
+  reason: Reason
+  content: String
+}
+
+input FindFlagInput {
+  id: Int!
+}
+
+type Query {
+  flags: [Flag]!
+  flag(id: Int!): Flag
+}
+
+type Mutation {
+  createFlag(createFlagInput: CreateFlagInput!): Flag!
+  updateFlag(
+    findFlagInput: FindFlagInput!
+    updateFlagInput: UpdateFlagInput!
+  ): Flag!
+  removeFlag(findFlagInput: FindFlagInput!): Flag
+}
+
+enum Reason {
+  PRIVATE
+  OFFENSIVE
+  TABOO
+  OTHER
+}
