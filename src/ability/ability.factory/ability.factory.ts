@@ -11,6 +11,7 @@ import { User } from '../../@generated/prisma-nestjs-graphql/user/user.model';
 import { Post } from '../../@generated/prisma-nestjs-graphql/post/post.model';
 import { Example } from '../../@generated/prisma-nestjs-graphql/example/example.model';
 import { Country } from '../../@generated/prisma-nestjs-graphql/country/country.model';
+import { Flag } from '../../@generated/prisma-nestjs-graphql/flag/flag.model';
 
 export enum Action {
   Manage = 'manage',
@@ -25,6 +26,7 @@ export const SubjectList = {
   Post,
   Example,
   Country,
+  Flag,
 };
 
 export const PluralSubjectList = {
@@ -32,6 +34,7 @@ export const PluralSubjectList = {
   Post: 'posts',
   Example: 'examples',
   Country: 'countries',
+  Flag: 'flags',
 };
 
 type SubjectListType = typeof SubjectList;
@@ -93,6 +96,12 @@ export class AbilityFactory {
       cannot(Action.Update, Country).because('only admin can');
       cannot(Action.Delete, Country).because('only admin can');
       // ********** countries **********
+      // ********** flags **********
+      can(Action.Create, Flag);
+      cannot(Action.Read, Flag).because('only admin can');
+      cannot(Action.Update, Flag).because('only admin can');
+      cannot(Action.Delete, Flag).because('only admin can');
+      // ********** flags **********
     }
     return build({
       detectSubjectType: (item) =>
