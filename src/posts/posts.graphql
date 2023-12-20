@@ -18,6 +18,7 @@ type Post {
   updatedAt: DateTime!
   likedBy: [User]
   dislikedBy: [User]
+  flags: [Flag]
 }
 
 type PaginatedPosts {
@@ -55,6 +56,7 @@ input UpdatePostInput {
   dislikesCount: Int
   likedBy: [FindUserInput!]
   dislikedBy: [FindUserInput!]
+  # TODO: add examples with find example input so u can add example right away from post creation
 }
 
 input ReactToPostInput {

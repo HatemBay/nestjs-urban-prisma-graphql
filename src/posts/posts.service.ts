@@ -14,6 +14,7 @@ export class PostsService {
     example: true,
     likedBy: true,
     dislikedBy: true,
+    flags: true,
   };
   constructor(
     private prisma: PrismaService,
