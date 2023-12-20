@@ -39,5 +39,5 @@ type Mutation {
     findExampleInput: FindExampleInput!
     updateExampleInput: UpdateExampleInput!
   ): Example!
-  removeExample(id: Int!): Example
+  removeExample(findExampleInput: FindExampleInput!): Example
 }
