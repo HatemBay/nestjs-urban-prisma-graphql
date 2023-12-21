@@ -27,6 +27,7 @@ datasource db {
 }
 
 enum Reason {
+  PRIVATE
   OFFENSIVE
   TABOO
   OTHER
@@ -74,6 +75,7 @@ model User {
   dislikedPosts Post[]   @relation("UserDislikedPosts")
   country       Country? @relation(fields: [countryId], references: [id])
   countryId     Int?
+  flags         Flag[]
 }
 
 model Post {
@@ -92,7 +94,7 @@ model Post {
   createdAt      DateTime @default(dbgenerated("NOW()"))
   updatedAt      DateTime @default(dbgenerated("NOW()"))
   // tags           Tag[]
-  // flags          Flag[]
+  flags          Flag[]
   example        Example?
   likedBy        User[]   @relation("UserLikedPosts")
   dislikedBy     User[]   @relation("UserDislikedPosts")
@@ -116,10 +118,13 @@ model Example {
   updatedAt      DateTime @default(dbgenerated("NOW()"))
 }
 
-// model Flag {
-//   id         Int      @id @default(autoincrement())
-//   reason     Reason
-//   Post       Post?    @relation(fields: [postId], references: [id])
-//   postId     Int?
-//   createdAt DateTime @default(dbgenerated("NOW()"))
-// }
+model Flag {
+  id        Int      @id @default(autoincrement())
+  reason    Reason
+  content   String?
+  Post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  createdAt DateTime @default(dbgenerated("NOW()"))
+}
