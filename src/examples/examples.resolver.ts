@@ -47,7 +47,6 @@ export class ExamplesResolver {
     return await this.examplesService.findOne(findExampleInput);
   }
 
-  @CheckAbilities({ action: Action.Create, subject: Example })
   @ResolveField(() => Post)
   async post(@Parent() example: Example): Promise<Post> {
     return await this.examplesService.getPost(example.postId);
