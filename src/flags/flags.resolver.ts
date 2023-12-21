@@ -18,6 +18,7 @@ import { Post } from '../@generated/prisma-nestjs-graphql/post/post.model';
 import { FlagUncheckedUpdateInput } from '../@generated/prisma-nestjs-graphql/flag/flag-unchecked-update.input';
 import { ForbiddenError } from '@nestjs/apollo';
 import { ForbiddenException } from '@nestjs/common';
+import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 
 @Resolver('Flag')
 export class FlagsResolver {
@@ -47,10 +48,14 @@ export class FlagsResolver {
     return await this.flagsService.findOne(findFlagInput);
   }
 
-  @CheckAbilities({ action: Action.Create, subject: Flag })
   @ResolveField(() => Post)
   async post(@Parent() flag: Flag): Promise<Post> {
     return await this.flagsService.getPost(flag.postId);
+  }
+
+  @ResolveField(() => User)
+  async user(@Parent() flag: Flag): Promise<User> {
+    return await this.flagsService.getUser(flag.userId);
   }
 
   @CheckAbilities({ action: Action.Update, subject: Flag })

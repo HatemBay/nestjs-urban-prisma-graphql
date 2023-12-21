@@ -4,12 +4,15 @@ import { PostsService } from 'src/posts/posts.service';
 import { Post, Prisma } from '@prisma/client';
 import { Flag } from 'src/@generated/prisma-nestjs-graphql/flag/flag.model';
 import { FlagUncheckedCreateInput } from 'src/@generated/prisma-nestjs-graphql/flag/flag-unchecked-create.input';
+import { UsersService } from '../users/users.service';
+import { User } from '../@generated/prisma-nestjs-graphql/user/user.model';
 
 @Injectable()
 export class FlagsService {
   constructor(
     private prisma: PrismaService,
     private postsService: PostsService,
+    private usersService: UsersService,
   ) {}
 
   async create(createFlagDto: FlagUncheckedCreateInput): Promise<Flag> {
@@ -49,6 +52,10 @@ export class FlagsService {
 
   async getPost(postId: number): Promise<Post> {
     return await this.postsService.findOne({ id: postId });
+  }
+
+  async getUser(userId: number): Promise<User> {
+    return await this.usersService.findOne({ id: userId });
   }
 
   async update(params: {

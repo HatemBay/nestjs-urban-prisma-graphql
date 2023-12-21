@@ -6,6 +6,8 @@ type Flag {
   content: String
   post: Post!
   postId: Int!
+  user: User
+  userId: Int
   createdAt: DateTime!
 }
 
@@ -13,6 +15,7 @@ input CreateFlagInput {
   reason: Reason!
   content: String
   postId: Int!
+  userId: Int!
 }
 
 input UpdateFlagInput {
