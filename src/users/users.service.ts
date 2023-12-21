@@ -97,6 +97,8 @@ export class UsersService {
       orderBy: { [field]: direction },
       include: {
         posts: true,
+        likedPosts: true,
+        dislikedPosts: true,
       },
     });
   }
