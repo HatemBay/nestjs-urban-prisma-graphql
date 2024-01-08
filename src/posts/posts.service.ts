@@ -37,6 +37,14 @@ export class PostsService {
     }
   }
 
+  async shuffle(array: any[]): Promise<any[]> {
+    const shuffled = array
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
+    return shuffled;
+  }
+
   async findAll(
     orderBy?: OrderByParams,
     pagination?: PaginationParams,
@@ -54,13 +62,20 @@ export class PostsService {
       let posts: Post[];
 
       if (randomize) {
-        // TODO: if the query gets too big, import it as a function with parameters
-        posts = await this.prisma.$queryRaw`SELECT p.*, jsonb_build_object(
-            'id', e."id",
-            'contentArabic', e."contentArabic",
-            'contentEnglish', e."contentEnglish",
-            'contentFrench', e."contentFrench"
-          ) AS "example" FROM "Post" As p join "User" As u ON p."authorId" = u."id" left join "Example" As e ON p."id" = e."postId" ORDER BY random() LIMIT 7`;
+        const randomIds: any[] = await this.prisma
+          .$queryRaw`SELECT id from "Post" ORDER BY random() LIMIT 7`;
+
+        posts = await this.prisma.post.findMany({
+          where: {
+            id: { in: randomIds.map((val: any) => val.id) },
+          },
+          include: this.include,
+        });
+
+        posts = await this.shuffle(posts);
+
+        console.log('toShuffled');
+        console.log(posts);
       } else {
         posts = await this.prisma.post.findMany({
           skip,
@@ -114,6 +129,30 @@ export class PostsService {
 
   async getAuthor(authorId: number): Promise<User> {
     return await this.usersService.findOne({ id: authorId });
+  }
+
+  async getLikedBy(where: Prisma.PostWhereUniqueInput): Promise<User[]> {
+    const post = await this.prisma.post.findFirstOrThrow({
+      where,
+      include: {
+        likedBy: true,
+      },
+    });
+
+    console.log(post.likedBy);
+
+    return post.likedBy;
+  }
+
+  async getDislikedBy(where: Prisma.PostWhereUniqueInput): Promise<User[]> {
+    const post = await this.prisma.post.findFirstOrThrow({
+      where,
+      include: {
+        dislikedBy: true,
+      },
+    });
+
+    return post.dislikedBy;
   }
 
   async updateTime(): Promise<Date> {
