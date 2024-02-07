@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
