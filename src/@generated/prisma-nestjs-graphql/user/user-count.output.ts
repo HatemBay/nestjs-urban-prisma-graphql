@@ -7,4 +7,13 @@ export class UserCount {
 
     @Field(() => Int, {nullable:false})
     posts?: number;
+
+    @Field(() => Int, {nullable:false})
+    likedPosts?: number;
+
+    @Field(() => Int, {nullable:false})
+    dislikedPosts?: number;
+
+    @Field(() => Int, {nullable:false})
+    flags?: number;
 }

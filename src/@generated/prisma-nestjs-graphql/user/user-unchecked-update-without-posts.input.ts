@@ -4,6 +4,9 @@ import { Int } from '@nestjs/graphql';
 import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
+import { PostUncheckedUpdateManyWithoutLikedByNestedInput } from '../post/post-unchecked-update-many-without-liked-by-nested.input';
+import { PostUncheckedUpdateManyWithoutDislikedByNestedInput } from '../post/post-unchecked-update-many-without-disliked-by-nested.input';
+import { FlagUncheckedUpdateManyWithoutUserNestedInput } from '../flag/flag-unchecked-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUncheckedUpdateWithoutPostsInput {
@@ -48,4 +51,13 @@ export class UserUncheckedUpdateWithoutPostsInput {
 
     @Field(() => Int, {nullable:true})
     countryId?: number;
+
+    @Field(() => PostUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedPosts?: PostUncheckedUpdateManyWithoutLikedByNestedInput;
+
+    @Field(() => PostUncheckedUpdateManyWithoutDislikedByNestedInput, {nullable:true})
+    dislikedPosts?: PostUncheckedUpdateManyWithoutDislikedByNestedInput;
+
+    @Field(() => FlagUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    flags?: FlagUncheckedUpdateManyWithoutUserNestedInput;
 }

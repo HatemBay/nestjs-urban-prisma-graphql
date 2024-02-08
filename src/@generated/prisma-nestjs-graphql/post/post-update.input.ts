@@ -2,7 +2,10 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { UserUpdateOneRequiredWithoutPostsNestedInput } from '../user/user-update-one-required-without-posts-nested.input';
-import { ExampleUpdateManyWithoutPostNestedInput } from '../example/example-update-many-without-post-nested.input';
+import { FlagUpdateManyWithoutPostNestedInput } from '../flag/flag-update-many-without-post-nested.input';
+import { ExampleUpdateOneWithoutPostNestedInput } from '../example/example-update-one-without-post-nested.input';
+import { UserUpdateManyWithoutLikedPostsNestedInput } from '../user/user-update-many-without-liked-posts-nested.input';
+import { UserUpdateManyWithoutDislikedPostsNestedInput } from '../user/user-update-many-without-disliked-posts-nested.input';
 
 @InputType()
 export class PostUpdateInput {
@@ -43,6 +46,15 @@ export class PostUpdateInput {
     @Field(() => UserUpdateOneRequiredWithoutPostsNestedInput, {nullable:true})
     author?: UserUpdateOneRequiredWithoutPostsNestedInput;
 
-    @Field(() => ExampleUpdateManyWithoutPostNestedInput, {nullable:true})
-    examples?: ExampleUpdateManyWithoutPostNestedInput;
+    @Field(() => FlagUpdateManyWithoutPostNestedInput, {nullable:true})
+    flags?: FlagUpdateManyWithoutPostNestedInput;
+
+    @Field(() => ExampleUpdateOneWithoutPostNestedInput, {nullable:true})
+    example?: ExampleUpdateOneWithoutPostNestedInput;
+
+    @Field(() => UserUpdateManyWithoutLikedPostsNestedInput, {nullable:true})
+    likedBy?: UserUpdateManyWithoutLikedPostsNestedInput;
+
+    @Field(() => UserUpdateManyWithoutDislikedPostsNestedInput, {nullable:true})
+    dislikedBy?: UserUpdateManyWithoutDislikedPostsNestedInput;
 }

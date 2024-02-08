@@ -1,6 +1,6 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
-import { PostUpdateOneRequiredWithoutExamplesNestedInput } from '../post/post-update-one-required-without-examples-nested.input';
+import { PostUpdateOneRequiredWithoutExampleNestedInput } from '../post/post-update-one-required-without-example-nested.input';
 
 @InputType()
 export class ExampleUpdateInput {
@@ -20,6 +20,6 @@ export class ExampleUpdateInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
 
-    @Field(() => PostUpdateOneRequiredWithoutExamplesNestedInput, {nullable:true})
-    post?: PostUpdateOneRequiredWithoutExamplesNestedInput;
+    @Field(() => PostUpdateOneRequiredWithoutExampleNestedInput, {nullable:true})
+    post?: PostUpdateOneRequiredWithoutExampleNestedInput;
 }

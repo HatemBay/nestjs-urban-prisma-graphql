@@ -14,29 +14,32 @@ export class EmailConfirmationService {
     private readonly usersService: UsersService,
   ) {}
 
-  public sendVerificationLink(email: string) {
-    const payload: VerificationTokenPayload = { email };
+  public async sendVerificationLink(email: string) {
+    const user = await this.usersService.findOne({ email });
+    if (!user.emailVerified) {
+      const payload: VerificationTokenPayload = { email };
 
-    const token = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get(
-        'JWT_VERIFICATION_TOKEN_EXPIRATION_TIME',
-      )}s`,
-    });
+      const token = this.jwtService.sign(payload, {
+        secret: this.configService.get('JWT_VERIFICATION_TOKEN_SECRET'),
+        expiresIn: `${this.configService.get(
+          'JWT_VERIFICATION_TOKEN_EXPIRATION_TIME',
+        )}s`,
+      });
 
-    const url = `${this.configService.get(
-      'EMAIL_CONFIRMATION_URL',
-    )}?token=${token}`;
+      const url = `${this.configService.get(
+        'EMAIL_CONFIRMATION_URL',
+      )}?token=${token}`;
 
-    const text = `<b>Welcome to the application. To confirm the email address, click here: <a href="${url}">Confirmation link</a></b>`;
+      const text = `<b>Welcome to the application. To confirm the email address, click here: <a href="${url}">Confirmation link</a></b>`;
 
-    return this.mailerService.sendMail({
-      // TODO: change email with dynamic data
-      to: 'llaattiinno6@gmail.com',
-      from: 'llaattiinno6@gmail.com',
-      subject: 'Confirm your email ✔',
-      html: text,
-    });
+      return this.mailerService.sendMail({
+        // TODO: change email with dynamic data
+        to: 'llaattiinno6@gmail.com',
+        from: 'llaattiinno6@gmail.com',
+        subject: 'Confirm your email ✔',
+        html: text,
+      });
+    }
   }
 
   public async confirmEmail(email: string) {

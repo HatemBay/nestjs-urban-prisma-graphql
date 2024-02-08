@@ -6,7 +6,9 @@ import { BoolNullableFilter } from '../prisma/bool-nullable-filter.input';
 import { BoolFilter } from '../prisma/bool-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { UserRelationFilter } from '../user/user-relation-filter.input';
-import { ExampleListRelationFilter } from '../example/example-list-relation-filter.input';
+import { FlagListRelationFilter } from '../flag/flag-list-relation-filter.input';
+import { ExampleNullableRelationFilter } from '../example/example-nullable-relation-filter.input';
+import { UserListRelationFilter } from '../user/user-list-relation-filter.input';
 
 @InputType()
 export class PostWhereInput {
@@ -62,6 +64,15 @@ export class PostWhereInput {
     @Field(() => UserRelationFilter, {nullable:true})
     author?: UserRelationFilter;
 
-    @Field(() => ExampleListRelationFilter, {nullable:true})
-    examples?: ExampleListRelationFilter;
+    @Field(() => FlagListRelationFilter, {nullable:true})
+    flags?: FlagListRelationFilter;
+
+    @Field(() => ExampleNullableRelationFilter, {nullable:true})
+    example?: ExampleNullableRelationFilter;
+
+    @Field(() => UserListRelationFilter, {nullable:true})
+    likedBy?: UserListRelationFilter;
+
+    @Field(() => UserListRelationFilter, {nullable:true})
+    dislikedBy?: UserListRelationFilter;
 }

@@ -4,7 +4,10 @@ import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
 import { PostCreateNestedManyWithoutAuthorInput } from '../post/post-create-nested-many-without-author.input';
+import { PostCreateNestedManyWithoutLikedByInput } from '../post/post-create-nested-many-without-liked-by.input';
+import { PostCreateNestedManyWithoutDislikedByInput } from '../post/post-create-nested-many-without-disliked-by.input';
 import { CountryCreateNestedOneWithoutUsersInput } from '../country/country-create-nested-one-without-users.input';
+import { FlagCreateNestedManyWithoutUserInput } from '../flag/flag-create-nested-many-without-user.input';
 
 @InputType()
 export class UserCreateInput {
@@ -47,6 +50,15 @@ export class UserCreateInput {
     @Field(() => PostCreateNestedManyWithoutAuthorInput, {nullable:true})
     posts?: PostCreateNestedManyWithoutAuthorInput;
 
+    @Field(() => PostCreateNestedManyWithoutLikedByInput, {nullable:true})
+    likedPosts?: PostCreateNestedManyWithoutLikedByInput;
+
+    @Field(() => PostCreateNestedManyWithoutDislikedByInput, {nullable:true})
+    dislikedPosts?: PostCreateNestedManyWithoutDislikedByInput;
+
     @Field(() => CountryCreateNestedOneWithoutUsersInput, {nullable:true})
     country?: CountryCreateNestedOneWithoutUsersInput;
+
+    @Field(() => FlagCreateNestedManyWithoutUserInput, {nullable:true})
+    flags?: FlagCreateNestedManyWithoutUserInput;
 }

@@ -13,6 +13,7 @@ import { EmailConfirmationService } from './email-confirmation.service';
 import { SkipAuth } from '../common/decorators/skip-auth.decorator';
 import { RequestWithUser } from './interfaces/request-with-user.interface';
 import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
+import { ConfigService } from '@nestjs/config';
 
 // TODO: subject to change to resolver + confirming method: check when frontend part of the service reached
 @Controller('email-confirmation')
@@ -21,6 +22,7 @@ import { SkipThrottle, ThrottlerGuard } from '@nestjs/throttler';
 export class EmailConfirmationController {
   constructor(
     private readonly emailConfirmationService: EmailConfirmationService,
+    private readonly configService: ConfigService,
   ) {}
 
   @SkipAuth()
@@ -31,13 +33,17 @@ export class EmailConfirmationController {
 
     return await this.emailConfirmationService.confirmEmail(email).then(() => {
       Logger.log('Email confirmed successfully');
-      return res.status(HttpStatus.OK).send('Email confirmed successfully');
+      res.status(HttpStatus.OK).send('Email confirmed successfully');
+      return res.redirect(`${this.configService.get('SITE_URL')}/`);
     });
   }
 
   @SkipAuth()
   @Post('resend-confirmation-link')
   async resendConfirmationLink(@Req() request: RequestWithUser) {
-    await this.emailConfirmationService.resendConfirmationLink(request.user.id);
+    console.log(request);
+    const { user } = request.body as any;
+
+    await this.emailConfirmationService.resendConfirmationLink(user.id);
   }
 }

@@ -1,7 +1,10 @@
 import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
-import { ExampleUncheckedUpdateManyWithoutPostNestedInput } from '../example/example-unchecked-update-many-without-post-nested.input';
+import { FlagUncheckedUpdateManyWithoutPostNestedInput } from '../flag/flag-unchecked-update-many-without-post-nested.input';
+import { ExampleUncheckedUpdateOneWithoutPostNestedInput } from '../example/example-unchecked-update-one-without-post-nested.input';
+import { UserUncheckedUpdateManyWithoutLikedPostsNestedInput } from '../user/user-unchecked-update-many-without-liked-posts-nested.input';
+import { UserUncheckedUpdateManyWithoutDislikedPostsNestedInput } from '../user/user-unchecked-update-many-without-disliked-posts-nested.input';
 
 @InputType()
 export class PostUncheckedUpdateWithoutAuthorInput {
@@ -42,6 +45,15 @@ export class PostUncheckedUpdateWithoutAuthorInput {
     @Field(() => Date, {nullable:true})
     updatedAt?: Date | string;
 
-    @Field(() => ExampleUncheckedUpdateManyWithoutPostNestedInput, {nullable:true})
-    examples?: ExampleUncheckedUpdateManyWithoutPostNestedInput;
+    @Field(() => FlagUncheckedUpdateManyWithoutPostNestedInput, {nullable:true})
+    flags?: FlagUncheckedUpdateManyWithoutPostNestedInput;
+
+    @Field(() => ExampleUncheckedUpdateOneWithoutPostNestedInput, {nullable:true})
+    example?: ExampleUncheckedUpdateOneWithoutPostNestedInput;
+
+    @Field(() => UserUncheckedUpdateManyWithoutLikedPostsNestedInput, {nullable:true})
+    likedBy?: UserUncheckedUpdateManyWithoutLikedPostsNestedInput;
+
+    @Field(() => UserUncheckedUpdateManyWithoutDislikedPostsNestedInput, {nullable:true})
+    dislikedBy?: UserUncheckedUpdateManyWithoutDislikedPostsNestedInput;
 }

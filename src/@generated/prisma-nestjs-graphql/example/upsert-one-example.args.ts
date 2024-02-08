@@ -11,7 +11,7 @@ export class UpsertOneExampleArgs {
 
     @Field(() => ExampleWhereUniqueInput, {nullable:false})
     @Type(() => ExampleWhereUniqueInput)
-    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id' | 'postId'>;
 
     @Field(() => ExampleCreateInput, {nullable:false})
     @Type(() => ExampleCreateInput)

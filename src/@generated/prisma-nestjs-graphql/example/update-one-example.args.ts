@@ -14,5 +14,5 @@ export class UpdateOneExampleArgs {
 
     @Field(() => ExampleWhereUniqueInput, {nullable:false})
     @Type(() => ExampleWhereUniqueInput)
-    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id' | 'postId'>;
 }

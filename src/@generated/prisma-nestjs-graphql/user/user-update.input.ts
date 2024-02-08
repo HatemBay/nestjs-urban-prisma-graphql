@@ -4,7 +4,10 @@ import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
 import { PostUpdateManyWithoutAuthorNestedInput } from '../post/post-update-many-without-author-nested.input';
+import { PostUpdateManyWithoutLikedByNestedInput } from '../post/post-update-many-without-liked-by-nested.input';
+import { PostUpdateManyWithoutDislikedByNestedInput } from '../post/post-update-many-without-disliked-by-nested.input';
 import { CountryUpdateOneWithoutUsersNestedInput } from '../country/country-update-one-without-users-nested.input';
+import { FlagUpdateManyWithoutUserNestedInput } from '../flag/flag-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUpdateInput {
@@ -47,6 +50,15 @@ export class UserUpdateInput {
     @Field(() => PostUpdateManyWithoutAuthorNestedInput, {nullable:true})
     posts?: PostUpdateManyWithoutAuthorNestedInput;
 
+    @Field(() => PostUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedPosts?: PostUpdateManyWithoutLikedByNestedInput;
+
+    @Field(() => PostUpdateManyWithoutDislikedByNestedInput, {nullable:true})
+    dislikedPosts?: PostUpdateManyWithoutDislikedByNestedInput;
+
     @Field(() => CountryUpdateOneWithoutUsersNestedInput, {nullable:true})
     country?: CountryUpdateOneWithoutUsersNestedInput;
+
+    @Field(() => FlagUpdateManyWithoutUserNestedInput, {nullable:true})
+    flags?: FlagUpdateManyWithoutUserNestedInput;
 }

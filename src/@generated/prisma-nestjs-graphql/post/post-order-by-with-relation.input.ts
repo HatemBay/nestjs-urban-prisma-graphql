@@ -3,7 +3,9 @@ import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { SortOrderInput } from '../prisma/sort-order.input';
 import { UserOrderByWithRelationInput } from '../user/user-order-by-with-relation.input';
-import { ExampleOrderByRelationAggregateInput } from '../example/example-order-by-relation-aggregate.input';
+import { FlagOrderByRelationAggregateInput } from '../flag/flag-order-by-relation-aggregate.input';
+import { ExampleOrderByWithRelationInput } from '../example/example-order-by-with-relation.input';
+import { UserOrderByRelationAggregateInput } from '../user/user-order-by-relation-aggregate.input';
 
 @InputType()
 export class PostOrderByWithRelationInput {
@@ -50,6 +52,15 @@ export class PostOrderByWithRelationInput {
     @Field(() => UserOrderByWithRelationInput, {nullable:true})
     author?: UserOrderByWithRelationInput;
 
-    @Field(() => ExampleOrderByRelationAggregateInput, {nullable:true})
-    examples?: ExampleOrderByRelationAggregateInput;
+    @Field(() => FlagOrderByRelationAggregateInput, {nullable:true})
+    flags?: FlagOrderByRelationAggregateInput;
+
+    @Field(() => ExampleOrderByWithRelationInput, {nullable:true})
+    example?: ExampleOrderByWithRelationInput;
+
+    @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
+    likedBy?: UserOrderByRelationAggregateInput;
+
+    @Field(() => UserOrderByRelationAggregateInput, {nullable:true})
+    dislikedBy?: UserOrderByRelationAggregateInput;
 }

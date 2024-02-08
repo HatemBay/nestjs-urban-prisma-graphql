@@ -1,7 +1,7 @@
 export type PaginatedEntities<T> = {
-    pagination: {
-        totalCount: number;
-    }
+  pagination: {
+    totalCount: number;
+  };
 } & {
-    data: T[];
+  data: T[];
 };

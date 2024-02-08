@@ -11,6 +11,7 @@ import { JsonNullableFilter } from '../prisma/json-nullable-filter.input';
 import { IntNullableFilter } from '../prisma/int-nullable-filter.input';
 import { PostListRelationFilter } from '../post/post-list-relation-filter.input';
 import { CountryNullableRelationFilter } from '../country/country-nullable-relation-filter.input';
+import { FlagListRelationFilter } from '../flag/flag-list-relation-filter.input';
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -68,6 +69,15 @@ export class UserWhereUniqueInput {
     @Field(() => PostListRelationFilter, {nullable:true})
     posts?: PostListRelationFilter;
 
+    @Field(() => PostListRelationFilter, {nullable:true})
+    likedPosts?: PostListRelationFilter;
+
+    @Field(() => PostListRelationFilter, {nullable:true})
+    dislikedPosts?: PostListRelationFilter;
+
     @Field(() => CountryNullableRelationFilter, {nullable:true})
     country?: CountryNullableRelationFilter;
+
+    @Field(() => FlagListRelationFilter, {nullable:true})
+    flags?: FlagListRelationFilter;
 }

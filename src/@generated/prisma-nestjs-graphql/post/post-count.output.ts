@@ -6,5 +6,11 @@ import { Int } from '@nestjs/graphql';
 export class PostCount {
 
     @Field(() => Int, {nullable:false})
-    examples?: number;
+    flags?: number;
+
+    @Field(() => Int, {nullable:false})
+    likedBy?: number;
+
+    @Field(() => Int, {nullable:false})
+    dislikedBy?: number;
 }

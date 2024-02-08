@@ -10,7 +10,7 @@ export class ExampleCreateOrConnectWithoutPostInput {
 
     @Field(() => ExampleWhereUniqueInput, {nullable:false})
     @Type(() => ExampleWhereUniqueInput)
-    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id'>;
+    where!: Prisma.AtLeast<ExampleWhereUniqueInput, 'id' | 'postId'>;
 
     @Field(() => ExampleCreateWithoutPostInput, {nullable:false})
     @Type(() => ExampleCreateWithoutPostInput)

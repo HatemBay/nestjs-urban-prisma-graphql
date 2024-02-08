@@ -3,6 +3,7 @@ import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { User } from '../user/user.model';
+import { Flag } from '../flag/flag.model';
 import { Example } from '../example/example.model';
 import { PostCount } from './post-count.output';
 
@@ -51,8 +52,17 @@ export class Post {
     @Field(() => User, {nullable:false})
     author?: User;
 
-    @Field(() => [Example], {nullable:true})
-    examples?: Array<Example>;
+    @Field(() => [Flag], {nullable:true})
+    flags?: Array<Flag>;
+
+    @Field(() => Example, {nullable:true})
+    example?: Example | null;
+
+    @Field(() => [User], {nullable:true})
+    likedBy?: Array<User>;
+
+    @Field(() => [User], {nullable:true})
+    dislikedBy?: Array<User>;
 
     @Field(() => PostCount, {nullable:false})
     _count?: PostCount;

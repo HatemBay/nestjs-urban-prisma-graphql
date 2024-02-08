@@ -5,6 +5,9 @@ import * as Validator from 'class-validator';
 import { Role } from '../prisma/role.enum';
 import { GraphQLJSON } from 'graphql-type-json';
 import { PostUncheckedUpdateManyWithoutAuthorNestedInput } from '../post/post-unchecked-update-many-without-author-nested.input';
+import { PostUncheckedUpdateManyWithoutLikedByNestedInput } from '../post/post-unchecked-update-many-without-liked-by-nested.input';
+import { PostUncheckedUpdateManyWithoutDislikedByNestedInput } from '../post/post-unchecked-update-many-without-disliked-by-nested.input';
+import { FlagUncheckedUpdateManyWithoutUserNestedInput } from '../flag/flag-unchecked-update-many-without-user-nested.input';
 
 @InputType()
 export class UserUncheckedUpdateWithoutCountryInput {
@@ -49,4 +52,13 @@ export class UserUncheckedUpdateWithoutCountryInput {
 
     @Field(() => PostUncheckedUpdateManyWithoutAuthorNestedInput, {nullable:true})
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput;
+
+    @Field(() => PostUncheckedUpdateManyWithoutLikedByNestedInput, {nullable:true})
+    likedPosts?: PostUncheckedUpdateManyWithoutLikedByNestedInput;
+
+    @Field(() => PostUncheckedUpdateManyWithoutDislikedByNestedInput, {nullable:true})
+    dislikedPosts?: PostUncheckedUpdateManyWithoutDislikedByNestedInput;
+
+    @Field(() => FlagUncheckedUpdateManyWithoutUserNestedInput, {nullable:true})
+    flags?: FlagUncheckedUpdateManyWithoutUserNestedInput;
 }

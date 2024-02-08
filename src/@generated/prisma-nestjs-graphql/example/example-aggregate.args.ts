@@ -23,7 +23,7 @@ export class ExampleAggregateArgs {
     orderBy?: Array<ExampleOrderByWithRelationInput>;
 
     @Field(() => ExampleWhereUniqueInput, {nullable:true})
-    cursor?: Prisma.AtLeast<ExampleWhereUniqueInput, 'id'>;
+    cursor?: Prisma.AtLeast<ExampleWhereUniqueInput, 'id' | 'postId'>;
 
     @Field(() => Int, {nullable:true})
     take?: number;

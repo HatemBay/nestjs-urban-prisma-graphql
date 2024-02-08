@@ -6,6 +6,7 @@ import { GraphQLJSON } from 'graphql-type-json';
 import { Int } from '@nestjs/graphql';
 import { Post } from '../post/post.model';
 import { Country } from '../country/country.model';
+import { Flag } from '../flag/flag.model';
 import { UserCount } from './user-count.output';
 
 @ObjectType()
@@ -53,8 +54,17 @@ export class User {
     @Field(() => [Post], {nullable:true})
     posts?: Array<Post>;
 
+    @Field(() => [Post], {nullable:true})
+    likedPosts?: Array<Post>;
+
+    @Field(() => [Post], {nullable:true})
+    dislikedPosts?: Array<Post>;
+
     @Field(() => Country, {nullable:true})
     country?: Country | null;
+
+    @Field(() => [Flag], {nullable:true})
+    flags?: Array<Flag>;
 
     @Field(() => UserCount, {nullable:false})
     _count?: UserCount;

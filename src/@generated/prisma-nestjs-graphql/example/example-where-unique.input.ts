@@ -3,7 +3,6 @@ import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { ExampleWhereInput } from './example-where.input';
 import { StringFilter } from '../prisma/string-filter.input';
-import { IntFilter } from '../prisma/int-filter.input';
 import { DateTimeFilter } from '../prisma/date-time-filter.input';
 import { PostRelationFilter } from '../post/post-relation-filter.input';
 
@@ -12,6 +11,9 @@ export class ExampleWhereUniqueInput {
 
     @Field(() => Int, {nullable:true})
     id?: number;
+
+    @Field(() => Int, {nullable:true})
+    postId?: number;
 
     @Field(() => [ExampleWhereInput], {nullable:true})
     AND?: Array<ExampleWhereInput>;
@@ -30,9 +32,6 @@ export class ExampleWhereUniqueInput {
 
     @Field(() => StringFilter, {nullable:true})
     contentFrench?: StringFilter;
-
-    @Field(() => IntFilter, {nullable:true})
-    postId?: IntFilter;
 
     @Field(() => DateTimeFilter, {nullable:true})
     createdAt?: DateTimeFilter;

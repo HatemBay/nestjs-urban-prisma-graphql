@@ -2,7 +2,10 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { Int } from '@nestjs/graphql';
 import { UserCreateNestedOneWithoutPostsInput } from '../user/user-create-nested-one-without-posts.input';
-import { ExampleCreateNestedManyWithoutPostInput } from '../example/example-create-nested-many-without-post.input';
+import { FlagCreateNestedManyWithoutPostInput } from '../flag/flag-create-nested-many-without-post.input';
+import { ExampleCreateNestedOneWithoutPostInput } from '../example/example-create-nested-one-without-post.input';
+import { UserCreateNestedManyWithoutLikedPostsInput } from '../user/user-create-nested-many-without-liked-posts.input';
+import { UserCreateNestedManyWithoutDislikedPostsInput } from '../user/user-create-nested-many-without-disliked-posts.input';
 
 @InputType()
 export class PostCreateInput {
@@ -43,6 +46,15 @@ export class PostCreateInput {
     @Field(() => UserCreateNestedOneWithoutPostsInput, {nullable:false})
     author!: UserCreateNestedOneWithoutPostsInput;
 
-    @Field(() => ExampleCreateNestedManyWithoutPostInput, {nullable:true})
-    examples?: ExampleCreateNestedManyWithoutPostInput;
+    @Field(() => FlagCreateNestedManyWithoutPostInput, {nullable:true})
+    flags?: FlagCreateNestedManyWithoutPostInput;
+
+    @Field(() => ExampleCreateNestedOneWithoutPostInput, {nullable:true})
+    example?: ExampleCreateNestedOneWithoutPostInput;
+
+    @Field(() => UserCreateNestedManyWithoutLikedPostsInput, {nullable:true})
+    likedBy?: UserCreateNestedManyWithoutLikedPostsInput;
+
+    @Field(() => UserCreateNestedManyWithoutDislikedPostsInput, {nullable:true})
+    dislikedBy?: UserCreateNestedManyWithoutDislikedPostsInput;
 }
