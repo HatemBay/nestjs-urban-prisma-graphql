@@ -10,6 +10,8 @@ type User {
   role: Role
   isU18: Boolean
   profilePicture: String
+  gender: String
+  accountLanguage: String
   emailVerified: Boolean
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -30,6 +32,8 @@ input CreateUserInput {
   role: Role
   isU18: Boolean
   profilePicture: String
+  gender: String
+  accountLanguage: String
   emailVerified: Boolean
   createdAt: DateTime
   updatedAt: DateTime
@@ -44,6 +48,8 @@ input UpdateUserInput {
   name: String
   role: Role
   profilePicture: String
+  gender: String
+  accountLanguage: String
   emailVerified: Boolean
   isU18: Boolean
   updatedAt: DateTime
@@ -67,6 +73,8 @@ type UserLoginResponse {
   role: Role
   isU18: Boolean
   profilePicture: String
+  gender: String
+  accountLanguage: String
   emailVerified: Boolean
   createdAt: DateTime!
   updatedAt: DateTime!
