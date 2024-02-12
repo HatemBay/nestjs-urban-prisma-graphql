@@ -54,28 +54,29 @@ model Country {
 // }
 
 model User {
-  id            Int      @id @default(autoincrement())
+  id             Int      @id @default(autoincrement())
   /// @Validator.MinLength(3)
-  username      String   @unique @db.VarChar(255)
+  username       String   @unique @db.VarChar(255)
   /// @Validator.IsEmail()
-  email         String   @unique @db.VarChar(255)
+  email          String   @unique @db.VarChar(255)
   // TODO: @Validator.MinLength(8)
   // TODO: @Validator.MaxLength(15)
-  password      String?
-  name          String?
-  role          Role     @default(USER)
-  isU18         Boolean  @default(true)
-  emailVerified Boolean  @default(false)
-  createdAt     DateTime @default(dbgenerated("NOW()"))
-  updatedAt     DateTime @default(dbgenerated("NOW()"))
-  googleId      String?  @unique
-  googleProfile Json?
-  posts         Post[]
-  likedPosts    Post[]   @relation("UserLikedPosts")
-  dislikedPosts Post[]   @relation("UserDislikedPosts")
-  country       Country? @relation(fields: [countryId], references: [id])
-  countryId     Int?
-  flags         Flag[]
+  password       String?
+  name           String?
+  role           Role     @default(USER)
+  isU18          Boolean  @default(true)
+  profilePicture String?
+  emailVerified  Boolean  @default(false)
+  createdAt      DateTime @default(dbgenerated("NOW()"))
+  updatedAt      DateTime @default(dbgenerated("NOW()"))
+  googleId       String?  @unique
+  googleProfile  Json?
+  posts          Post[]
+  likedPosts     Post[]   @relation("UserLikedPosts")
+  dislikedPosts  Post[]   @relation("UserDislikedPosts")
+  country        Country? @relation(fields: [countryId], references: [id])
+  countryId      Int?
+  flags          Flag[]
 }
 
 model Post {
