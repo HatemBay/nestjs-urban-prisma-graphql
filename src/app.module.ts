@@ -23,6 +23,8 @@ import { EmailConfirmationModule } from './email/email-confirmation.module';
 import { ExamplesModule } from './examples/examples.module';
 import { CountriesModule } from './countries/countries.module';
 import * as Joi from 'joi';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { FlagsModule } from './flags/flags.module';
 
 @Module({
   imports: [
@@ -43,6 +45,16 @@ import * as Joi from 'joi';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       playground: false,
       typePaths: ['./**/*.graphql'],
+      formatError: (error: GraphQLFormattedError<Record<string, any>>) => {
+        const graphQLFormattedError: GraphQLFormattedError<
+          Record<string, any>
+        > = {
+          message:
+            error?.extensions?.exception?.response?.message ||
+            (error as GraphQLError)?.message,
+        };
+        return graphQLFormattedError;
+      },
       driver: ApolloDriver,
       resolvers: { DateTime: GraphQLDateTime, JSON: GraphQLJSON },
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -81,6 +93,7 @@ import * as Joi from 'joi';
       },
     ]),
     UsersModule,
+    FlagsModule,
     PrismaModule,
     AuthModule,
     AbilityModule,
