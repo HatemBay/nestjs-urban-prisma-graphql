@@ -13,6 +13,7 @@ type User {
   gender: String
   accountLanguage: String
   emailVerified: Boolean
+  dateOfBirth: DateTime
   createdAt: DateTime!
   updatedAt: DateTime!
   posts: [Post]
@@ -35,6 +36,7 @@ input CreateUserInput {
   gender: String
   accountLanguage: String
   emailVerified: Boolean
+  dateOfBirth: DateTime
   createdAt: DateTime
   updatedAt: DateTime
   googleId: String
@@ -52,6 +54,8 @@ input UpdateUserInput {
   accountLanguage: String
   emailVerified: Boolean
   isU18: Boolean
+  dateOfBirth: DateTime
+  countryId: Int
   updatedAt: DateTime
   googleId: String
   googleProfile: JSON
@@ -76,6 +80,8 @@ type UserLoginResponse {
   gender: String
   accountLanguage: String
   emailVerified: Boolean
+  dateOfBirth: DateTime
+  country: Country
   createdAt: DateTime!
   updatedAt: DateTime!
   googleId: String
