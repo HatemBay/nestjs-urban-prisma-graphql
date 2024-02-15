@@ -4,6 +4,11 @@ type Country {
   users: [User]
 }
 
+input FindCountryInput {
+  id: Int
+  name: String
+}
+
 input CreateCountryInput {
   name: String!
 }
@@ -15,12 +20,7 @@ input UpdateCountryInput {
 
 type Query {
   countries: [Country]!
-  country(id: Int!): Country
-}
-
-input FindCountryInput {
-  id: Int
-  name: String
+  country(findCountryInput: FindCountryInput!): Country
 }
 
 type Mutation {
@@ -29,5 +29,5 @@ type Mutation {
     findCountryInput: FindCountryInput!
     updateCountryInput: UpdateCountryInput!
   ): Country!
-  removeCountry(id: Int!): Country
+  removeCountry(findCountryInput: FindCountryInput!): Country
 }

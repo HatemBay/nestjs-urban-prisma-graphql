@@ -6,6 +6,9 @@ import { Country } from '../@generated/prisma-nestjs-graphql/country/country.mod
 
 @Injectable()
 export class CountriesService {
+  include: Prisma.CountryInclude = {
+    users: true,
+  };
   constructor(private prisma: PrismaService) {}
 
   async create(
@@ -29,12 +32,15 @@ export class CountriesService {
   }
 
   async findAll(): Promise<Country[]> {
-    return await this.prisma.country.findMany();
+    return await this.prisma.country.findMany({ include: this.include });
   }
 
   async findOne(where: Prisma.CountryWhereUniqueInput): Promise<Country> {
     try {
-      return await this.prisma.country.findUniqueOrThrow({ where });
+      return await this.prisma.country.findUniqueOrThrow({
+        where,
+        include: this.include,
+      });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
