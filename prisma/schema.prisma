@@ -69,6 +69,7 @@ model User {
   gender          String?
   accountLanguage String    @default("en")
   emailVerified   Boolean   @default(false)
+  dateOfBirth     DateTime?
   createdAt       DateTime  @default(dbgenerated("NOW()"))
   updatedAt       DateTime  @default(dbgenerated("NOW()"))
   googleId        String?   @unique
